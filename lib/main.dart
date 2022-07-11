@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'aplikacja pogodowa',
+      title: 'Aplikacja pogodowa',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -25,6 +26,6 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return WeatherPage();
   }
 }
