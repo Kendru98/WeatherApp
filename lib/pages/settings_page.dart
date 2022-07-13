@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -55,10 +56,22 @@ class SettingsPage extends StatelessWidget {
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 37.0),
-//                   child: SettingsScreen(
-// title: 'asd',
-//                   ),
                   ),
+                  SettingsContainer(children: [
+                    DropDownSettingsTile<int>(
+                      title: 'Temperature unit',
+                      settingKey: 'key-temperature',
+                      values: const <int, String>{
+                        2: 'Celsius',
+                        3: 'Fahrenheit',
+                      },
+                      selected: 2, //sharedpreferencesvalue
+                      onChange: (value) {
+                        debugPrint('key-dropdown-email-view: $value');
+                        //todochangevalue;
+                      },
+                    ),
+                  ])
                 ],
               ),
             ),
