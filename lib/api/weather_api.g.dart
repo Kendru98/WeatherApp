@@ -16,18 +16,18 @@ class _RestClient implements RestClient {
   String? baseUrl;
 
   @override
-  Future<WeatherModel> getWeather() async {
+  Future<GetWeatherResponse> getWeather() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<WeatherModel>(
+        _setStreamType<GetWeatherResponse>(
             Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, '',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = WeatherModel.fromJson(_result.data!);
+    final value = GetWeatherResponse.fromJson(_result.data!);
     return value;
   }
 

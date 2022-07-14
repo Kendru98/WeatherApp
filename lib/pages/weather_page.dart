@@ -3,8 +3,10 @@ import 'package:aplikacja_pogodowa/pages/settings_page.dart';
 import 'package:aplikacja_pogodowa/providers/api_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);
@@ -17,10 +19,10 @@ class _WeatherPageState extends State<WeatherPage> {
   bool _isExpanded = false;
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Add Your Code here.
-    });
-    //final provider = Provider.of<ApiProvider>(context);
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   // Add Your Code here.
+    // });
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Consumer<ApiProvider>(
@@ -52,7 +54,6 @@ class _WeatherPageState extends State<WeatherPage> {
                                     MaterialPageRoute(
                                       builder: (context) => const SearchPage(),
                                     ));
-                                //Nawiguj do ekranu zarzadzania lokalizacją
                               },
                               icon: const Icon(
                                 Icons.add,
@@ -61,7 +62,7 @@ class _WeatherPageState extends State<WeatherPage> {
                               color: const Color(0xffffffff),
                             ),
                             Text(
-                              'City', //'${provider.currentWeather.main}',
+                              provider.currentWeather.timezone,
                               style: GoogleFonts.poppins(
                                   textStyle: const TextStyle(
                                       color: Color(0xffffffff),
@@ -125,7 +126,7 @@ class _WeatherPageState extends State<WeatherPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Sunday',
+                                  DateFormat('EEEE').format(DateTime.now()),
                                   style: GoogleFonts.poppins(
                                       textStyle: const TextStyle(
                                           color: Color(0xffffffff),
@@ -145,7 +146,7 @@ class _WeatherPageState extends State<WeatherPage> {
                                 const Padding(
                                     padding: EdgeInsets.only(left: 11.0)),
                                 Text(
-                                  'Nov 14',
+                                  DateFormat('MMM d').format(DateTime.now()),
                                   style: GoogleFonts.poppins(
                                       textStyle: const TextStyle(
                                           color: Color(0xffffffff),
@@ -155,7 +156,7 @@ class _WeatherPageState extends State<WeatherPage> {
                               ],
                             ),
                             Text(
-                              '24°',
+                              '${(provider.currentWeather.current.temp.toInt() - 273.14).ceil()}°', //.main.temp.toInt() - 273.14).ceil()}°', //todo change C / Kelvins
                               style: GoogleFonts.poppins(
                                   textStyle: const TextStyle(
                                       color: Color(0xffffffff),
@@ -163,7 +164,7 @@ class _WeatherPageState extends State<WeatherPage> {
                                       fontWeight: FontWeight.w700)),
                             ),
                             Text(
-                              'Heavy rain',
+                              ' ${provider.currentWeather.current.weather[0].description}',
                               style: GoogleFonts.poppins(
                                   textStyle: const TextStyle(
                                       color: Color(0xffffffff),
@@ -204,7 +205,7 @@ class _WeatherPageState extends State<WeatherPage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '3,7 km/h',
+                                            '${(provider.currentWeather.current.wind_speed * 3.6).toStringAsPrecision(2)} km/h',
                                             style: GoogleFonts.poppins(
                                                 textStyle: const TextStyle(
                                                     color: Color(0xffffffff),
@@ -242,7 +243,7 @@ class _WeatherPageState extends State<WeatherPage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '74%',
+                                            '${((provider.currentWeather.hourly[0].pop ?? 0) * 100).ceil()}%',
                                             style: GoogleFonts.poppins(
                                                 textStyle: const TextStyle(
                                                     color: Color(0xffffffff),
@@ -286,7 +287,7 @@ class _WeatherPageState extends State<WeatherPage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '1010 mbar',
+                                            '${provider.currentWeather.current.pressure} mbar',
                                             style: GoogleFonts.poppins(
                                                 textStyle: const TextStyle(
                                                     color: Color(0xffffffff),
@@ -327,7 +328,7 @@ class _WeatherPageState extends State<WeatherPage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '83%',
+                                            '${provider.currentWeather.current.humidity} %',
                                             style: GoogleFonts.poppins(
                                                 textStyle: const TextStyle(
                                                     color: Color(0xffffffff),
@@ -336,7 +337,7 @@ class _WeatherPageState extends State<WeatherPage> {
                                                         FontWeight.w400)),
                                           ),
                                           Text(
-                                            'Humidity 83%',
+                                            'Humidity ${provider.currentWeather.current.humidity}%',
                                             style: GoogleFonts.poppins(
                                                 textStyle: const TextStyle(
                                                     color: Color(0xffffffff),
@@ -359,7 +360,6 @@ class _WeatherPageState extends State<WeatherPage> {
                 ),
                 Container(
                   height: 140,
-                  //width: double.infinity,
                   color: const Color(0xff2C79C1),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 9.0, left: 16.0),
@@ -370,7 +370,7 @@ class _WeatherPageState extends State<WeatherPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Sunday',
+                              DateFormat('EEEE').format(DateTime.now()),
                               style: GoogleFonts.poppins(
                                   textStyle: const TextStyle(
                                       color: Color(0xffffffff),
@@ -388,7 +388,7 @@ class _WeatherPageState extends State<WeatherPage> {
                             ),
                             const Padding(padding: EdgeInsets.only(left: 8.0)),
                             Text(
-                              'Nov 14',
+                              DateFormat('MMM d').format(DateTime.now()),
                               style: GoogleFonts.poppins(
                                   textStyle: const TextStyle(
                                       color: Color(0xffffffff),
@@ -396,13 +396,13 @@ class _WeatherPageState extends State<WeatherPage> {
                                       fontWeight: FontWeight.w600)),
                             ),
                           ],
-                        ),
-                        Container(
+                        ), //newproviderforforecast?
+                        SizedBox(
                             height: 104,
                             // width: MediaQuery.of(context).size.width,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: 11,
+                              itemCount: provider.currentWeather.hourly.length,
                               itemBuilder: (context, index) {
                                 return Container(
                                   width: 72,
@@ -414,7 +414,9 @@ class _WeatherPageState extends State<WeatherPage> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            'Now',
+                                            DateFormat('HH:mm').format(
+                                                DateTime.now().add(
+                                                    Duration(hours: index))),
                                             style: GoogleFonts.poppins(
                                                 textStyle: const TextStyle(
                                                     color: Color(0xffffffff),
@@ -428,7 +430,7 @@ class _WeatherPageState extends State<WeatherPage> {
                                             color: Colors.white,
                                           ),
                                           Text(
-                                            '20°/24°',
+                                            '${(provider.currentWeather.hourly[index].temp.toInt() - 273.14).ceil()}°/${(provider.currentWeather.hourly[index].feels_like.toInt() - 273.14).ceil()}',
                                             style: GoogleFonts.poppins(
                                                 textStyle: const TextStyle(
                                                     color: Color(0xffffffff),
@@ -437,7 +439,7 @@ class _WeatherPageState extends State<WeatherPage> {
                                                         FontWeight.w400)),
                                           ),
                                           Text(
-                                            '74% rain',
+                                            '${((provider.currentWeather.hourly[index].pop ?? 0) * 100).ceil()}% rain',
                                             style: GoogleFonts.poppins(
                                                 textStyle: const TextStyle(
                                                     color: Color(0xffffffff),
@@ -502,7 +504,8 @@ class _WeatherPageState extends State<WeatherPage> {
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         Text(
-                                          'Sun',
+                                          DateFormat('E').format(DateTime.now()
+                                              .add(Duration(days: index))),
                                           style: GoogleFonts.poppins(
                                               textStyle: const TextStyle(
                                                   color: Color(0xffffffff),
@@ -517,7 +520,7 @@ class _WeatherPageState extends State<WeatherPage> {
                                               width: 10,
                                             ),
                                             Text(
-                                              '74% rain',
+                                              '${((provider.currentWeather.daily[index].pop ?? 0) * 100).ceil()}% rain',
                                               style: GoogleFonts.poppins(
                                                   textStyle: const TextStyle(
                                                       color: Color(0xffffffff),
@@ -528,7 +531,7 @@ class _WeatherPageState extends State<WeatherPage> {
                                           ],
                                         ),
                                         Text(
-                                          '20/24',
+                                          '${(provider.currentWeather.daily[index].temp.day.toInt() - 273.14).ceil()}°/${(provider.currentWeather.daily[index].temp.night.toInt() - 273.14).ceil()}°',
                                           style: GoogleFonts.poppins(
                                               textStyle: const TextStyle(
                                                   color: Color(0xffffffff),
