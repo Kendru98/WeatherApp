@@ -13,9 +13,6 @@ class ApiProvider extends ChangeNotifier {
   String lon = '21.01';
   String get _lon => lon;
 
-  late DateTime _now;
-  DateTime get now => _now;
-
   late GetWeatherResponse _currentWeather;
   GetWeatherResponse get currentWeather => _currentWeather;
   // 'https://api.openweathermap.org/data/3.0/onecall?lat=33.44&lon=-94.04&exclude=minutely&appid=54793b33007ce0e9cc5f9515aa13e92b');
@@ -23,7 +20,6 @@ class ApiProvider extends ChangeNotifier {
     fetchData(_lat, _lon);
   }
   void fetchData(String lat, String lon) async {
-    _now = DateTime.now();
     _isLoading = true;
     final dio = Dio();
     final client = RestClient(dio,
