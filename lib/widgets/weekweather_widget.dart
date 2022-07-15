@@ -50,40 +50,52 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
                     shrinkWrap: true,
                     itemCount: 7,
                     itemBuilder: (context, index) {
-                      return SizedBox(
-                        height: 48,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              'Sun',
-                              style: MyTheme.main16w500,
-                            ),
-                            Row(
-                              children: [
-                                const Image(
-                                  width: 24,
-                                  height: 24,
-                                  color: MyColors.white,
-                                  image: AssetImage(
-                                    'icons/fluent_weather-rain-showers-day-24-filled.png',
-                                  ),
+                      return ListView(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(
+                            left: 24, right: 24, bottom: 17),
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  'Sun',
+                                  style: MyTheme.main16w500,
                                 ),
-                                const SizedBox(
-                                  width: 10,
+                              ),
+                              Expanded(
+                                flex: 4,
+                                child: Row(
+                                  children: [
+                                    const Image(
+                                      width: 24,
+                                      height: 24,
+                                      color: MyColors.white,
+                                      image: AssetImage(
+                                        'icons/fluent_weather-rain-showers-day-24-filled.png',
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      '74% rain',
+                                      style: MyTheme.main12w400,
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  '74% rain',
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  '20/24',
                                   style: MyTheme.main12w400,
                                 ),
-                              ],
-                            ),
-                            Text(
-                              '20/24',
-                              style: MyTheme.main12w400,
-                            ),
-                          ],
-                        ),
+                              ),
+                            ],
+                          ),
+                        ],
                       );
                     },
                   ),
@@ -94,7 +106,7 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Forcast for 7 Days',
+                  'Forecast for 7 Days',
                   style: MyTheme.main16w500b,
                 ),
                 const SizedBox(
