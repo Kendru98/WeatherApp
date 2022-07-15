@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../constans.dart';
-import '../theme/theme.dart';
+import '../utils/constans.dart';
+import '../utils/theme.dart';
 
 class HourlyWeather extends StatelessWidget {
   const HourlyWeather({
@@ -11,8 +10,7 @@ class HourlyWeather extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 9, left: 16),
-      height: 140, //error?
+      padding: const EdgeInsets.only(left: 16, top: 9, bottom: 4),
       color: MyColors.main2,
       child: Column(
         children: [
@@ -41,46 +39,50 @@ class HourlyWeather extends StatelessWidget {
             ],
           ),
           SizedBox(
-              height: 104, // error
-
-              child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: 11,
-                itemBuilder: (context, index) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Now',
-                        style: MyTheme.main16w500,
+            height: 104,
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: 11,
+              itemBuilder: (context, index) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Now',
+                      style: MyTheme.main16w500,
+                    ),
+                    const SizedBox(
+                      height: 9,
+                    ),
+                    const Image(
+                      width: 24,
+                      height: 24,
+                      color: MyColors.white,
+                      image: AssetImage(
+                        'icons/fluent_weather-rain-showers-day-24-filled.png',
                       ),
-                      const SizedBox(
-                        height: 9,
-                      ),
-                      const Icon(
-                        Icons.cloudy_snowing,
-                        size: 24,
-                        color: Colors.white,
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        '20°/24°',
-                        style: MyTheme.main12w400,
-                      ),
-                      Text(
-                        '74% rain',
-                        style: MyTheme.main12w400,
-                      ),
-                      const SizedBox(
-                        width: 72,
-                      )
-                    ],
-                  );
-                },
-              ))
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      '20°/24°',
+                      style: MyTheme.main12w400,
+                    ),
+                    Text(
+                      '74% rain',
+                      style: MyTheme.main12w400,
+                    ),
+                    const SizedBox(
+                      width: 72,
+                    )
+                  ],
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

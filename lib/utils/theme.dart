@@ -1,4 +1,4 @@
-import 'package:aplikacja_pogodowa/constans.dart';
+import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../theme/theme.dart';
+import '../utils/theme.dart';
 
 class SharedScaffold extends StatelessWidget {
   const SharedScaffold({super.key, required this.title, required this.column});

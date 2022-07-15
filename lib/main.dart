@@ -1,5 +1,5 @@
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
-import 'package:aplikacja_pogodowa/theme/theme.dart';
+
 import 'package:flutter/material.dart';
 
 void main() {
