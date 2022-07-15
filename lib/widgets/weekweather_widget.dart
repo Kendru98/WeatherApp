@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/painting.dart';
+import 'package:intl/intl.dart';
+
+import '../models/daily.dart';
 import '../utils/constans.dart';
 import '../utils/theme.dart';
 
 class SevenDayWidget extends StatefulWidget {
-  const SevenDayWidget({Key? key}) : super(key: key);
-
+  const SevenDayWidget({Key? key, required this.daily}) : super(key: key);
+  final List<Daily> daily;
   @override
   State<SevenDayWidget> createState() => _SevenDayWidgetState();
 }
@@ -26,75 +29,12 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
         });
       },
       child: _isExpanded
-          ? Container(
-              margin: EdgeInsets.zero,
-              decoration: const BoxDecoration(
-                color: MyColors.main2,
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16, left: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Forcast for 7 Days',
-                          style: MyTheme.main16w500,
-                        ),
-                      ],
-                    ),
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 7,
-                    itemBuilder: (context, index) {
-                      return SizedBox(
-                        height: 48,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              'Sun',
-                              style: MyTheme.main16w500,
-                            ),
-                            Row(
-                              children: [
-                                const Image(
-                                  width: 24,
-                                  height: 24,
-                                  color: MyColors.white,
-                                  image: AssetImage(
-                                    'icons/fluent_weather-rain-showers-day-24-filled.png',
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  '74% rain',
-                                  style: MyTheme.main12w400,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              '20/24',
-                              style: MyTheme.main12w400,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            )
+          ? WeekweatherList(daily: widget.daily)
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Forcast for 7 Days',
+                  'Forecast for 7 Days',
                   style: MyTheme.main16w500b,
                 ),
                 const SizedBox(
@@ -110,6 +50,98 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
                 ),
               ],
             ),
+    );
+  }
+}
+
+class WeekweatherList extends StatelessWidget {
+  const WeekweatherList({
+    Key? key,
+    required this.daily,
+  }) : super(key: key);
+  final List<Daily> daily;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.zero,
+      decoration: const BoxDecoration(
+        color: MyColors.main2,
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 16, left: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Forecast for 7 Days',
+                  style: MyTheme.main16w500,
+                ),
+              ],
+            ),
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: daily.length,
+            itemBuilder: (context, index) {
+              return ListView(
+                padding: const EdgeInsets.only(left: 24, right: 24, bottom: 17),
+                shrinkWrap: true,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          index == 0
+                              ? 'Today'
+                              : DateFormat('E').format(
+                                  DateTime.now().add(
+                                    Duration(days: index),
+                                  ),
+                                ),
+                          style: MyTheme.main16w500,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: Row(
+                          children: [
+                            const Image(
+                              width: 24,
+                              height: 24,
+                              color: MyColors.white,
+                              image: AssetImage(
+                                'icons/fluent_weather-rain-showers-day-24-filled.png', //description > icon
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              '${((daily[index].pop ?? 0) * 100).ceil()}% rain',
+                              style: MyTheme.main12w400,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          '${(daily[index].temp.day.toInt() - 273.14).ceil()}°/${(daily[index].temp.day.toInt() - 273.14).ceil()}°',
+                          style: MyTheme.main12w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

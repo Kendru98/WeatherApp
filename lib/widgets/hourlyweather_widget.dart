@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import '../models/current.dart';
 import '../utils/constans.dart';
 import '../utils/theme.dart';
 
 class HourlyWeather extends StatelessWidget {
-  const HourlyWeather({
-    Key? key,
-  }) : super(key: key);
+  const HourlyWeather({Key? key, required this.hourly}) : super(key: key);
+  final List<Current> hourly;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class HourlyWeather extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Sunday',
+                DateFormat('EEEE').format(DateTime.now()),
                 style: MyTheme.main16w600,
               ),
               const Padding(padding: EdgeInsets.only(right: 8)),
@@ -33,7 +34,7 @@ class HourlyWeather extends StatelessWidget {
               ),
               const Padding(padding: EdgeInsets.only(left: 8)),
               Text(
-                'Nov 14',
+                DateFormat('MMM d').format(DateTime.now()),
                 style: MyTheme.main16w600,
               ),
             ],
@@ -43,14 +44,20 @@ class HourlyWeather extends StatelessWidget {
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: 11,
+              itemCount: hourly.length,
               itemBuilder: (context, index) {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Now',
+                      index == 0
+                          ? 'Now'
+                          : DateFormat('HH:mm').format(
+                              DateTime.now().add(
+                                Duration(hours: index),
+                              ),
+                            ),
                       style: MyTheme.main16w500,
                     ),
                     const SizedBox(
@@ -68,11 +75,11 @@ class HourlyWeather extends StatelessWidget {
                       height: 4,
                     ),
                     Text(
-                      '20°/24°',
+                      '${hourly[index].temp.toInt() - 273.14.ceil()}°/${hourly[index].feels_like.toInt() - 273.14.ceil()}°',
                       style: MyTheme.main12w400,
                     ),
                     Text(
-                      '74% rain',
+                      '${((hourly[index].pop ?? 0) * 100).ceil()}% rain',
                       style: MyTheme.main12w400,
                     ),
                     const SizedBox(

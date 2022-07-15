@@ -7,8 +7,16 @@ import '../utils/theme.dart';
 class WeatherGrid extends StatelessWidget {
   const WeatherGrid({
     Key? key,
+    required this.wind,
+    required this.rainchance,
+    required this.pressure,
+    required this.humidity,
   }) : super(key: key);
 
+  final String wind;
+  final String rainchance;
+  final String pressure;
+  final String humidity;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,7 +48,7 @@ class WeatherGrid extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '3,7 km/h',
+                        wind,
                         style: MyTheme.main12w400,
                       ),
                       Text(
@@ -67,7 +75,7 @@ class WeatherGrid extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '74%',
+                        rainchance,
                         style: MyTheme.main12w400,
                       ),
                       Text(
@@ -99,7 +107,7 @@ class WeatherGrid extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '1010 mbar',
+                        pressure,
                         style: MyTheme.main12w400,
                       ),
                       Text(
@@ -126,7 +134,7 @@ class WeatherGrid extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '83%',
+                        humidity,
                         style: MyTheme.main12w400,
                       ),
                       Text(
