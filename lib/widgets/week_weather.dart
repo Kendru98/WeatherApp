@@ -1,6 +1,6 @@
+import 'package:aplikacja_pogodowa/utils/constans.dart';
+import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:flutter/material.dart';
-import '../utils/constans.dart';
-import '../utils/theme.dart';
 
 class SevenDayWidget extends StatefulWidget {
   const SevenDayWidget({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
           ? Container(
               margin: EdgeInsets.zero,
               decoration: const BoxDecoration(
-                color: MyColors.main2,
+                color: MyColors.mainDark,
               ),
               child: SingleChildScrollView(
                 child: Column(
@@ -122,7 +122,7 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
                       const Image(
                         width: 24,
                         height: 24,
-                        color: MyColors.main2,
+                        color: MyColors.mainDark,
                         image: AssetImage(
                           'icons/arrowdownward.png',
                         ),

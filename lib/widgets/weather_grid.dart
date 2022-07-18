@@ -1,8 +1,6 @@
 import 'package:aplikacja_pogodowa/utils/constans.dart';
+import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:flutter/material.dart';
-import '../utils/theme.dart';
-
-//
 
 class WeatherGrid extends StatelessWidget {
   const WeatherGrid({

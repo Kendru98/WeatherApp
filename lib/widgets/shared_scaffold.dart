@@ -1,5 +1,5 @@
+import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:flutter/material.dart';
-import '../utils/theme.dart';
 
 class SharedScaffold extends StatelessWidget {
   const SharedScaffold({super.key, required this.title, required this.column});
@@ -29,7 +29,7 @@ class SharedScaffold extends StatelessWidget {
                 Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 16.0, left: 16.0),
+                      padding: const EdgeInsets.only(top: 16, left: 16),
                       child: IconButton(
                         icon: const Icon(
                           Icons.arrow_back_ios,
@@ -40,7 +40,7 @@ class SharedScaffold extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 23.0, left: 95),
+                      padding: const EdgeInsets.only(top: 23, left: 95),
                       child: Text(title,
                           textAlign: TextAlign.center,
                           style: MyTheme.main16w600),
