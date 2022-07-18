@@ -9,6 +9,7 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final citynamecontroller = TextEditingController();
     return SharedScaffold(
       title: 'ManageLocation',
       column: Column(
@@ -17,6 +18,12 @@ class SearchPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SizedBox(
               child: TextField(
+                onSubmitted: (value) async {
+                  // List<Location> locations =
+                  //     await locationFromAddress(citynamecontroller.text);
+                  // print(locations);
+                },
+                controller: citynamecontroller,
                 cursorColor: Colors.grey,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(FontAwesomeIcons.searchengin),
