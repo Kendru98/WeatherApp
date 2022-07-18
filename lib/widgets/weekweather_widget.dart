@@ -109,7 +109,6 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
               padding: const EdgeInsets.only(bottom: 17.0),
               child: Column(
                 children: [
-                  const Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

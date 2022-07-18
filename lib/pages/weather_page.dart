@@ -35,7 +35,6 @@ class _WeatherPageState extends State<WeatherPage> {
               ),
             ),
             child: Column(
-              //first widget
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -153,7 +152,7 @@ class _WeatherPageState extends State<WeatherPage> {
           const SizedBox(
             height: 16,
           ),
-          Expanded(child: const SevenDayWidget()),
+          const Flexible(child: SevenDayWidget()),
         ],
       ),
     );
