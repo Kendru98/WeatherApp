@@ -12,19 +12,6 @@ class HomepageMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void actionPopUp(MenuOptions value) {
-      if (value == MenuOptions.share) {
-        //TODO
-      } else if (value == MenuOptions.settings) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const SettingsPage(),
-          ),
-        );
-      }
-    }
-
     return PopupMenuButton(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -49,15 +36,28 @@ class HomepageMenu extends StatelessWidget {
           ),
         ];
       },
-      onSelected: actionPopUp,
+      onSelected: (MenuOptions value) => actionPopUp(context, value),
       icon: const Image(
         width: 32,
         height: 32,
-        color: MyColors.white,
+        color: MyColors.whiteBackground,
         image: AssetImage(
           'icons/carbon_overflow-menu-vertical.png',
         ),
       ),
     );
+  }
+
+  void actionPopUp(context, MenuOptions value) {
+    if (value == MenuOptions.share) {
+      //TODO
+    } else if (value == MenuOptions.settings) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => const SettingsPage(),
+        ),
+      );
+    }
   }
 }

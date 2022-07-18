@@ -2,8 +2,8 @@ import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CitiesHistoryList extends StatelessWidget {
-  const CitiesHistoryList({
+class CitiesHistoryItem extends StatelessWidget {
+  const CitiesHistoryItem({
     Key? key,
   }) : super(key: key);
 
@@ -17,9 +17,7 @@ class CitiesHistoryList extends StatelessWidget {
       ),
       decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(16),
-        ),
+        borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
       child: ListTile(
         title: Text(

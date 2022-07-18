@@ -13,35 +13,19 @@ class HourlyList extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          'Now',
-          style: MyTheme.main16w500,
-        ),
-        const SizedBox(
-          height: 9,
-        ),
+        Text('Now', style: MyTheme.main16w500),
+        const SizedBox(height: 9),
         const Image(
           width: 24,
           height: 24,
-          color: MyColors.white,
-          image: AssetImage(
-            'icons/fluent_weather-rain-showers-day-24-filled.png',
-          ),
+          color: MyColors.whiteBackground,
+          image:
+              AssetImage('icons/fluent_weather-rain-showers-day-24-filled.png'),
         ),
-        const SizedBox(
-          height: 4,
-        ),
-        Text(
-          '20°/24°',
-          style: MyTheme.main12w400,
-        ),
-        Text(
-          '74% rain',
-          style: MyTheme.main12w400,
-        ),
-        const SizedBox(
-          width: 72,
-        )
+        const SizedBox(height: 4),
+        Text('20°/24°', style: MyTheme.main12w400),
+        Text('74% rain', style: MyTheme.main12w400),
+        const SizedBox(width: 72)
       ],
     );
   }

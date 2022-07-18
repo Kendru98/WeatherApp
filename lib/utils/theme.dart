@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 class MyTheme {
   static final city16g = GoogleFonts.poppins(
     textStyle: const TextStyle(
-      color: MyColors.white,
+      color: MyColors.whiteBackground,
       fontSize: 16,
       fontWeight: FontWeight.w600,
     ),
@@ -14,7 +14,7 @@ class MyTheme {
   static final city12g = GoogleFonts.poppins(
     textStyle: const TextStyle(
       height: 1,
-      color: MyColors.greyhinttext,
+      color: MyColors.textHint,
       fontSize: 12,
       fontWeight: FontWeight.w400,
     ),
@@ -31,7 +31,7 @@ class MyTheme {
 
   static final city12 = GoogleFonts.poppins(
     textStyle: const TextStyle(
-      color: MyColors.greytext,
+      color: MyColors.textGreyCityItem,
       fontSize: 12,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.24,
@@ -39,14 +39,14 @@ class MyTheme {
   );
   static final main16w600 = GoogleFonts.poppins(
     textStyle: const TextStyle(
-      color: MyColors.white,
+      color: MyColors.whiteBackground,
       fontSize: 16,
       fontWeight: FontWeight.w600,
     ),
   );
   static final main16w400 = GoogleFonts.poppins(
     textStyle: const TextStyle(
-      color: MyColors.white,
+      color: MyColors.whiteBackground,
       fontSize: 16,
       fontWeight: FontWeight.w400,
     ),
@@ -60,21 +60,21 @@ class MyTheme {
   );
   static final main72w700 = GoogleFonts.poppins(
     textStyle: const TextStyle(
-      color: MyColors.white,
+      color: MyColors.whiteBackground,
       fontSize: 72,
       fontWeight: FontWeight.w700,
     ),
   );
   static final main12w400 = GoogleFonts.poppins(
     textStyle: const TextStyle(
-      color: MyColors.white,
+      color: MyColors.whiteBackground,
       fontSize: 12,
       fontWeight: FontWeight.w400,
     ),
   );
   static final main16w500 = GoogleFonts.poppins(
     textStyle: const TextStyle(
-      color: MyColors.white,
+      color: MyColors.whiteBackground,
       fontSize: 16,
       fontWeight: FontWeight.w500,
     ),
@@ -87,4 +87,3 @@ class MyTheme {
     ),
   );
 }
-////Theme.of(context).textTheme.bodyText1),

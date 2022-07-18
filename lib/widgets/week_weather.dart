@@ -15,7 +15,7 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: MyColors.white,
+        primary: MyColors.whiteBackground,
         elevation: 0,
         padding: EdgeInsets.zero,
       ),
@@ -73,7 +73,7 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
                                       const Image(
                                         width: 24,
                                         height: 24,
-                                        color: MyColors.white,
+                                        color: MyColors.whiteBackground,
                                         image: AssetImage(
                                           'icons/fluent_weather-rain-showers-day-24-filled.png',
                                         ),
@@ -106,7 +106,7 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
               ),
             )
           : Padding(
-              padding: const EdgeInsets.only(bottom: 17.0),
+              padding: const EdgeInsets.only(bottom: 17),
               child: Column(
                 children: [
                   Row(

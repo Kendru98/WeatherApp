@@ -11,14 +11,15 @@ class HourlyWeather extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 16, top: 9, bottom: 4, right: 16),
       color: MyColors.mainDark,
       child: Column(
         children: [
+          const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(width: 16),
               Text(
                 'Sunday',
                 style: MyTheme.main16w600,
@@ -27,7 +28,7 @@ class HourlyWeather extends StatelessWidget {
               const SizedBox(
                 height: 19,
                 child: VerticalDivider(
-                  color: MyColors.white,
+                  color: MyColors.whiteBackground,
                   width: 2,
                   thickness: 2,
                 ),

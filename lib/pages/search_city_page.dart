@@ -1,6 +1,6 @@
 import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
-import 'package:aplikacja_pogodowa/widgets/cities_history_list.dart';
+import 'package:aplikacja_pogodowa/widgets/cities_history_item.dart';
 import 'package:aplikacja_pogodowa/widgets/shared_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -35,7 +35,7 @@ class SearchCityPage extends StatelessWidget {
             shrinkWrap: true,
             itemCount: 3,
             itemBuilder: (context, index) {
-              return const CitiesHistoryList();
+              return const CitiesHistoryItem();
             },
           ),
         ],

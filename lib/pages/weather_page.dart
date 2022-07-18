@@ -12,7 +12,7 @@ class WeatherPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.white,
+      backgroundColor: MyColors.whiteBackground,
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -36,10 +36,10 @@ class WeatherPage extends StatelessWidget {
                       icon: const Image(
                         width: 32,
                         height: 32,
-                        color: MyColors.white,
+                        color: MyColors.whiteBackground,
                         image: AssetImage('icons/akar-icons_plus.png'),
                       ),
-                      color: MyColors.white,
+                      color: MyColors.whiteBackground,
                     ),
                     Text('Malang', style: MyTheme.main16w600),
                     const HomepageMenu(),
@@ -49,7 +49,7 @@ class WeatherPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Image(
-                      color: MyColors.white,
+                      color: MyColors.whiteBackground,
                       image: AssetImage(
                         'icons/weather-rain.png',
                       ),
@@ -96,9 +96,7 @@ class WeatherPage extends StatelessWidget {
             ),
           ),
           const HourlyWeather(),
-          const SizedBox(
-            height: 16,
-          ),
+          const SizedBox(height: 16),
           const Flexible(child: SevenDayWidget()),
         ],
       ),
