@@ -29,12 +29,13 @@ class _WeatherPageState extends State<WeatherPage> {
 
     return Scaffold(
       backgroundColor: MyColors.white,
-      body: SingleChildScrollView(
-        child: Consumer<ApiProvider>(builder: (context, provider, child) {
+      body: Consumer<ApiProvider>(
+        builder: (context, provider, child) {
           if (provider.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
           return Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
               Container(
                 margin: const EdgeInsets.all(16),
@@ -111,9 +112,8 @@ class _WeatherPageState extends State<WeatherPage> {
                         ),
                       ],
                     ),
-                    Column(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Image(
                           color: MyColors.white,
@@ -121,37 +121,43 @@ class _WeatherPageState extends State<WeatherPage> {
                             'icons/weather-rain.png',
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Column(
                           children: [
-                            Text(
-                              DateFormat('EEEE').format(DateTime.now()),
-                              style: MyTheme.main16w400,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  DateFormat('EEEE').format(DateTime.now()),
+                                  style: MyTheme.main16w400,
+                                ),
+                                const Padding(
+                                    padding: EdgeInsets.only(right: 11)),
+                                const SizedBox(
+                                  height: 19,
+                                  child: VerticalDivider(
+                                    color: Colors.white,
+                                    width: 2,
+                                    thickness: 2,
+                                  ),
+                                ),
+                                const Padding(
+                                    padding: EdgeInsets.only(left: 11)),
+                                Text(
+                                  DateFormat('MMM d').format(DateTime.now()),
+                                  style: MyTheme.main16w400,
+                                ),
+                              ],
                             ),
-                            const Padding(padding: EdgeInsets.only(right: 11)),
-                            const SizedBox(
-                              height: 19,
-                              child: VerticalDivider(
-                                color: Colors.white,
-                                width: 2,
-                                thickness: 2,
-                              ),
-                            ),
-                            const Padding(padding: EdgeInsets.only(left: 11)),
                             Text(
-                              DateFormat('MMM d').format(DateTime.now()),
+                              '${(provider.currentWeather.current.temp.toInt() - 273.14).ceil()}°',
+                              style: MyTheme.main72w700,
+                            ),
+                            Text(
+                              provider.currentWeather.current.weather[0]
+                                  .description,
                               style: MyTheme.main16w400,
                             ),
                           ],
-                        ),
-                        Text(
-                          '${(provider.currentWeather.current.temp.toInt() - 273.14).ceil()}°',
-                          style: MyTheme.main72w700,
-                        ),
-                        Text(
-                          provider
-                              .currentWeather.current.weather[0].description,
-                          style: MyTheme.main16w400,
                         ),
                       ],
                     ),
@@ -173,10 +179,11 @@ class _WeatherPageState extends State<WeatherPage> {
               const SizedBox(
                 height: 16,
               ),
-              SevenDayWidget(daily: provider.currentWeather.daily),
+              Expanded(
+                  child: SevenDayWidget(daily: provider.currentWeather.daily)),
             ],
           );
-        }),
+        },
       ),
     );
   }
