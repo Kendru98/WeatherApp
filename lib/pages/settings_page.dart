@@ -1,6 +1,5 @@
+import 'package:aplikacja_pogodowa/widgets/shared_scaffold.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/sharedscaffold_widget.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);

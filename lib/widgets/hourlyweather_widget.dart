@@ -12,7 +12,7 @@ class HourlyWeather extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 16, top: 9, bottom: 4),
-      color: MyColors.main2,
+      color: MyColors.mainDark,
       child: Column(
         children: [
           Row(
@@ -27,7 +27,7 @@ class HourlyWeather extends StatelessWidget {
               const SizedBox(
                 height: 19,
                 child: VerticalDivider(
-                  color: MyColors.white,
+                  color: MyColors.whiteBackground,
                   width: 2,
                   thickness: 2,
                 ),
@@ -66,7 +66,7 @@ class HourlyWeather extends StatelessWidget {
                     const Image(
                       width: 24,
                       height: 24,
-                      color: MyColors.white,
+                      color: MyColors.whiteBackground,
                       image: AssetImage(
                         'icons/fluent_weather-rain-showers-day-24-filled.png',
                       ),

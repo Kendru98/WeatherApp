@@ -1,8 +1,6 @@
 import 'package:aplikacja_pogodowa/utils/constans.dart';
+import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:flutter/material.dart';
-import '../utils/theme.dart';
-
-//
 
 class WeatherGrid extends StatelessWidget {
   const WeatherGrid({
@@ -38,7 +36,7 @@ class WeatherGrid extends StatelessWidget {
                   const Image(
                     width: 32,
                     height: 32,
-                    color: MyColors.white,
+                    color: MyColors.whiteBackground,
                     image: AssetImage(
                       'icons/towind.png',
                     ),
@@ -65,7 +63,7 @@ class WeatherGrid extends StatelessWidget {
                   const Image(
                     width: 32,
                     height: 32,
-                    color: MyColors.white,
+                    color: MyColors.whiteBackground,
                     image: AssetImage(
                       'icons/rain.png',
                     ),
@@ -97,7 +95,7 @@ class WeatherGrid extends StatelessWidget {
                   const Image(
                     width: 32,
                     height: 32,
-                    color: MyColors.white,
+                    color: MyColors.whiteBackground,
                     image: AssetImage(
                       'icons/pressure.png',
                     ),
@@ -124,7 +122,7 @@ class WeatherGrid extends StatelessWidget {
                   const Image(
                     width: 32,
                     height: 32,
-                    color: MyColors.white,
+                    color: MyColors.whiteBackground,
                     image: AssetImage(
                       'icons/hum_outline.png',
                     ),

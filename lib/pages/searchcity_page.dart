@@ -1,5 +1,5 @@
 import 'package:aplikacja_pogodowa/utils/constans.dart';
-import 'package:aplikacja_pogodowa/widgets/sharedscaffold_widget.dart';
+import 'package:aplikacja_pogodowa/widgets/shared_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../utils/theme.dart';
@@ -27,7 +27,7 @@ class SearchPage extends StatelessWidget {
                 cursorColor: Colors.grey,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(FontAwesomeIcons.searchengin),
-                  fillColor: MyColors.barfillcolor,
+                  fillColor: MyColors.textFieldFill,
                   filled: true,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
