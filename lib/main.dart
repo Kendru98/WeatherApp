@@ -18,9 +18,6 @@ class MyApp extends StatelessWidget {
         ],
         child: const MaterialApp(
           title: 'Aplikacja pogodowa',
-          // theme: ThemeData(
-          //   primarySwatch: Colors.blue,
-          // ),
           home: WeatherPage(),
         ));
   }

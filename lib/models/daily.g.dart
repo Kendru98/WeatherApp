@@ -11,6 +11,9 @@ Daily _$DailyFromJson(Map<String, dynamic> json) => Daily(
       (json['rain'] as num?)?.toDouble(),
       (json['pop'] as num?)?.toDouble(),
       Temp.fromJson(json['temp'] as Map<String, dynamic>),
+      (json['weather'] as List<dynamic>)
+          .map((e) => Weather.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$DailyToJson(Daily instance) => <String, dynamic>{
@@ -18,4 +21,5 @@ Map<String, dynamic> _$DailyToJson(Daily instance) => <String, dynamic>{
       'rain': instance.rain,
       'pop': instance.pop,
       'temp': instance.temp,
+      'weather': instance.weather,
     };

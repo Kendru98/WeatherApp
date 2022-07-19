@@ -1,13 +1,16 @@
+import 'package:aplikacja_pogodowa/models/current.dart';
 import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:aplikacja_pogodowa/widgets/hourly_list.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class HourlyWeather extends StatelessWidget {
   const HourlyWeather({
     Key? key,
+    required this.hourly,
   }) : super(key: key);
-
+  final List<Current> hourly;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,7 +24,7 @@ class HourlyWeather extends StatelessWidget {
             children: [
               const SizedBox(width: 16),
               Text(
-                'Sunday',
+                DateFormat('EEEE').format(DateTime.now()),
                 style: MyTheme.main16w600,
               ),
               const SizedBox(width: 8),
@@ -35,7 +38,7 @@ class HourlyWeather extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'Nov 14',
+                DateFormat('MMM d').format(DateTime.now()),
                 style: MyTheme.main16w600,
               ),
             ],
@@ -45,9 +48,12 @@ class HourlyWeather extends StatelessWidget {
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: 11,
+              itemCount: hourly.length,
               itemBuilder: (context, index) {
-                return const HourlyList();
+                return HourlyList(
+                  hourly: hourly,
+                  index: index,
+                );
               },
             ),
           ),

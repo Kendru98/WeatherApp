@@ -65,7 +65,7 @@ class WeatherGrid extends StatelessWidget {
                     height: 32,
                     color: MyColors.whiteBackground,
                     image: AssetImage(
-                      'icons/rain.png',
+                      'icons/fluent_weather-rain-24-filled.png',
                     ),
                   ),
                   Column(
@@ -124,7 +124,7 @@ class WeatherGrid extends StatelessWidget {
                     height: 32,
                     color: MyColors.whiteBackground,
                     image: AssetImage(
-                      'icons/hum_outline.png',
+                      'icons/ion_water.png',
                     ),
                   ),
                   Column(

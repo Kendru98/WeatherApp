@@ -1,10 +1,14 @@
+import 'package:aplikacja_pogodowa/models/daily.dart';
 import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
+import 'package:aplikacja_pogodowa/utils/weathericons.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class SevenDayWidget extends StatefulWidget {
-  const SevenDayWidget({Key? key}) : super(key: key);
+  const SevenDayWidget({Key? key, required this.daily}) : super(key: key);
 
+  final List<Daily> daily;
   @override
   State<SevenDayWidget> createState() => _SevenDayWidgetState();
 }
@@ -50,7 +54,7 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
                     ListView.builder(
                       shrinkWrap: true,
                       primary: false,
-                      itemCount: 7,
+                      itemCount: widget.daily.length,
                       itemBuilder: (context, index) {
                         return ListView(
                           shrinkWrap: true,
@@ -62,7 +66,13 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
                                 Expanded(
                                   flex: 3,
                                   child: Text(
-                                    'Sun',
+                                    index == 0
+                                        ? 'Today'
+                                        : DateFormat('E').format(
+                                            DateTime.now().add(
+                                              Duration(days: index),
+                                            ),
+                                          ),
                                     style: MyTheme.main16w500,
                                   ),
                                 ),
@@ -70,19 +80,20 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
                                   flex: 4,
                                   child: Row(
                                     children: [
-                                      const Image(
+                                      Image(
                                         width: 24,
                                         height: 24,
                                         color: MyColors.whiteBackground,
                                         image: AssetImage(
-                                          'icons/fluent_weather-rain-showers-day-24-filled.png',
+                                          chooseIcon(widget.daily[index]
+                                              .weather[0].description),
                                         ),
                                       ),
                                       const SizedBox(
                                         width: 10,
                                       ),
                                       Text(
-                                        '74% rain',
+                                        '${((widget.daily[index].pop ?? 0) * 100).ceil()}% rain',
                                         style: MyTheme.main12w400,
                                       ),
                                     ],
@@ -91,7 +102,7 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
                                 Expanded(
                                   flex: 1,
                                   child: Text(
-                                    '20/24',
+                                    '${(widget.daily[index].temp.day.toInt() - 273.14).ceil()}°/${(widget.daily[index].temp.day.toInt() - 273.14).ceil()}°',
                                     style: MyTheme.main12w400,
                                   ),
                                 ),
