@@ -1,5 +1,4 @@
 import 'package:aplikacja_pogodowa/utils/constans.dart';
-import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:aplikacja_pogodowa/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 

@@ -22,16 +22,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         padding: const EdgeInsets.only(left: 16, right: 16),
         child: Container(
           decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            ),
-            gradient: LinearGradient(
-              colors: [MyColors.mainLight, MyColors.mainLight],
-              begin: Alignment.center,
-              end: Alignment.bottomCenter,
-            ),
-          ),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              ),
+              color: MyColors.mainLight),
           child: AppBar(
               centerTitle: true,
               leading: leading,
