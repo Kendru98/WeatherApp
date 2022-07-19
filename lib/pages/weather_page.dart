@@ -5,21 +5,68 @@ import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:aplikacja_pogodowa/utils/weathericons.dart';
 import 'package:aplikacja_pogodowa/widgets/homepage_exports.dart';
 import 'package:aplikacja_pogodowa/widgets/homepage_menu.dart';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class WeatherPage extends StatelessWidget {
   const WeatherPage({Key? key}) : super(key: key);
+  checkPermission(BuildContext context) async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      LocationPermission permission = await Geolocator.requestPermission();
+    } else if (permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        executeOnceAfterBuild(context);
+      });
+    }
+  }
+
+  Future executeOnceAfterBuild(BuildContext context) async {
+    final provider = Provider.of<ApiProvider>(context, listen: false);
+    bool serviceEnabled;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Włącz lokalizację aby pobrać dane'),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Ok'))
+              ],
+            );
+          });
+    } else {
+      Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.lowest,
+              forceAndroidLocationManager: true,
+              timeLimit: const Duration(seconds: 5))
+          .then((value) => {provider.initLocation(value)})
+          .onError((error, stackTrace) => {
+                Geolocator.getLastKnownPosition(
+                        forceAndroidLocationManager: true)
+                    .then((value) => {provider.initLocation(value!)})
+              });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    checkPermission(context);
     return Scaffold(
       backgroundColor: MyColors.whiteBackground,
       body: Consumer<ApiProvider>(
         builder: (context, provider, child) {
-          if (provider.isLoading) {
+          if (provider.isLoading == false) {
             return const Center(child: CircularProgressIndicator());
           }
           return Column(
@@ -50,7 +97,8 @@ class WeatherPage extends StatelessWidget {
                           ),
                           color: MyColors.whiteBackground,
                         ),
-                        Text('Malang', style: MyTheme.main16w600),
+                        Text(provider.currentWeather.timezone,
+                            style: MyTheme.main16w600),
                         const HomepageMenu(),
                       ],
                     ),
