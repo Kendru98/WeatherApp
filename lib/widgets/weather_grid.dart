@@ -28,8 +28,9 @@ class WeatherGrid extends StatelessWidget {
               color: Colors.white,
             ),
           ),
+          const SizedBox(height: 8),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Row(
                 children: [
@@ -57,7 +58,6 @@ class WeatherGrid extends StatelessWidget {
                   )
                 ],
               ),
-              const SizedBox(width: 74),
               Row(
                 children: [
                   const Image(
@@ -86,9 +86,9 @@ class WeatherGrid extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 22),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Row(
                 children: [
@@ -101,7 +101,6 @@ class WeatherGrid extends StatelessWidget {
                     ),
                   ),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -116,7 +115,6 @@ class WeatherGrid extends StatelessWidget {
                   )
                 ],
               ),
-              const SizedBox(width: 66),
               Row(
                 children: [
                   const Image(
@@ -128,7 +126,6 @@ class WeatherGrid extends StatelessWidget {
                     ),
                   ),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -136,7 +133,7 @@ class WeatherGrid extends StatelessWidget {
                         style: MyTheme.main12w400,
                       ),
                       Text(
-                        'Humidity 83%  ',
+                        'Humidity $humidity',
                         style: MyTheme.main12w400,
                       )
                     ],

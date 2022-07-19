@@ -1,36 +1,31 @@
 import 'package:aplikacja_pogodowa/api/weather_api.dart';
-import 'package:aplikacja_pogodowa/models/current.dart';
-import 'package:aplikacja_pogodowa/models/daily.dart';
 import 'package:aplikacja_pogodowa/models/responses/get_weather.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 class ApiProvider extends ChangeNotifier {
-  bool _isLoading = false;
+  bool _isLoading = true;
   bool get isLoading => _isLoading;
 
-  // bool _isloadLocation = false;
-  // bool get isloadLocation => _isloadLocation;
+  String? _city = '';
+  String? get city => _city;
 
-  double lat = 0.0;
-  double get _lat => lat;
-
-  double lon = 0.0;
-  double get _lon => lon;
   late GetWeatherResponse _currentWeather;
-  //GetWeatherResponse('', 0.0, 0.0,Current(0, 0, 0, 0, 0, 0, <Weather>[], 0.0), <Current>[], <Daily>[]);
   GetWeatherResponse get currentWeather => _currentWeather;
 
-  initLocation(Position value) async {
-    lat = value.latitude;
-    lon = value.longitude;
-    fetchData(_lat, _lon);
+  initLocation(Position value) {
+    double lat = value.latitude;
+    double lon = value.longitude;
+
+    fetchData(lat, lon);
   }
 
-  void fetchData(double lat, double lon) async {
-    _isLoading = true;
+  Future<void> fetchData(double lat, double lon) async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(lat, lon);
+    _city = placemarks[0].locality;
+    print(placemarks);
     final dio = Dio();
     final client = RestClient(dio,
         baseUrl:

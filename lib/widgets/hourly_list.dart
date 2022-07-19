@@ -20,7 +20,7 @@ class HourlyList extends StatelessWidget {
         Text(
           index == 0
               ? 'Now'
-              : DateFormat('hh:mm').format(
+              : DateFormat('HH:mm').format(
                   DateTime.now().add(Duration(hours: index)),
                 ),
           style: MyTheme.main16w600,

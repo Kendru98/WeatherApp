@@ -17,7 +17,7 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
   bool _isExpanded = false;
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return TextButton(
       style: ElevatedButton.styleFrom(
         primary: MyColors.whiteBackground,
         elevation: 0,
@@ -34,86 +34,84 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
               decoration: const BoxDecoration(
                 color: MyColors.mainDark,
               ),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16, left: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16, left: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Forcast for 7 Days',
+                          style: MyTheme.main16w500,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: widget.daily.length,
+                    itemBuilder: (context, index) {
+                      return ListView(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(
+                            left: 24, right: 24, bottom: 17),
                         children: [
-                          Text(
-                            'Forcast for 7 Days',
-                            style: MyTheme.main16w500,
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  index == 0
+                                      ? 'Today'
+                                      : DateFormat('E').format(
+                                          DateTime.now().add(
+                                            Duration(days: index),
+                                          ),
+                                        ),
+                                  style: MyTheme.main16w500,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 4,
+                                child: Row(
+                                  children: [
+                                    Image(
+                                      width: 24,
+                                      height: 24,
+                                      color: MyColors.whiteBackground,
+                                      image: AssetImage(
+                                        chooseIcon(widget.daily[index]
+                                            .weather[0].description),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      '${((widget.daily[index].pop ?? 0) * 100).ceil()}% rain',
+                                      style: MyTheme.main12w400,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  '${(widget.daily[index].temp.day.toInt() - 273.14).ceil()}°/${(widget.daily[index].temp.day.toInt() - 273.14).ceil()}°',
+                                  style: MyTheme.main12w400,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
-                      ),
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      primary: false,
-                      itemCount: widget.daily.length,
-                      itemBuilder: (context, index) {
-                        return ListView(
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.only(
-                              left: 24, right: 24, bottom: 17),
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: Text(
-                                    index == 0
-                                        ? 'Today'
-                                        : DateFormat('E').format(
-                                            DateTime.now().add(
-                                              Duration(days: index),
-                                            ),
-                                          ),
-                                    style: MyTheme.main16w500,
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 4,
-                                  child: Row(
-                                    children: [
-                                      Image(
-                                        width: 24,
-                                        height: 24,
-                                        color: MyColors.whiteBackground,
-                                        image: AssetImage(
-                                          chooseIcon(widget.daily[index]
-                                              .weather[0].description),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        '${((widget.daily[index].pop ?? 0) * 100).ceil()}% rain',
-                                        style: MyTheme.main12w400,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    '${(widget.daily[index].temp.day.toInt() - 273.14).ceil()}°/${(widget.daily[index].temp.day.toInt() - 273.14).ceil()}°',
-                                    style: MyTheme.main12w400,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                      );
+                    },
+                  ),
+                ],
               ),
             )
           : Padding(
