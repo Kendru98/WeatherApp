@@ -48,7 +48,7 @@ class HomepageMenu extends StatelessWidget {
     );
   }
 
-  void actionPopUp(context, MenuOptions value) {
+  void actionPopUp(BuildContext context, MenuOptions value) {
     if (value == MenuOptions.share) {
       //TODO
     } else if (value == MenuOptions.settings) {

@@ -4,7 +4,8 @@ import 'package:aplikacja_pogodowa/providers/permissions.dart';
 import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:aplikacja_pogodowa/utils/weathericons.dart';
-import 'package:aplikacja_pogodowa/widgets/appbar.dart';
+import 'package:aplikacja_pogodowa/widgets/weather_appbar.dart';
+import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:aplikacja_pogodowa/widgets/homepage_exports.dart';
 import 'package:aplikacja_pogodowa/widgets/homepage_menu.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class WeatherPage extends StatelessWidget {
         }
         return Scaffold(
           backgroundColor: MyColors.whiteBackground,
-          appBar: CustomAppBar(
+          appBar: WeatherAppBar(
             title: Text(
               provider.city ?? provider.currentWeather.timezone,
               style: MyTheme.main16w600,

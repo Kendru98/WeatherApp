@@ -1,7 +1,7 @@
 import 'package:aplikacja_pogodowa/models/current.dart';
 import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
-import 'package:aplikacja_pogodowa/widgets/hourly_list.dart';
+import 'package:aplikacja_pogodowa/widgets/hourly_weather_item.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -50,7 +50,7 @@ class HourlyWeather extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: hourly.length,
               itemBuilder: (context, index) {
-                return HourlyList(
+                return HourlyWeatherItem(
                   hourly: hourly,
                   index: index,
                 );

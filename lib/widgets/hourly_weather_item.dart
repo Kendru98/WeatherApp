@@ -5,9 +5,12 @@ import 'package:aplikacja_pogodowa/utils/weathericons.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class HourlyList extends StatelessWidget {
-  const HourlyList({Key? key, required this.hourly, required this.index})
-      : super(key: key);
+class HourlyWeatherItem extends StatelessWidget {
+  const HourlyWeatherItem({
+    Key? key,
+    required this.hourly,
+    required this.index,
+  }) : super(key: key);
 
   final List<Current> hourly;
   final int index;
