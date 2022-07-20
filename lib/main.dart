@@ -11,10 +11,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      builder: ((context, child) => SafeArea(child: child!)),
+    return const MaterialApp(
       title: 'Aplikacja pogodowa',
-      home: const WeatherPage(),
+      home: WeatherPage(),
     );
   }
 }

@@ -16,28 +16,30 @@ class WeatherAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: elevation,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 16,
-          right: 16,
-        ),
-        child: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            ),
-            color: MyColors.mainLight,
+    return SafeArea(
+      child: Material(
+        elevation: elevation,
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 16,
+            right: 16,
           ),
-          child: AppBar(
-            centerTitle: true,
-            leading: leading,
-            elevation: 0,
-            title: title,
-            actions: actions,
-            backgroundColor: Colors.transparent,
+          child: Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              ),
+              color: MyColors.mainLight,
+            ),
+            child: AppBar(
+              centerTitle: true,
+              leading: leading,
+              elevation: 0,
+              title: title,
+              actions: actions,
+              backgroundColor: Colors.transparent,
+            ),
           ),
         ),
       ),

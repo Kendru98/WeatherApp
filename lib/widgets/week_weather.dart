@@ -23,7 +23,6 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
                 color: MyColors.mainDark,
               ),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -64,6 +63,7 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
                   ),
                   ListView.builder(
                     shrinkWrap: true,
+                    primary: false,
                     itemCount: 7,
                     itemBuilder: (context, index) {
                       return const WeekWeatherItem();
