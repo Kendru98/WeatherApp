@@ -9,7 +9,7 @@ class WeekWeatherItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, bottom: 17),
       child: Row(
         children: [
