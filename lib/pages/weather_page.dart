@@ -14,6 +14,13 @@ import 'package:provider/provider.dart';
 
 class WeatherPage extends StatelessWidget {
   const WeatherPage({Key? key}) : super(key: key);
+  void onClickPlusButton(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SearchCityPage(),
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,19 +56,7 @@ class WeatherPage extends StatelessWidget {
               //scroll
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  margin:
-                      const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30)),
-                    gradient: LinearGradient(
-                      colors: [MyColors.mainLight, MyColors.mainDark],
-                      begin: Alignment.center,
-                      end: Alignment.bottomCenter,
-                    ),
-                  ),
+                WeatherBackgroundContainer(
                   child: Column(
                     children: [
                       Row(
@@ -140,13 +135,5 @@ class WeatherPage extends StatelessWidget {
         );
       },
     );
-  }
-
-  void onClickPlusButton(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SearchCityPage(),
-        ));
   }
 }
