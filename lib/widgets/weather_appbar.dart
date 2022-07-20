@@ -1,8 +1,8 @@
 import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({
+class WeatherAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const WeatherAppBar({
     Key? key,
     this.title,
     this.leading,
@@ -19,14 +19,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Material(
       elevation: elevation,
       child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16),
+        padding: const EdgeInsets.only(
+          left: 16,
+          right: 16,
+        ),
         child: Container(
           decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
-              ),
-              color: MyColors.mainLight),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+            color: MyColors.mainLight,
+          ),
           child: AppBar(
             centerTitle: true,
             leading: leading,

@@ -2,8 +2,8 @@ import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:flutter/material.dart';
 
-class HourlyList extends StatelessWidget {
-  const HourlyList({
+class HourlyWeatherItem extends StatelessWidget {
+  const HourlyWeatherItem({
     Key? key,
   }) : super(key: key);
 

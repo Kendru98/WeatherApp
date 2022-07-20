@@ -1,5 +1,5 @@
 import 'package:aplikacja_pogodowa/utils/constans.dart';
-import 'package:aplikacja_pogodowa/widgets/appbar.dart';
+import 'package:aplikacja_pogodowa/widgets/weather_appbar.dart';
 import 'package:flutter/material.dart';
 
 class SharedScaffold extends StatelessWidget {
@@ -12,7 +12,7 @@ class SharedScaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: MyColors.whiteBackground,
       resizeToAvoidBottomInset: false,
-      appBar: CustomAppBar(
+      appBar: WeatherAppBar(
         title: Text(title),
         leading: IconButton(
           icon: const Icon(

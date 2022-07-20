@@ -1,7 +1,8 @@
 import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
 import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
-import 'package:aplikacja_pogodowa/widgets/appbar.dart';
+import 'package:aplikacja_pogodowa/widgets/weather_appbar.dart';
+import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:aplikacja_pogodowa/widgets/homepage_exports.dart';
 import 'package:aplikacja_pogodowa/widgets/homepage_menu.dart';
 
@@ -10,12 +11,20 @@ import 'package:flutter/material.dart';
 class WeatherPage extends StatelessWidget {
   const WeatherPage({Key? key}) : super(key: key);
 
+  void onClickPlusButton(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SearchCityPage(),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyColors.whiteBackground,
-      appBar: CustomAppBar(
-        title: Text('Malang'),
+      appBar: WeatherAppBar(
+        title: const Text('Malang'),
         leading: IconButton(
           onPressed: () => onClickPlusButton(context),
           icon: const Image(
@@ -34,18 +43,7 @@ class WeatherPage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Container(
-              margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30)),
-                gradient: LinearGradient(
-                  colors: [MyColors.mainLight, MyColors.mainDark],
-                  begin: Alignment.center,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
+            WeatherBackgroundContainer(
               child: Column(
                 children: [
                   Row(
@@ -100,18 +98,10 @@ class WeatherPage extends StatelessWidget {
             ),
             const HourlyWeather(),
             const SizedBox(height: 16),
-            SevenDayWidget(),
+            const SevenDayWidget(),
           ],
         ),
       ),
     );
-  }
-
-  void onClickPlusButton(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SearchCityPage(),
-        ));
   }
 }
