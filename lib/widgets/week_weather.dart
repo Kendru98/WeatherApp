@@ -90,9 +90,7 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
                     'Forecast for 7 Days',
                     style: MyTheme.main16w500b,
                   ),
-                  const SizedBox(
-                    width: 4,
-                  ),
+                  const SizedBox(width: 4),
                   const Image(
                     width: 24,
                     height: 24,

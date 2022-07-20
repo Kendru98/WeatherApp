@@ -35,9 +35,7 @@ class WeekWeatherItem extends StatelessWidget {
                       'icons/fluent_weather-rain-showers-day-24-filled.png',
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  const SizedBox(width: 10),
                   Text(
                     '74% rain',
                     style: MyTheme.main12w400,
