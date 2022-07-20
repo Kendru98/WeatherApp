@@ -67,6 +67,7 @@ class WeatherPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image(
+                            width: 120,
                             color: MyColors.whiteBackground,
                             image: AssetImage(
                               chooseMainIcon(provider.currentWeather.current
