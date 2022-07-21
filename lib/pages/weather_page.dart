@@ -25,7 +25,19 @@ class WeatherPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    checkPermission(context);
+    final provider = Provider.of<ApiProvider>(context, listen: false);
+    determinePosition()
+        .then((value) => {provider.initLocation(value)})
+        .onError((error, stackTrace) => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => SearchCityPage(),
+                ),
+              ),
+            });
+
+    //checkPermission(context);
 
     return Consumer<ApiProvider>(
       builder: (context, provider, child) {

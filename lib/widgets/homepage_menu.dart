@@ -9,6 +9,18 @@ class HomepageMenu extends StatelessWidget {
   const HomepageMenu({
     Key? key,
   }) : super(key: key);
+  void actionPopUp(BuildContext context, MenuOptions value) {
+    if (value == MenuOptions.share) {
+      //TODO
+    } else if (value == MenuOptions.settings) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => const SettingsPage(),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,18 +58,5 @@ class HomepageMenu extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void actionPopUp(BuildContext context, MenuOptions value) {
-    if (value == MenuOptions.share) {
-      //TODO
-    } else if (value == MenuOptions.settings) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => const SettingsPage(),
-        ),
-      );
-    }
   }
 }
