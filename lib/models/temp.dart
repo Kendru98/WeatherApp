@@ -1,4 +1,3 @@
-import 'package:aplikacja_pogodowa/models/feelslike.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'temp.g.dart';

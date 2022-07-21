@@ -9,6 +9,7 @@ class SevenDayWidget extends StatefulWidget {
   const SevenDayWidget({Key? key, required this.daily}) : super(key: key);
 
   final List<Daily> daily;
+  @override
   State<SevenDayWidget> createState() => _SevenDayWidgetState();
 }
 
@@ -65,9 +66,9 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
                   ListView.builder(
                     shrinkWrap: true,
                     primary: false,
-                    itemCount: 7,
+                    itemCount: widget.daily.length,
                     itemBuilder: (context, index) {
-                      return const WeekWeatherItem();
+                      return WeekWeatherItem(daily: widget.daily, index: index);
                     },
                   ),
                 ],

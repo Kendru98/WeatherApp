@@ -1,7 +1,7 @@
 import 'package:aplikacja_pogodowa/models/current.dart';
 import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
-import 'package:aplikacja_pogodowa/utils/weathericons.dart';
+import 'package:aplikacja_pogodowa/utils/data_conversion_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -37,9 +37,9 @@ class HourlyWeatherItem extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-            '${hourly[index].temp.toInt() - 273.14.ceil()}°/${hourly[index].feels_like.toInt() - 273.14.ceil()}°',
+            '${temperatureConversion(hourly[index].temp)}/${temperatureConversion(hourly[index].feels_like)}',
             style: MyTheme.main12w400),
-        Text('${((hourly[index].pop ?? 0) * 100).ceil()}% rain',
+        Text('${rainConversion(hourly[index].pop)} rain',
             style: MyTheme.main12w400),
         const SizedBox(width: 72)
       ],

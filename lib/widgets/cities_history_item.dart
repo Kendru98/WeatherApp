@@ -1,11 +1,19 @@
+import 'package:aplikacja_pogodowa/models/weather_item.dart';
+import 'package:aplikacja_pogodowa/providers/api_provider.dart';
+import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
+import 'package:aplikacja_pogodowa/utils/data_conversion_helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CitiesHistoryItem extends StatelessWidget {
   const CitiesHistoryItem({
     Key? key,
+    required this.index,
+    required this.weatherItem,
   }) : super(key: key);
+  final WeatherItem weatherItem;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -20,26 +28,35 @@ class CitiesHistoryItem extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
       child: ListTile(
+        onTap: () {
+          final provider = Provider.of<ApiProvider>(context, listen: false);
+          provider.fetchData(weatherItem.lat, weatherItem.lon);
+          Navigator.pop(context);
+        },
         title: Text(
           textAlign: TextAlign.left,
-          'Malang',
+          weatherItem.name,
           style: MyTheme.city16,
         ),
         subtitle: Text(
           textAlign: TextAlign.left,
-          '20°/24°',
+          '${temperatureConversion(weatherItem.temp)}/${temperatureConversion(weatherItem.tempFeelsLike)}',
           style: MyTheme.city12,
         ),
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            const Icon(
-              FontAwesomeIcons.cloudSunRain,
-              size: 32,
+            Image(
+              width: 32,
+              height: 32,
+              color: MyColors.popText,
+              image: AssetImage(
+                chooseMainIcon(weatherItem.description),
+              ),
             ),
             Text(
-              'Heavy Rain',
+              weatherItem.description,
               style: MyTheme.city12,
             ),
           ],

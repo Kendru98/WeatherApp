@@ -25,3 +25,16 @@ chooseMainIcon(String description) {
     return 'icons/weather-lightning.png';
   }
 }
+
+String temperatureConversion(double temperature) {
+  return '${(temperature.toInt() - 273.14.ceil())}°';
+  //ifuserunit.kelwins => temperature.toInt()
+}
+
+String windConversion(double wind) {
+  return '${(wind * 3.6).toStringAsPrecision(2)} km/h';
+}
+
+String rainConversion(double? rain) {
+  return '${((rain ?? 0) * 100).ceil()}%';
+}

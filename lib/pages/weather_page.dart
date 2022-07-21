@@ -3,7 +3,7 @@ import 'package:aplikacja_pogodowa/providers/api_provider.dart';
 import 'package:aplikacja_pogodowa/providers/permissions.dart';
 import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
-import 'package:aplikacja_pogodowa/utils/weathericons.dart';
+import 'package:aplikacja_pogodowa/utils/data_conversion_helpers.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_appbar.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:aplikacja_pogodowa/widgets/homepage_exports.dart';
@@ -16,15 +16,17 @@ class WeatherPage extends StatelessWidget {
   const WeatherPage({Key? key}) : super(key: key);
   void onClickPlusButton(BuildContext context) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SearchCityPage(),
-        ));
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchCityPage(),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     checkPermission(context);
+
     return Consumer<ApiProvider>(
       builder: (context, provider, child) {
         if (provider.isLoading) {
@@ -53,7 +55,6 @@ class WeatherPage extends StatelessWidget {
           ),
           body: SingleChildScrollView(
             child: Column(
-              //scroll
               mainAxisSize: MainAxisSize.min,
               children: [
                 WeatherBackgroundContainer(
@@ -97,7 +98,8 @@ class WeatherPage extends StatelessWidget {
                                 ],
                               ),
                               Text(
-                                '${(provider.currentWeather.current.temp.toInt() - 273.14).ceil()}°',
+                                temperatureConversion(
+                                    provider.currentWeather.current.temp),
                                 style: MyTheme.main72w700,
                               ),
                               Text(
@@ -114,11 +116,11 @@ class WeatherPage extends StatelessWidget {
                             '${provider.currentWeather.current.humidity}%',
                         pressure:
                             '${provider.currentWeather.current.pressure} mbar',
-                        rainchance:
-                            '${((provider.currentWeather.hourly[0].pop ?? 0) * 100).ceil()}%',
-                        wind:
-                            '${(provider.currentWeather.current.wind_speed * 3.6).toStringAsPrecision(2)} km/h',
-                      )
+                        rainchance: rainConversion(
+                            provider.currentWeather.hourly[0].pop),
+                        wind: windConversion(
+                            provider.currentWeather.current.wind_speed),
+                      ),
                     ],
                   ),
                 ),

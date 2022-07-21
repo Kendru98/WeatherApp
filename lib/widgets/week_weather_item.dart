@@ -1,12 +1,18 @@
+import 'package:aplikacja_pogodowa/models/daily.dart';
 import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
+import 'package:aplikacja_pogodowa/utils/data_conversion_helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class WeekWeatherItem extends StatelessWidget {
   const WeekWeatherItem({
     Key? key,
+    required this.daily,
+    required this.index,
   }) : super(key: key);
-
+  final List<Daily> daily;
+  final int index;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -16,7 +22,10 @@ class WeekWeatherItem extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Text(
-              'Sun',
+              index == 0
+                  ? 'Today'
+                  : DateFormat('E')
+                      .format(DateTime.now().add(Duration(days: index))),
               style: MyTheme.main16w500,
             ),
           ),
@@ -24,29 +33,29 @@ class WeekWeatherItem extends StatelessWidget {
             flex: 4,
             child: Row(
               children: [
-                const Image(
+                Image(
                   width: 24,
                   height: 24,
                   color: MyColors.whiteBackground,
                   image: AssetImage(
-                    'icons/fluent_weather-rain-showers-day-24-filled.png',
+                    chooseIcon(daily[index].weather[0].description),
                   ),
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  '74% rain',
+                  '${rainConversion(daily[index].pop)} rain',
                   style: MyTheme.main12w400,
                 ),
               ],
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Text(
-              '20/24',
+              '${temperatureConversion(daily[index].temp.day)}/${temperatureConversion(daily[index].temp.day)}',
               style: MyTheme.main12w400,
             ),
-          ),
+          )
         ],
       ),
     );
