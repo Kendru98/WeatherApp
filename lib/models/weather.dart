@@ -4,19 +4,25 @@ part 'weather.g.dart';
 
 enum Main {
   @JsonValue('Clear')
-  CLEAR,
+  clear,
   @JsonValue('Clouds')
-  CLOUDS,
+  clouds,
   @JsonValue('Rain')
-  RAIN,
+  rain,
 }
 
 @JsonSerializable()
 class Weather {
-  Weather(this.main, this.icon, this.description);
-  Main main; //? Description
+  Weather({
+    required this.main,
+    required this.icon,
+    required this.description,
+  });
+
+  Main main;
   String icon;
   String description;
+
   factory Weather.fromJson(Map<String, dynamic> json) =>
       _$WeatherFromJson(json);
 }

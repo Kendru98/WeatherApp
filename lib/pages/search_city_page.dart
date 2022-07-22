@@ -1,5 +1,5 @@
 import 'package:aplikacja_pogodowa/models/weather_item.dart';
-import 'package:aplikacja_pogodowa/providers/api_provider.dart';
+import 'package:aplikacja_pogodowa/providers/api_provider_and_data_handling.dart';
 import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
@@ -9,9 +9,21 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class SearchCityPage extends StatelessWidget {
+class SearchCityPage extends StatefulWidget {
   SearchCityPage({Key? key}) : super(key: key);
-  wrongCityDialog(BuildContext context, String city) {
+
+  @override
+  State<SearchCityPage> createState() => _SearchCityPageState();
+}
+
+class _SearchCityPageState extends State<SearchCityPage> {
+  @override
+  void dispose() {
+    givenCityController.dispose();
+    super.dispose();
+  }
+
+  void wrongCityDialog(BuildContext context, String city) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -29,28 +41,42 @@ class SearchCityPage extends StatelessWidget {
     );
   }
 
-  addCityItem(String city, BuildContext context, ApiProvider provider) async {
-    if (provider.ifCityExist(provider.city) == WeatherItem &&
-        provider.cityList.length <= 5) {
-      WeatherItem existItem = provider.ifCityExist(city);
+  addCityItem(String city, BuildContext context) async {
+    final provider =
+        Provider.of<ApiProviderAndDataHandling>(context, listen: false);
+    final ifCityExist = provider.ifCityExist(city);
+    if (ifCityExist == WeatherItem && provider.cities.length <= 5) {
+      WeatherItem existItem = ifCityExist;
       provider.fetchData(existItem.lat, existItem.lat);
 
       Navigator.pop(context);
-    } else if (provider.cityList.length == 5 &&
-        provider.ifCityExist(city) == null) {
-      provider.cityList.removeAt(0);
+    } else if (provider.cities.length == 5 && ifCityExist == null) {
+      provider.cities.removeAt(0);
       provider.cityToCoords(city);
       Navigator.pop(context);
     } else {
-      provider.cityToCoords(city); //jezeli to to dodaj do listy
+      provider.cityToCoords(city);
       Navigator.pop(context);
     }
   }
 
+  onSubmittedCity(String city, context) async {
+    final provider =
+        Provider.of<ApiProviderAndDataHandling>(context, listen: false);
+    if (await provider.cityNameCheck(city) == 'error') {
+      wrongCityDialog(context, city);
+      givenCityController.clear();
+    } else {
+      addCityItem(city, context);
+
+      givenCityController.clear();
+    }
+  }
+
   final givenCityController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ApiProvider>(context, listen: false);
     return SharedScaffold(
       title: 'Manage Location',
       body: WeatherBackgroundContainer(
@@ -60,15 +86,7 @@ class SearchCityPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextField(
                 controller: givenCityController,
-                onSubmitted: (String city) async {
-                  if (await provider.cityNameCheck(city) == 'error') {
-                    wrongCityDialog(context, city);
-                    givenCityController.clear();
-                  } else {
-                    addCityItem(city, context, provider);
-                    givenCityController.clear();
-                  }
-                },
+                onSubmitted: (city) => onSubmittedCity(city, context),
                 cursorColor: Colors.grey,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(FontAwesomeIcons.searchengin),
@@ -84,20 +102,22 @@ class SearchCityPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            Consumer<ApiProvider>(
-              builder: ((context, providercity, child) {
-                return Expanded(
-                  child: ListView.builder(
+            Expanded(
+              child: Selector<ApiProviderAndDataHandling, List<WeatherItem>>(
+                selector: (_, provider) => provider.cities,
+                builder: (context, cityList, child) {
+                  return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: providercity.cityList.length,
+                    itemCount: cityList.length,
                     itemBuilder: (context, index) {
                       return CitiesHistoryItem(
-                          weatherItem: providercity.cityList[index],
-                          index: index);
+                        weatherItem: cityList[index],
+                        index: index,
+                      );
                     },
-                  ),
-                );
-              }),
+                  );
+                },
+              ),
             ),
             const SizedBox(height: 20),
           ],

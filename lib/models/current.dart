@@ -5,23 +5,25 @@ part 'current.g.dart';
 
 @JsonSerializable()
 class Current {
-  Current(
-    this.temp,
-    this.feels_like,
-    this.pressure,
-    this.humidity,
-    this.clouds,
-    this.wind_speed,
-    this.weather,
+  Current({
+    required this.temp,
+    required this.feelsLike,
+    required this.pressure,
+    required this.humidity,
+    required this.clouds,
+    required this.windSpeed,
+    required this.weather,
     this.pop,
-  );
+  });
   double temp;
-  double feels_like;
+  @JsonKey(name: 'feels_like')
+  double feelsLike;
   int pressure;
   int humidity;
   int clouds;
   List<Weather> weather;
-  double wind_speed;
+  @JsonKey(name: 'wind_speed')
+  double windSpeed;
   double? pop;
 
   factory Current.fromJson(Map<String, dynamic> json) =>

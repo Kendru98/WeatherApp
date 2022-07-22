@@ -7,9 +7,9 @@ part of 'weather.dart';
 // **************************************************************************
 
 Weather _$WeatherFromJson(Map<String, dynamic> json) => Weather(
-      $enumDecode(_$MainEnumMap, json['main']),
-      json['icon'] as String,
-      json['description'] as String,
+      main: $enumDecode(_$MainEnumMap, json['main']),
+      icon: json['icon'] as String,
+      description: json['description'] as String,
     );
 
 Map<String, dynamic> _$WeatherToJson(Weather instance) => <String, dynamic>{
@@ -19,7 +19,7 @@ Map<String, dynamic> _$WeatherToJson(Weather instance) => <String, dynamic>{
     };
 
 const _$MainEnumMap = {
-  Main.CLEAR: 'Clear',
-  Main.CLOUDS: 'Clouds',
-  Main.RAIN: 'Rain',
+  Main.clear: 'Clear',
+  Main.clouds: 'Clouds',
+  Main.rain: 'Rain',
 };

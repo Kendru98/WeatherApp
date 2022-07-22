@@ -7,10 +7,10 @@ part of 'temp.dart';
 // **************************************************************************
 
 Temp _$TempFromJson(Map<String, dynamic> json) => Temp(
-      (json['day'] as num).toDouble(),
-      (json['min'] as num).toDouble(),
-      (json['max'] as num).toDouble(),
-      (json['night'] as num).toDouble(),
+      day: (json['day'] as num).toDouble(),
+      min: (json['min'] as num).toDouble(),
+      max: (json['max'] as num).toDouble(),
+      night: (json['night'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$TempToJson(Temp instance) => <String, dynamic>{

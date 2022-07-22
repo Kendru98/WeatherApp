@@ -1,5 +1,5 @@
 import 'package:aplikacja_pogodowa/models/weather_item.dart';
-import 'package:aplikacja_pogodowa/providers/api_provider.dart';
+import 'package:aplikacja_pogodowa/providers/api_provider_and_data_handling.dart';
 import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:aplikacja_pogodowa/utils/data_conversion_helpers.dart';
@@ -7,13 +7,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CitiesHistoryItem extends StatelessWidget {
-  const CitiesHistoryItem({
+  final DataConversionHelpers dataConversionHelpers = DataConversionHelpers();
+  CitiesHistoryItem({
     Key? key,
     required this.index,
     required this.weatherItem,
   }) : super(key: key);
   final WeatherItem weatherItem;
   final int index;
+
+  void onTapCityList(BuildContext context) {
+    final provider =
+        Provider.of<ApiProviderAndDataHandling>(context, listen: false);
+    provider.fetchData(weatherItem.lat, weatherItem.lon);
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +36,7 @@ class CitiesHistoryItem extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
       child: ListTile(
-        onTap: () {
-          final provider = Provider.of<ApiProvider>(context, listen: false);
-          provider.fetchData(weatherItem.lat, weatherItem.lon);
-          Navigator.pop(context);
-        },
+        onTap: () => onTapCityList(context),
         title: Text(
           textAlign: TextAlign.left,
           weatherItem.name,
@@ -40,7 +44,7 @@ class CitiesHistoryItem extends StatelessWidget {
         ),
         subtitle: Text(
           textAlign: TextAlign.left,
-          '${temperatureConversion(weatherItem.temp)}/${temperatureConversion(weatherItem.tempFeelsLike)}',
+          '${dataConversionHelpers.temperatureConversion(weatherItem.temp)}/${dataConversionHelpers.temperatureConversion(weatherItem.tempFeelsLike)}',
           style: MyTheme.city12,
         ),
         trailing: Column(
@@ -52,7 +56,7 @@ class CitiesHistoryItem extends StatelessWidget {
               height: 32,
               color: MyColors.popText,
               image: AssetImage(
-                chooseMainIcon(weatherItem.description),
+                dataConversionHelpers.chooseMainIcon(weatherItem.description),
               ),
             ),
             Text(

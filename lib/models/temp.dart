@@ -4,7 +4,12 @@ part 'temp.g.dart';
 
 @JsonSerializable()
 class Temp {
-  Temp(this.day, this.min, this.max, this.night);
+  Temp({
+    required this.day,
+    required this.min,
+    required this.max,
+    required this.night,
+  });
 
   double day;
   double min;

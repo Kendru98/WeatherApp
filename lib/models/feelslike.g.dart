@@ -7,8 +7,8 @@ part of 'feelslike.dart';
 // **************************************************************************
 
 FeelsLike _$FeelsLikeFromJson(Map<String, dynamic> json) => FeelsLike(
-      (json['day'] as num).toDouble(),
-      (json['night'] as num).toDouble(),
+      day: (json['day'] as num).toDouble(),
+      night: (json['night'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$FeelsLikeToJson(FeelsLike instance) => <String, dynamic>{

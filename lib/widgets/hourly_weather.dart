@@ -51,7 +51,7 @@ class HourlyWeather extends StatelessWidget {
               itemCount: hourly.length,
               itemBuilder: (context, index) {
                 return HourlyWeatherItem(
-                  hourly: hourly,
+                  hourly: hourly[index],
                   index: index,
                 );
               },

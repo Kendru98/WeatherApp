@@ -6,13 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class HourlyWeatherItem extends StatelessWidget {
-  const HourlyWeatherItem({
+  final DataConversionHelpers dataConversionHelpers = DataConversionHelpers();
+  HourlyWeatherItem({
     Key? key,
     required this.hourly,
     required this.index,
   }) : super(key: key);
 
-  final List<Current> hourly;
+  final Current hourly;
   final int index;
   @override
   Widget build(BuildContext context) {
@@ -23,9 +24,9 @@ class HourlyWeatherItem extends StatelessWidget {
         Text(
           index == 0
               ? 'Now'
-              : DateFormat('HH:mm').format(
+              : '${DateFormat('HH').format(
                   DateTime.now().add(Duration(hours: index)),
-                ),
+                )}:00',
           style: MyTheme.main16w600,
         ),
         const SizedBox(height: 9),
@@ -33,13 +34,14 @@ class HourlyWeatherItem extends StatelessWidget {
           width: 24,
           height: 24,
           color: MyColors.whiteBackground,
-          image: AssetImage(chooseIcon(hourly[index].weather[0].description)),
+          image: AssetImage(
+              dataConversionHelpers.chooseIcon(hourly.weather[0].description)),
         ),
         const SizedBox(height: 4),
         Text(
-            '${temperatureConversion(hourly[index].temp)}/${temperatureConversion(hourly[index].feels_like)}',
+            '${dataConversionHelpers.temperatureConversion(hourly.temp)}/${dataConversionHelpers.temperatureConversion(hourly.feelsLike)}',
             style: MyTheme.main12w400),
-        Text('${rainConversion(hourly[index].pop)} rain',
+        Text('${dataConversionHelpers.rainConversion(hourly.pop)} rain',
             style: MyTheme.main12w400),
         const SizedBox(width: 72)
       ],

@@ -7,9 +7,15 @@ part 'daily.g.dart';
 
 @JsonSerializable()
 class Daily {
-  Daily(this.feels_like, this.rain, this.pop, this.temp, this.weather);
-
-  FeelsLike feels_like;
+  Daily({
+    required this.feelsLike,
+    this.rain,
+    this.pop,
+    required this.temp,
+    required this.weather,
+  });
+  @JsonKey(name: 'feels_like')
+  FeelsLike feelsLike;
   double? rain;
   double? pop;
   Temp temp;

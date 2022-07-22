@@ -4,10 +4,10 @@ part 'feelslike.g.dart';
 
 @JsonSerializable()
 class FeelsLike {
-  FeelsLike(
-    this.day,
-    this.night,
-  );
+  FeelsLike({
+    required this.day,
+    required this.night,
+  });
   double day;
   double night;
   factory FeelsLike.fromJson(Map<String, dynamic> json) =>

@@ -23,6 +23,7 @@ class WeatherAppBar extends StatelessWidget implements PreferredSizeWidget {
           padding: const EdgeInsets.only(
             left: 16,
             right: 16,
+            top: 4,
           ),
           child: Container(
             decoration: const BoxDecoration(

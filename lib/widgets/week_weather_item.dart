@@ -1,7 +1,7 @@
 import 'package:aplikacja_pogodowa/models/daily.dart';
 import 'package:aplikacja_pogodowa/utils/constans.dart';
-import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:aplikacja_pogodowa/utils/data_conversion_helpers.dart';
+import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -15,6 +15,7 @@ class WeekWeatherItem extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
+    final DataConversionHelpers dataConversionHelpers = DataConversionHelpers();
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, bottom: 17),
       child: Row(
@@ -38,12 +39,13 @@ class WeekWeatherItem extends StatelessWidget {
                   height: 24,
                   color: MyColors.whiteBackground,
                   image: AssetImage(
-                    chooseIcon(daily[index].weather[0].description),
+                    dataConversionHelpers
+                        .chooseIcon(daily[index].weather[0].description),
                   ),
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  '${rainConversion(daily[index].pop)} rain',
+                  '${dataConversionHelpers.rainConversion(daily[index].pop)} rain',
                   style: MyTheme.main12w400,
                 ),
               ],
@@ -52,7 +54,7 @@ class WeekWeatherItem extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              '${temperatureConversion(daily[index].temp.day)}/${temperatureConversion(daily[index].temp.day)}',
+              '${dataConversionHelpers.temperatureConversion(daily[index].temp.day)}/${dataConversionHelpers.temperatureConversion(daily[index].temp.day)}',
               style: MyTheme.main12w400,
             ),
           )
