@@ -1,4 +1,5 @@
 import 'package:aplikacja_pogodowa/models/weather_item.dart';
+import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/providers/api_provider_and_data_handling.dart';
 import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
@@ -10,7 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SearchCityPage extends StatefulWidget {
-  SearchCityPage({Key? key}) : super(key: key);
+  const SearchCityPage({Key? key}) : super(key: key);
 
   @override
   State<SearchCityPage> createState() => _SearchCityPageState();
@@ -20,6 +21,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
   @override
   void dispose() {
     givenCityController.dispose();
+
     super.dispose();
   }
 
@@ -44,26 +46,34 @@ class _SearchCityPageState extends State<SearchCityPage> {
   addCityItem(String city, BuildContext context) async {
     final provider =
         Provider.of<ApiProviderAndDataHandling>(context, listen: false);
-    final ifCityExist = provider.ifCityExist(city);
-    if (ifCityExist == WeatherItem && provider.cities.length <= 5) {
-      WeatherItem existItem = ifCityExist;
-      provider.fetchData(existItem.lat, existItem.lat);
+    final WeatherItem? returnIfExist = provider.returnIfExist(city);
+    final int citiesListLength = provider.cities.length;
 
-      Navigator.pop(context);
-    } else if (provider.cities.length == 5 && ifCityExist == null) {
+    if (returnIfExist != null && citiesListLength <= 5) {
+      WeatherItem existItem = returnIfExist;
+      provider.fetchData(existItem.lat, existItem.lat);
+      Navigator.push(context,
+          MaterialPageRoute(builder: ((context) => const WeatherPage())));
+    } else if (citiesListLength == 5 && returnIfExist == null) {
       provider.cities.removeAt(0);
       provider.cityToCoords(city);
-      Navigator.pop(context);
+      Navigator.push(context,
+          MaterialPageRoute(builder: ((context) => const WeatherPage())));
     } else {
       provider.cityToCoords(city);
-      Navigator.pop(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: ((context) =>
+                  const WeatherPage()))); //still flexerror propaby bcs of keyboard?
     }
   }
 
   onSubmittedCity(String city, context) async {
+    // FocusScope.of(context).requestFocus(FocusNode());
     final provider =
         Provider.of<ApiProviderAndDataHandling>(context, listen: false);
-    if (await provider.cityNameCheck(city) == 'error') {
+    if (await provider.cityNameCheck(city) == false) {
       wrongCityDialog(context, city);
       givenCityController.clear();
     } else {
@@ -74,6 +84,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
   }
 
   final givenCityController = TextEditingController();
+  final focusNodeCity = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +96,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextField(
+                focusNode: focusNodeCity,
                 controller: givenCityController,
                 onSubmitted: (city) => onSubmittedCity(city, context),
                 cursorColor: Colors.grey,

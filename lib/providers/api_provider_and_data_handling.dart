@@ -52,7 +52,7 @@ class ApiProviderAndDataHandling extends ChangeNotifier {
         description: _currentWeather.current.weather[0].description,
         temp: _currentWeather.current.temp,
         tempFeelsLike: _currentWeather.current.feelsLike);
-    if (ifCityExist(_city) == null) {
+    if (returnIfExist(_city) == null) {
       _cities.add(weatherItem);
     }
 
@@ -60,14 +60,10 @@ class ApiProviderAndDataHandling extends ChangeNotifier {
     notifyListeners();
   }
 
-  ifCityExist(String? cityName) {
+  WeatherItem? returnIfExist(String? cityName) {
     WeatherItem? weatherItem =
         _cities.firstWhereOrNull(((element) => element.name == cityName));
-    if (weatherItem == null) {
-      return null;
-    } else {
-      return weatherItem;
-    }
+    return weatherItem;
   }
 
   String? localityNullCheck(Placemark placemark) {
@@ -80,20 +76,13 @@ class ApiProviderAndDataHandling extends ChangeNotifier {
     return localization;
   }
 
-  bool isCitiesFull(List<WeatherItem> list) {
-    if (list.length == 5) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  cityNameCheck(String cityName) async {
+  Future<bool> cityNameCheck(String cityName) async {
     try {
       await locationFromAddress(cityName);
+      return true;
     } catch (e) {
       print(e);
-      return 'error';
+      return false;
     }
   }
 }

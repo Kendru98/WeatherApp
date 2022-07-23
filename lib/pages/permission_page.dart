@@ -16,44 +16,46 @@ class PermissionPage extends StatefulWidget {
 class _PermissionPageState extends State<PermissionPage> {
   @override
   void initState() {
-    _determinePosition();
+    determinePosition();
     super.initState();
   }
 
-  Future<void> _determinePosition() async {
-    final provider =
-        Provider.of<ApiProviderAndDataHandling>(context, listen: false);
+  Future<void> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
-
-    // Test if location services are enabled.
+    final provider =
+        Provider.of<ApiProviderAndDataHandling>(context, listen: false);
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => SearchCityPage())));
-      // return Future.error('Location services are disabled.');
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      navigateToCityPage();
+      return Future.error('Location services are disabled.');
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: ((context) => SearchCityPage())));
-        // return Future.error('Location permissions are denied');
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        navigateToCityPage();
+        return Future.error('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => SearchCityPage())));
+      // Permissions are denied forever, handle appropriately.
+      navigateToCityPage();
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.lowest,
-    )
+    await Geolocator.getCurrentPosition()
         .then(
           (value) => {
             provider.initLocation(value),
@@ -63,76 +65,20 @@ class _PermissionPageState extends State<PermissionPage> {
         )
         .onError((error, stackTrace) => {
               Geolocator.getLastKnownPosition(forceAndroidLocationManager: true)
-                  .then((value) => {provider.initLocation(value!)})
+                  .then((value) =>
+                      {provider.initLocation(value!), navigateToCityPage()})
             });
+  }
+
+  void navigateToCityPage() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: ((context) => const SearchCityPage())));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: WeatherBackgroundContainer(
-        child: Column(),
-      ),
+      body: WeatherBackgroundContainer(child: Column()),
     );
   }
 }
- // Future executeOnceAfterBuild() async {
-  //   final provider =
-  //       Provider.of<ApiProviderAndDataHandling>(context, listen: false);
-  //   bool serviceEnabled;
-  //   var buttonclicked = false;
-  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  //   if (!serviceEnabled) {
-  //     showDialog(
-  //         context: context,
-  //         builder: (BuildContext context) {
-  //           return AlertDialog(
-  //             title: const Text('Włącz lokalizację aby pobrać dane'),
-  //             actions: [
-  //               TextButton(
-  //                   onPressed: () {
-  //                     buttonclicked = true;
-  //                     Navigator.of(context).pop();
-  //                   },
-  //                   child: const Text('Ok'))
-  //             ],
-  //           );
-  //         });
-  //     await Future.delayed(const Duration(seconds: 10));
-  //     if (buttonclicked) {
-  //       executeOnceAfterBuild();
-  //     }
-  //   } else {
-  // Geolocator.getCurrentPosition(
-  //   desiredAccuracy: LocationAccuracy.lowest,
-  // )
-  //     .then(
-  //       (value) => {
-  //         provider.initLocation(value),
-  //         Navigator.push(
-  //             context,
-  //             MaterialPageRoute(
-  //                 builder: ((context) => const WeatherPage())))
-  //       },
-  //     )
-  //     .onError((error, stackTrace) => {
-  //           Geolocator.getLastKnownPosition(
-  //                   forceAndroidLocationManager: true)
-  //               .then((value) => {provider.initLocation(value!)})
-  //         });
-  //}
-
-  // Future<void> checkPermission() async {
-  //   LocationPermission permission = await Geolocator.checkPermission();
-  //   if (permission == LocationPermission.denied ||
-  //       permission == LocationPermission.deniedForever) {
-  //     await Geolocator.requestPermission();
-  //   }
-  //   if (permission == LocationPermission.always ||
-  //       permission == LocationPermission.whileInUse) {
-  //     w
-  //   } else {
-  //     Navigator.push(
-  //         context, MaterialPageRoute(builder: ((context) => SearchCityPage())));
-  //   }
-  // }

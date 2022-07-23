@@ -1,4 +1,5 @@
 import 'package:aplikacja_pogodowa/models/current.dart';
+import 'package:aplikacja_pogodowa/pages/loading_screen.dart';
 import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
 import 'package:aplikacja_pogodowa/providers/api_provider_and_data_handling.dart';
 import 'package:aplikacja_pogodowa/utils/constans.dart';
@@ -18,7 +19,7 @@ class WeatherPage extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SearchCityPage(),
+        builder: (context) => const SearchCityPage(),
       ),
     );
   }
@@ -28,10 +29,7 @@ class WeatherPage extends StatelessWidget {
     final provider = Provider.of<ApiProviderAndDataHandling>(context);
 
     if (provider.isLoading) {
-      return const MaterialApp(
-        home: CircularProgressIndicator(),
-        color: MyColors.whiteBackground,
-      );
+      return const LoadingScreen();
     } else {
       Current currentWeatherData = provider.currentWeather.current;
       return Scaffold(
@@ -113,6 +111,7 @@ class WeatherPage extends StatelessWidget {
                       ],
                     ),
                     WeatherGrid(
+                      //TODO [WeatherGrid] positioning bad when text lenght changes
                       humidity: '${currentWeatherData.humidity}%',
                       pressure: '${currentWeatherData.pressure} mbar',
                       rainchance: DataConversionHelpers().rainConversion(
@@ -127,9 +126,7 @@ class WeatherPage extends StatelessWidget {
                 hourly: provider.currentWeather.hourly,
               ),
               const SizedBox(height: 16),
-              Flexible(
-                child: SevenDayWidget(daily: provider.currentWeather.daily),
-              ),
+              SevenDayWidget(daily: provider.currentWeather.daily),
             ],
           ),
         ),
