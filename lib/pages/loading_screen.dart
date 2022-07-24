@@ -9,6 +9,7 @@ class LoadingScreen extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Column(
           children: [
             Container(

@@ -52,6 +52,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
     if (returnIfExist != null && citiesListLength <= 5) {
       WeatherItem existItem = returnIfExist;
       provider.fetchData(existItem.lat, existItem.lat);
+
       Navigator.push(context,
           MaterialPageRoute(builder: ((context) => const WeatherPage())));
     } else if (citiesListLength == 5 && returnIfExist == null) {
@@ -61,16 +62,13 @@ class _SearchCityPageState extends State<SearchCityPage> {
           MaterialPageRoute(builder: ((context) => const WeatherPage())));
     } else {
       provider.cityToCoords(city);
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: ((context) =>
-                  const WeatherPage()))); //still flexerror propaby bcs of keyboard?
+      Navigator.push(context,
+          MaterialPageRoute(builder: ((context) => const WeatherPage())));
+      //RenderFlex overflowed when navigator to main screen cause of keyboard
     }
   }
 
   onSubmittedCity(String city, context) async {
-    // FocusScope.of(context).requestFocus(FocusNode());
     final provider =
         Provider.of<ApiProviderAndDataHandling>(context, listen: false);
     if (await provider.cityNameCheck(city) == false) {

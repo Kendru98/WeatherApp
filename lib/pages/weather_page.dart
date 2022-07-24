@@ -34,29 +34,29 @@ class WeatherPage extends StatelessWidget {
       Current currentWeatherData = provider.currentWeather.current;
       return Scaffold(
         backgroundColor: MyColors.whiteBackground,
-        appBar: WeatherAppBar(
-          title: Text(
-            provider.city ?? provider.currentWeather.timezone,
-            style: MyTheme.main16w600,
-          ),
-          leading: IconButton(
-            onPressed: () => onClickPlusButton(context),
-            icon: const Image(
-              width: 32,
-              height: 32,
-              color: MyColors.whiteBackground,
-              image: AssetImage('icons/akar-icons_plus.png'),
-            ),
-            color: MyColors.whiteBackground,
-          ),
-          actions: const [
-            HomepageMenu(),
-          ],
-        ),
         body: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              WeatherAppBar(
+                title: Text(
+                  provider.city ?? provider.currentWeather.timezone,
+                  style: MyTheme.main16w600,
+                ),
+                leading: IconButton(
+                  onPressed: () => onClickPlusButton(context),
+                  icon: const Image(
+                    width: 32,
+                    height: 32,
+                    color: MyColors.whiteBackground,
+                    image: AssetImage('icons/akar-icons_plus.png'),
+                  ),
+                  color: MyColors.whiteBackground,
+                ),
+                actions: const [
+                  HomepageMenu(),
+                ],
+              ),
               WeatherBackgroundContainer(
                 child: Column(
                   children: [
