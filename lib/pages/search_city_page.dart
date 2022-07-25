@@ -43,7 +43,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
     );
   }
 
-  addCityItem(String city, BuildContext context) async {
+  void addCityItem(String city, BuildContext context) async {
     final provider =
         Provider.of<ApiProviderAndDataHandling>(context, listen: false);
     final WeatherItem? returnIfExist = provider.returnIfExist(city);
@@ -67,7 +67,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
     }
   }
 
-  onSubmittedCity(String city, context) async {
+  void onSubmittedCity(String city, context) async {
     final provider =
         Provider.of<ApiProviderAndDataHandling>(context, listen: false);
     if (await provider.cityNameCheck(city) == false) {
