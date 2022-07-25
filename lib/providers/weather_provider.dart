@@ -11,6 +11,9 @@ class WeatherProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+  bool _isError = false;
+  bool get isError => _isError;
+
   final List<WeatherItem> _cities = [];
   List<WeatherItem> get cities => _cities;
 
@@ -29,35 +32,32 @@ class WeatherProvider extends ChangeNotifier {
   Future<void> initLocation(Position value) {
     _lat = value.latitude;
     _lon = value.longitude;
-    return fetchData(lat, lon);
+    return fetchData();
   }
 
-  Future<void> fetchDataByCityName(String cityName) async {
+  Future<void> fetchData() async {
     _isLoading = true;
-    fetchData(_lat, _lon);
-  }
 
-  Future<void> fetchData(double lat, double lon) async {
-    _isLoading = true;
-    List<Placemark> placemarks = await placemarkFromCoordinates(lat, lon);
-    _city = returnLocalizationName(placemarks[0]) ?? '';
+    List<Placemark> placemarks = await placemarkFromCoordinates(_lat, _lon);
+    _city = locationName(placemarks[0]) ?? '';
     final dio = Dio();
     final client = RestClient(dio);
 
     try {
-      _currentWeather = await client.getWeather('$lat', '$lon');
+      _currentWeather = await client.getWeather('$_lat', '$_lon');
     } catch (e) {
+      catcherror();
       print(e);
     }
     WeatherItem weatherItem = WeatherItem(
-        lat: lat,
-        lon: lon,
+        lat: _lat,
+        lon: _lon,
         name: _city,
         description: _currentWeather.current.weather[0].description,
         temp: _currentWeather.current.temp,
         tempFeelsLike: _currentWeather.current.feelsLike);
 
-    if (getByCityCoords(lon, lat) == null) {
+    if (getByCityCoords(_lon, _lat) == null) {
       _cities.add(weatherItem);
     }
 
@@ -73,12 +73,11 @@ class WeatherProvider extends ChangeNotifier {
     return weatherItem;
   }
 
-  String? returnLocalizationName(Placemark placemark) =>
-      placemark.locality == ''
-          ? placemark.administrativeArea
-          : placemark.locality;
+  String? locationName(Placemark placemark) => placemark.locality == ''
+      ? placemark.administrativeArea
+      : placemark.locality;
 
-  Future<bool> cityNameCheck(String cityName) async {
+  Future<bool> cityCheckAndInit(String cityName) async {
     try {
       List<Location> position = await locationFromAddress(cityName);
       if (position.isEmpty) {
@@ -92,5 +91,16 @@ class WeatherProvider extends ChangeNotifier {
       print(e);
       return false;
     }
+  }
+
+  void catcherror() {
+    _isError = true;
+    notifyListeners();
+  }
+
+  void loadagain() {
+    _isError = false;
+    _isLoading = false;
+    notifyListeners();
   }
 }

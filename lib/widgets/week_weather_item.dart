@@ -11,7 +11,7 @@ class WeekWeatherItem extends StatelessWidget {
     required this.daily,
     required this.index,
   }) : super(key: key);
-  final List<Daily> daily;
+  final Daily daily;
   final int index;
   @override
   Widget build(BuildContext context) {
@@ -39,12 +39,12 @@ class WeekWeatherItem extends StatelessWidget {
                   color: MyColors.whiteBackground,
                   image: AssetImage(
                     DataConversionHelpers.chooseIcon(
-                        daily[index].weather[0].description),
+                        daily.weather[0].description),
                   ),
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  '${DataConversionHelpers.rainConversion(daily[index].pop)} rain',
+                  '${DataConversionHelpers.rainConversion(daily.pop)} rain',
                   style: MyTheme.main12w400,
                 ),
               ],
@@ -53,7 +53,7 @@ class WeekWeatherItem extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              '${DataConversionHelpers.temperatureConversion(daily[index].temp.day)}/${DataConversionHelpers.temperatureConversion(daily[index].temp.day)}',
+              '${DataConversionHelpers.temperatureConversion(daily.temp.day)}/${DataConversionHelpers.temperatureConversion(daily.temp.night)}',
               style: MyTheme.main12w400,
             ),
           )

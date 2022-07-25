@@ -46,53 +46,35 @@ class _SearchCityPageState extends State<SearchCityPage> {
 
   void addCityItem(BuildContext context, String city) async {
     final provider = context.read<WeatherProvider>();
-    final WeatherItem? returnIfExist = provider.getByCityCoords(
+    final WeatherItem? currentItem = provider.getByCityCoords(
       provider.lat,
       provider.lon,
     );
     final int citiesListLength = provider.cities.length;
 
-    if (returnIfExist != null && citiesListLength <= 5) {
-      WeatherItem existItem = returnIfExist;
-      provider.fetchData(existItem.lat, existItem.lon);
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const WeatherPage(),
-        ),
-      );
-    } else if (citiesListLength == 5 && returnIfExist == null) {
+    if (currentItem != null && citiesListLength <= 5) {
+      provider.fetchData();
+    } else if (citiesListLength == 5 && currentItem == null) {
       provider.cities.removeAt(0);
-      provider.fetchDataByCityName(city);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const WeatherPage(),
-        ),
-      );
+      provider.fetchData();
     } else {
-      provider.fetchDataByCityName(city);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const WeatherPage(),
-        ),
-      );
+      provider.fetchData();
     }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const WeatherPage(),
+      ),
+    );
   }
 
-  void onSubmittedCity(
-    BuildContext context,
-    String city,
-  ) async {
+  void onSubmittedCity(BuildContext context, String city) async {
     final provider = Provider.of<WeatherProvider>(context, listen: false);
-    if (await provider.cityNameCheck(city) == false) {
+    if (await provider.cityCheckAndInit(city) == false) {
       wrongCityDialog(context, city);
       _givenCityController.clear();
     } else {
       addCityItem(context, city);
-
       _givenCityController.clear();
     }
   }

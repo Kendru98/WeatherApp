@@ -1,6 +1,8 @@
 import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
+import 'package:aplikacja_pogodowa/utils/constans.dart';
+import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -55,15 +57,20 @@ class _PermissionPageState extends State<PermissionPage> {
     }
 
     try {
-      Position value = await Geolocator.getCurrentPosition();
+      Position? value = await Geolocator.getCurrentPosition();
+
       await provider.initLocation(value);
       navigateToWeatherPage();
-    } on Exception catch (e) {
+    } catch (e) {
       print(e);
       Position? value = await Geolocator.getLastKnownPosition(
           forceAndroidLocationManager: true);
-      await provider.initLocation(value!);
-      navigateToWeatherPage();
+      value != null
+          ? {
+              await provider.initLocation(value),
+              navigateToWeatherPage(),
+            }
+          : navigateToCityPage();
     }
   }
 
@@ -77,10 +84,48 @@ class _PermissionPageState extends State<PermissionPage> {
         MaterialPageRoute(builder: ((context) => const WeatherPage())));
   }
 
+  void onErrorFetchDataAgain(BuildContext context) {
+    final provider = Provider.of<WeatherProvider>(context);
+    provider.loadagain();
+    determinePosition();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: WeatherBackgroundContainer(),
-    );
+    final provider = Provider.of<WeatherProvider>(context);
+    if (provider.isError) {
+      return Scaffold(
+        body: WeatherBackgroundContainer(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Spróbuj pobrać dane ponownie',
+                  style: MyTheme.main16w600,
+                ),
+                TextButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: MyColors.mainDark,
+                    elevation: 0,
+                    padding: EdgeInsets.all(4),
+                  ),
+                  onPressed: () {
+                    provider.loadagain();
+                    determinePosition();
+                  },
+                  child: Text(
+                    'Pobierz dane',
+                    style: MyTheme.main16w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    } else {
+      return const Scaffold(body: WeatherBackgroundContainer());
+    }
   }
 }

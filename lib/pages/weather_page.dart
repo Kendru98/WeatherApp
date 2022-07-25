@@ -126,7 +126,7 @@ class WeatherPage extends StatelessWidget {
                 hourly: provider.currentWeather.hourly,
               ),
               const SizedBox(height: 16),
-              SevenDayWidget(daily: provider.currentWeather.daily),
+              WeekWeather(daily: provider.currentWeather.daily),
             ],
           ),
         ),

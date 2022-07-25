@@ -17,7 +17,7 @@ class CitiesHistoryItem extends StatelessWidget {
 
   void onTapCityList(BuildContext context) {
     final provider = context.read<WeatherProvider>();
-    provider.fetchData(weatherItem.lat, weatherItem.lon);
+    provider.fetchData();
     Navigator.pop(context);
   }
 

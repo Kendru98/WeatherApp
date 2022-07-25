@@ -5,15 +5,15 @@ import 'package:aplikacja_pogodowa/widgets/week_weather_item.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-class SevenDayWidget extends StatefulWidget {
-  const SevenDayWidget({Key? key, required this.daily}) : super(key: key);
+class WeekWeather extends StatefulWidget {
+  const WeekWeather({Key? key, required this.daily}) : super(key: key);
 
   final List<Daily> daily;
   @override
-  State<SevenDayWidget> createState() => _SevenDayWidgetState();
+  State<WeekWeather> createState() => _WeekWeatherState();
 }
 
-class _SevenDayWidgetState extends State<SevenDayWidget> {
+class _WeekWeatherState extends State<WeekWeather> {
   bool _isExpanded = false;
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,8 @@ class _SevenDayWidgetState extends State<SevenDayWidget> {
                     primary: false,
                     itemCount: widget.daily.length,
                     itemBuilder: (context, index) {
-                      return WeekWeatherItem(daily: widget.daily, index: index);
+                      return WeekWeatherItem(
+                          daily: widget.daily[index], index: index);
                     },
                   ),
                 ],
