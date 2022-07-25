@@ -7,36 +7,40 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:collection/collection.dart';
 
-class ApiProviderAndDataHandling extends ChangeNotifier {
+class WeatherProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
   final List<WeatherItem> _cities = [];
   List<WeatherItem> get cities => _cities;
 
-  String? _city = '';
-  String? get city => _city;
+  String _city = '';
+  String get city => _city;
+
+  double _lat = 0;
+  double get lat => _lat;
+
+  double _lon = 0;
+  double get lon => _lon;
 
   late GetWeatherResponse _currentWeather;
   GetWeatherResponse get currentWeather => _currentWeather;
 
   Future<void> initLocation(Position value) {
-    double lat = value.latitude;
-    double lon = value.longitude;
+    _lat = value.latitude;
+    _lon = value.longitude;
     return fetchData(lat, lon);
   }
 
-  Future<void> cityToCoords(String cityName) async {
-    List<Location> locations = await locationFromAddress(cityName);
+  Future<void> fetchDataByCityName(String cityName) async {
     _isLoading = true;
-    notifyListeners();
-    fetchData(locations[0].latitude, locations[0].longitude);
+    fetchData(_lat, _lon);
   }
 
   Future<void> fetchData(double lat, double lon) async {
     _isLoading = true;
     List<Placemark> placemarks = await placemarkFromCoordinates(lat, lon);
-    _city = localityNullCheck(placemarks[0]);
+    _city = returnLocalizationName(placemarks[0]) ?? '';
     final dio = Dio();
     final client = RestClient(dio);
 
@@ -48,11 +52,12 @@ class ApiProviderAndDataHandling extends ChangeNotifier {
     WeatherItem weatherItem = WeatherItem(
         lat: lat,
         lon: lon,
-        name: _city ?? '0',
+        name: _city,
         description: _currentWeather.current.weather[0].description,
         temp: _currentWeather.current.temp,
         tempFeelsLike: _currentWeather.current.feelsLike);
-    if (returnIfExist(_city) == null) {
+
+    if (getByCityCoords(lon, lat) == null) {
       _cities.add(weatherItem);
     }
 
@@ -60,25 +65,28 @@ class ApiProviderAndDataHandling extends ChangeNotifier {
     notifyListeners();
   }
 
-  WeatherItem? returnIfExist(String? cityName) {
-    WeatherItem? weatherItem =
-        _cities.firstWhereOrNull(((element) => element.name == cityName));
+  WeatherItem? getByCityCoords(double lon, double lat) {
+    WeatherItem? weatherItem = _cities.firstWhereOrNull(
+      (element) => element.lon == lon && element.lat == lat,
+    );
+
     return weatherItem;
   }
 
-  String? localityNullCheck(Placemark placemark) {
-    String? localization;
-    if (placemark.locality == "") {
-      localization = placemark.administrativeArea;
-    } else {
-      localization = placemark.locality;
-    }
-    return localization;
-  }
+  String? returnLocalizationName(Placemark placemark) =>
+      placemark.locality == ''
+          ? placemark.administrativeArea
+          : placemark.locality;
 
   Future<bool> cityNameCheck(String cityName) async {
     try {
-      await locationFromAddress(cityName);
+      List<Location> position = await locationFromAddress(cityName);
+      if (position.isEmpty) {
+        return false;
+      }
+      _lat = position[0].latitude;
+      _lon = position[0].longitude;
+
       return true;
     } catch (e) {
       print(e);

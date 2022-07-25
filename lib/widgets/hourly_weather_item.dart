@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class HourlyWeatherItem extends StatelessWidget {
-  final DataConversionHelpers dataConversionHelpers = DataConversionHelpers();
-  HourlyWeatherItem({
+  const HourlyWeatherItem({
     Key? key,
     required this.hourly,
     required this.index,
@@ -35,13 +34,13 @@ class HourlyWeatherItem extends StatelessWidget {
           height: 24,
           color: MyColors.whiteBackground,
           image: AssetImage(
-              dataConversionHelpers.chooseIcon(hourly.weather[0].description)),
+              DataConversionHelpers.chooseIcon(hourly.weather[0].description)),
         ),
         const SizedBox(height: 4),
         Text(
-            '${dataConversionHelpers.temperatureConversion(hourly.temp)}/${dataConversionHelpers.temperatureConversion(hourly.feelsLike)}',
+            '${DataConversionHelpers.temperatureConversion(hourly.temp)}/${DataConversionHelpers.temperatureConversion(hourly.feelsLike)}',
             style: MyTheme.main12w400),
-        Text('${dataConversionHelpers.rainConversion(hourly.pop)} rain',
+        Text('${DataConversionHelpers.rainConversion(hourly.pop)} rain',
             style: MyTheme.main12w400),
         const SizedBox(width: 72)
       ],

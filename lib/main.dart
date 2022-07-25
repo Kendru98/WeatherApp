@@ -1,5 +1,5 @@
 import 'package:aplikacja_pogodowa/pages/permission_page.dart';
-import 'package:aplikacja_pogodowa/providers/api_provider_and_data_handling.dart';
+import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(
-              create: ((context) => ApiProviderAndDataHandling()))
+          ChangeNotifierProvider(create: (context) => WeatherProvider())
         ],
         child: const MaterialApp(
           title: 'Aplikacja pogodowa',

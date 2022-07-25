@@ -2,9 +2,8 @@ import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:flutter/material.dart';
 
 class WeatherBackgroundContainer extends StatelessWidget {
-  const WeatherBackgroundContainer({Key? key, required this.child})
-      : super(key: key);
-  final Widget child;
+  const WeatherBackgroundContainer({Key? key, this.child}) : super(key: key);
+  final Widget? child;
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -15,7 +15,6 @@ class WeekWeatherItem extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    final DataConversionHelpers dataConversionHelpers = DataConversionHelpers();
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, bottom: 17),
       child: Row(
@@ -39,13 +38,13 @@ class WeekWeatherItem extends StatelessWidget {
                   height: 24,
                   color: MyColors.whiteBackground,
                   image: AssetImage(
-                    dataConversionHelpers
-                        .chooseIcon(daily[index].weather[0].description),
+                    DataConversionHelpers.chooseIcon(
+                        daily[index].weather[0].description),
                   ),
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  '${dataConversionHelpers.rainConversion(daily[index].pop)} rain',
+                  '${DataConversionHelpers.rainConversion(daily[index].pop)} rain',
                   style: MyTheme.main12w400,
                 ),
               ],
@@ -54,7 +53,7 @@ class WeekWeatherItem extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              '${dataConversionHelpers.temperatureConversion(daily[index].temp.day)}/${dataConversionHelpers.temperatureConversion(daily[index].temp.day)}',
+              '${DataConversionHelpers.temperatureConversion(daily[index].temp.day)}/${DataConversionHelpers.temperatureConversion(daily[index].temp.day)}',
               style: MyTheme.main12w400,
             ),
           )

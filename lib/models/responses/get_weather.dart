@@ -1,21 +1,19 @@
 import 'package:aplikacja_pogodowa/models/current.dart';
-
+import 'package:aplikacja_pogodowa/models/daily.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import '../daily.dart';
 
 part 'get_weather.g.dart';
 
 @JsonSerializable()
 class GetWeatherResponse {
-  GetWeatherResponse(
-    this.timezone,
-    this.lat,
-    this.lon,
-    this.current,
-    this.hourly,
-    this.daily,
-  );
+  GetWeatherResponse({
+    required this.timezone,
+    required this.lat,
+    required this.lon,
+    required this.current,
+    required this.hourly,
+    required this.daily,
+  });
   String timezone;
   double lat;
   double lon;

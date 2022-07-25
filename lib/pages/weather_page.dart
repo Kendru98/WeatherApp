@@ -1,7 +1,7 @@
 import 'package:aplikacja_pogodowa/models/current.dart';
 import 'package:aplikacja_pogodowa/pages/loading_screen.dart';
 import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
-import 'package:aplikacja_pogodowa/providers/api_provider_and_data_handling.dart';
+import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:aplikacja_pogodowa/utils/data_conversion_helpers.dart';
@@ -26,7 +26,7 @@ class WeatherPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ApiProviderAndDataHandling>(context);
+    final provider = Provider.of<WeatherProvider>(context);
 
     if (provider.isLoading) {
       return const LoadingScreen();
@@ -40,7 +40,7 @@ class WeatherPage extends StatelessWidget {
             children: [
               WeatherAppBar(
                 title: Text(
-                  provider.city ?? provider.currentWeather.timezone,
+                  provider.city,
                   style: MyTheme.main16w600,
                 ),
                 leading: IconButton(
@@ -67,7 +67,7 @@ class WeatherPage extends StatelessWidget {
                           width: 120,
                           color: MyColors.whiteBackground,
                           image: AssetImage(
-                            DataConversionHelpers().chooseMainIcon(
+                            DataConversionHelpers.chooseMainIcon(
                                 currentWeatherData.weather[0].description),
                           ),
                         ),
@@ -98,7 +98,7 @@ class WeatherPage extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              DataConversionHelpers().temperatureConversion(
+                              DataConversionHelpers.temperatureConversion(
                                   currentWeatherData.temp),
                               style: MyTheme.main72w700,
                             ),
@@ -114,10 +114,10 @@ class WeatherPage extends StatelessWidget {
                       //TODO [WeatherGrid] positioning bad when text lenght changes
                       humidity: '${currentWeatherData.humidity}%',
                       pressure: '${currentWeatherData.pressure} mbar',
-                      rainchance: DataConversionHelpers().rainConversion(
+                      rainchance: DataConversionHelpers.rainConversion(
                           provider.currentWeather.hourly[0].pop),
-                      wind: DataConversionHelpers()
-                          .windConversion(currentWeatherData.windSpeed),
+                      wind: DataConversionHelpers.windConversion(
+                          currentWeatherData.windSpeed),
                     ),
                   ],
                 ),

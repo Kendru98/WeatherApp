@@ -1,5 +1,5 @@
 class DataConversionHelpers {
-  String chooseIcon(String description) {
+  static String chooseIcon(String description) {
     if (description.contains('rain')) {
       return 'icons/fluent_weather-rain-24-regular.png';
     } else if (description.contains('snow')) {
@@ -15,7 +15,7 @@ class DataConversionHelpers {
     }
   }
 
-  String chooseMainIcon(String description) {
+  static String chooseMainIcon(String description) {
     if (description.contains('clear')) {
       return 'icons/weather-sunny.png';
     } else if (description.contains('rain')) {
@@ -27,16 +27,16 @@ class DataConversionHelpers {
     }
   }
 
-  String temperatureConversion(double temperature) {
+  static String temperatureConversion(double temperature) {
     return '${(temperature.toInt() - 273.14.ceil())}°';
     //ifuserunit.kelwins => temperature.toInt()
   }
 
-  String windConversion(double? wind) {
+  static String windConversion(double? wind) {
     return '${(wind ?? 0 * 3.6).toStringAsPrecision(2)} km/h';
   }
 
-  String rainConversion(double? rain) {
+  static String rainConversion(double? rain) {
     return '${((rain ?? 0) * 100).ceil()}%';
   }
 }

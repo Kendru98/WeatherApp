@@ -1,6 +1,6 @@
 import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
-import 'package:aplikacja_pogodowa/providers/api_provider_and_data_handling.dart';
+import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -23,8 +23,7 @@ class _PermissionPageState extends State<PermissionPage> {
   Future<void> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
-    final provider =
-        Provider.of<ApiProviderAndDataHandling>(context, listen: false);
+    final provider = context.read<WeatherProvider>();
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       // Location services are not enabled don't continue
@@ -55,19 +54,17 @@ class _PermissionPageState extends State<PermissionPage> {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    await Geolocator.getCurrentPosition()
-        .then(
-          (value) => {
-            provider.initLocation(value),
-            Navigator.push(context,
-                MaterialPageRoute(builder: ((context) => const WeatherPage())))
-          },
-        )
-        .onError((error, stackTrace) => {
-              Geolocator.getLastKnownPosition(forceAndroidLocationManager: true)
-                  .then((value) =>
-                      {provider.initLocation(value!), navigateToCityPage()})
-            });
+    try {
+      Position value = await Geolocator.getCurrentPosition();
+      await provider.initLocation(value);
+      navigateToWeatherPage();
+    } on Exception catch (e) {
+      print(e);
+      Position? value = await Geolocator.getLastKnownPosition(
+          forceAndroidLocationManager: true);
+      await provider.initLocation(value!);
+      navigateToWeatherPage();
+    }
   }
 
   void navigateToCityPage() {
@@ -75,10 +72,15 @@ class _PermissionPageState extends State<PermissionPage> {
         MaterialPageRoute(builder: ((context) => const SearchCityPage())));
   }
 
+  void navigateToWeatherPage() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: ((context) => const WeatherPage())));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: WeatherBackgroundContainer(child: Column()),
+    return const Scaffold(
+      body: WeatherBackgroundContainer(),
     );
   }
 }

@@ -8,14 +8,14 @@ part of 'get_weather.dart';
 
 GetWeatherResponse _$GetWeatherResponseFromJson(Map<String, dynamic> json) =>
     GetWeatherResponse(
-      json['timezone'] as String,
-      (json['lat'] as num).toDouble(),
-      (json['lon'] as num).toDouble(),
-      Current.fromJson(json['current'] as Map<String, dynamic>),
-      (json['hourly'] as List<dynamic>)
+      timezone: json['timezone'] as String,
+      lat: (json['lat'] as num).toDouble(),
+      lon: (json['lon'] as num).toDouble(),
+      current: Current.fromJson(json['current'] as Map<String, dynamic>),
+      hourly: (json['hourly'] as List<dynamic>)
           .map((e) => Current.fromJson(e as Map<String, dynamic>))
           .toList(),
-      (json['daily'] as List<dynamic>)
+      daily: (json['daily'] as List<dynamic>)
           .map((e) => Daily.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

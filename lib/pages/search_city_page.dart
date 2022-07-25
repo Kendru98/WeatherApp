@@ -1,6 +1,6 @@
 import 'package:aplikacja_pogodowa/models/weather_item.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
-import 'package:aplikacja_pogodowa/providers/api_provider_and_data_handling.dart';
+import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:aplikacja_pogodowa/utils/constans.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
@@ -18,10 +18,11 @@ class SearchCityPage extends StatefulWidget {
 }
 
 class _SearchCityPageState extends State<SearchCityPage> {
+  final _givenCityController = TextEditingController();
+
   @override
   void dispose() {
-    givenCityController.dispose();
-
+    _givenCityController.dispose();
     super.dispose();
   }
 
@@ -43,45 +44,58 @@ class _SearchCityPageState extends State<SearchCityPage> {
     );
   }
 
-  void addCityItem(String city, BuildContext context) async {
-    final provider =
-        Provider.of<ApiProviderAndDataHandling>(context, listen: false);
-    final WeatherItem? returnIfExist = provider.returnIfExist(city);
+  void addCityItem(BuildContext context, String city) async {
+    final provider = context.read<WeatherProvider>();
+    final WeatherItem? returnIfExist = provider.getByCityCoords(
+      provider.lat,
+      provider.lon,
+    );
     final int citiesListLength = provider.cities.length;
 
     if (returnIfExist != null && citiesListLength <= 5) {
       WeatherItem existItem = returnIfExist;
-      provider.fetchData(existItem.lat, existItem.lat);
+      provider.fetchData(existItem.lat, existItem.lon);
 
-      Navigator.push(context,
-          MaterialPageRoute(builder: ((context) => const WeatherPage())));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const WeatherPage(),
+        ),
+      );
     } else if (citiesListLength == 5 && returnIfExist == null) {
       provider.cities.removeAt(0);
-      provider.cityToCoords(city);
-      Navigator.push(context,
-          MaterialPageRoute(builder: ((context) => const WeatherPage())));
+      provider.fetchDataByCityName(city);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const WeatherPage(),
+        ),
+      );
     } else {
-      provider.cityToCoords(city);
-      Navigator.push(context,
-          MaterialPageRoute(builder: ((context) => const WeatherPage())));
+      provider.fetchDataByCityName(city);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const WeatherPage(),
+        ),
+      );
     }
   }
 
-  void onSubmittedCity(String city, context) async {
-    final provider =
-        Provider.of<ApiProviderAndDataHandling>(context, listen: false);
+  void onSubmittedCity(
+    BuildContext context,
+    String city,
+  ) async {
+    final provider = Provider.of<WeatherProvider>(context, listen: false);
     if (await provider.cityNameCheck(city) == false) {
       wrongCityDialog(context, city);
-      givenCityController.clear();
+      _givenCityController.clear();
     } else {
-      addCityItem(city, context);
+      addCityItem(context, city);
 
-      givenCityController.clear();
+      _givenCityController.clear();
     }
   }
-
-  final givenCityController = TextEditingController();
-  final focusNodeCity = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -93,9 +107,8 @@ class _SearchCityPageState extends State<SearchCityPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextField(
-                focusNode: focusNodeCity,
-                controller: givenCityController,
-                onSubmitted: (city) => onSubmittedCity(city, context),
+                controller: _givenCityController,
+                onSubmitted: (city) => onSubmittedCity(context, city),
                 cursorColor: Colors.grey,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(FontAwesomeIcons.searchengin),
@@ -112,7 +125,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: Selector<ApiProviderAndDataHandling, List<WeatherItem>>(
+              child: Selector<WeatherProvider, List<WeatherItem>>(
                 selector: (_, provider) => provider.cities,
                 builder: (context, cityList, child) {
                   return ListView.builder(
