@@ -64,7 +64,6 @@ class _SearchCityPageState extends State<SearchCityPage> {
       provider.cityToCoords(city);
       Navigator.push(context,
           MaterialPageRoute(builder: ((context) => const WeatherPage())));
-      //RenderFlex overflowed when navigator to main screen cause of keyboard
     }
   }
 

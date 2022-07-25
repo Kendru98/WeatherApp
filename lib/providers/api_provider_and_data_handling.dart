@@ -20,10 +20,10 @@ class ApiProviderAndDataHandling extends ChangeNotifier {
   late GetWeatherResponse _currentWeather;
   GetWeatherResponse get currentWeather => _currentWeather;
 
-  initLocation(Position value) {
+  Future<void> initLocation(Position value) {
     double lat = value.latitude;
     double lon = value.longitude;
-    fetchData(lat, lon);
+    return fetchData(lat, lon);
   }
 
   Future<void> cityToCoords(String cityName) async {
