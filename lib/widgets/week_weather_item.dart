@@ -1,7 +1,7 @@
 import 'package:aplikacja_pogodowa/models/daily.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/utils/data_conversion_helpers.dart';
-import 'package:aplikacja_pogodowa/utils/theme.dart';
+import 'package:aplikacja_pogodowa/utils/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

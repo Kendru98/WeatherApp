@@ -1,6 +1,6 @@
 import 'package:aplikacja_pogodowa/models/daily.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
-import 'package:aplikacja_pogodowa/utils/theme.dart';
+import 'package:aplikacja_pogodowa/utils/my_theme.dart';
 import 'package:aplikacja_pogodowa/widgets/week_weather_item.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -15,7 +15,7 @@ class WeekWeather extends StatefulWidget {
 
 class _WeekWeatherState extends State<WeekWeather> {
   bool _isExpanded = false;
-  bool today = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -69,7 +69,6 @@ class _WeekWeatherState extends State<WeekWeather> {
                     primary: false,
                     itemCount: widget.daily.length,
                     itemBuilder: (context, index) {
-                      index == 0 ? today = true : today = false;
                       return WeekWeatherItem(
                         daily: widget.daily[index],
                         dayIndex: index,
