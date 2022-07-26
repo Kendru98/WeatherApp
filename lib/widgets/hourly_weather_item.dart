@@ -1,5 +1,5 @@
 import 'package:aplikacja_pogodowa/models/current.dart';
-import 'package:aplikacja_pogodowa/utils/constans.dart';
+import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:aplikacja_pogodowa/utils/data_conversion_helpers.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +9,11 @@ class HourlyWeatherItem extends StatelessWidget {
   const HourlyWeatherItem({
     Key? key,
     required this.hourly,
-    required this.index,
+    required this.hourIndex,
   }) : super(key: key);
 
   final Current hourly;
-  final int index;
+  final int hourIndex;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -21,10 +21,12 @@ class HourlyWeatherItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          index == 0
+          hourIndex == 0
               ? 'Now'
               : '${DateFormat('HH').format(
-                  DateTime.now().add(Duration(hours: index)),
+                  DateTime.now().add(
+                    Duration(hours: hourIndex),
+                  ),
                 )}:00',
           style: MyTheme.main16w600,
         ),

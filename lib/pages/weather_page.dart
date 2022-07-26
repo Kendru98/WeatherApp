@@ -2,7 +2,7 @@ import 'package:aplikacja_pogodowa/models/current.dart';
 import 'package:aplikacja_pogodowa/pages/loading_screen.dart';
 import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
-import 'package:aplikacja_pogodowa/utils/constans.dart';
+import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:aplikacja_pogodowa/utils/data_conversion_helpers.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_appbar.dart';

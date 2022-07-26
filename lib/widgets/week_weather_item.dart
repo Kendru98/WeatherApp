@@ -1,5 +1,5 @@
 import 'package:aplikacja_pogodowa/models/daily.dart';
-import 'package:aplikacja_pogodowa/utils/constans.dart';
+import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/utils/data_conversion_helpers.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +9,10 @@ class WeekWeatherItem extends StatelessWidget {
   const WeekWeatherItem({
     Key? key,
     required this.daily,
-    required this.index,
+    required this.dayIndex,
   }) : super(key: key);
   final Daily daily;
-  final int index;
+  final int dayIndex;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,10 +22,11 @@ class WeekWeatherItem extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Text(
-              index == 0
+              dayIndex == 0
                   ? 'Today'
-                  : DateFormat('E')
-                      .format(DateTime.now().add(Duration(days: index))),
+                  : DateFormat('E').format(
+                      DateTime.now().add(Duration(days: dayIndex)),
+                    ),
               style: MyTheme.main16w500,
             ),
           ),

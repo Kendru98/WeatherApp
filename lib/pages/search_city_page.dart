@@ -1,7 +1,7 @@
 import 'package:aplikacja_pogodowa/models/weather_item.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
-import 'package:aplikacja_pogodowa/utils/constans.dart';
+import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:aplikacja_pogodowa/widgets/cities_history_item.dart';
@@ -34,10 +34,11 @@ class _SearchCityPageState extends State<SearchCityPage> {
           title: Text('Nie mogę wyszukać miasta: $city'),
           actions: [
             TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Ok'))
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Ok'),
+            )
           ],
         );
       },
@@ -46,20 +47,17 @@ class _SearchCityPageState extends State<SearchCityPage> {
 
   void addCityItem(BuildContext context, String city) async {
     final provider = context.read<WeatherProvider>();
-    final WeatherItem? currentItem = provider.getByCityCoords(
-      provider.lat,
-      provider.lon,
-    );
     final int citiesListLength = provider.cities.length;
+    final WeatherItem? currentItem = provider.getByCityCoords(
+      provider.lon,
+      provider.lat,
+    );
 
-    if (currentItem != null && citiesListLength <= 5) {
-      provider.fetchData();
-    } else if (citiesListLength == 5 && currentItem == null) {
+    if (citiesListLength == 5 && currentItem == null) {
       provider.cities.removeAt(0);
-      provider.fetchData();
-    } else {
-      provider.fetchData();
     }
+
+    provider.fetchData();
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -69,14 +67,13 @@ class _SearchCityPageState extends State<SearchCityPage> {
   }
 
   void onSubmittedCity(BuildContext context, String city) async {
-    final provider = Provider.of<WeatherProvider>(context, listen: false);
+    final provider = context.read<WeatherProvider>();
     if (await provider.cityCheckAndInit(city) == false) {
       wrongCityDialog(context, city);
-      _givenCityController.clear();
     } else {
       addCityItem(context, city);
-      _givenCityController.clear();
     }
+    _givenCityController.clear();
   }
 
   @override

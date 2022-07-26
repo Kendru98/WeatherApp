@@ -1,7 +1,7 @@
 import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
-import 'package:aplikacja_pogodowa/utils/constans.dart';
+import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/utils/theme.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +63,7 @@ class _PermissionPageState extends State<PermissionPage> {
       navigateToWeatherPage();
     } catch (e) {
       print(e);
+
       Position? value = await Geolocator.getLastKnownPosition(
           forceAndroidLocationManager: true);
       value != null
@@ -70,62 +71,72 @@ class _PermissionPageState extends State<PermissionPage> {
               await provider.initLocation(value),
               navigateToWeatherPage(),
             }
-          : navigateToCityPage();
+          : {
+              navigateToCityPage(),
+              provider.catchError(),
+            };
     }
   }
 
   void navigateToCityPage() {
     Navigator.push(context,
-        MaterialPageRoute(builder: ((context) => const SearchCityPage())));
+        MaterialPageRoute(builder: (context) => const SearchCityPage()));
   }
 
   void navigateToWeatherPage() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: ((context) => const WeatherPage())));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const WeatherPage()));
   }
 
   void onErrorFetchDataAgain(BuildContext context) {
-    final provider = Provider.of<WeatherProvider>(context);
-    provider.loadagain();
+    final provider = context.read<WeatherProvider>();
+    provider.loadAgain();
     determinePosition();
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<WeatherProvider>(context);
-    if (provider.isError) {
-      return Scaffold(
+    if (!provider.isError) {
+      return const Scaffold(
         body: WeatherBackgroundContainer(
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Spróbuj pobrać dane ponownie',
-                  style: MyTheme.main16w600,
-                ),
-                TextButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: MyColors.mainDark,
-                    elevation: 0,
-                    padding: EdgeInsets.all(4),
-                  ),
-                  onPressed: () {
-                    provider.loadagain();
-                    determinePosition();
-                  },
-                  child: Text(
-                    'Pobierz dane',
-                    style: MyTheme.main16w400,
-                  ),
-                ),
-              ],
+            child: CircularProgressIndicator(
+              color: MyColors.textGreyCityItem,
             ),
           ),
         ),
       );
-    } else {
-      return const Scaffold(body: WeatherBackgroundContainer());
     }
+    return Scaffold(
+      body: WeatherBackgroundContainer(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Spróbuj pobrać dane ponownie',
+                style: MyTheme.main16w600,
+              ),
+              TextButton(
+                style: ElevatedButton.styleFrom(
+                  primary: MyColors.mainDark,
+                  elevation: 0,
+                  padding: const EdgeInsets.all(4),
+                ),
+                onPressed: () {
+                  provider.loadAgain();
+                  determinePosition();
+                },
+                child: Text(
+                  'Pobierz dane',
+                  style: MyTheme.main16w400,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

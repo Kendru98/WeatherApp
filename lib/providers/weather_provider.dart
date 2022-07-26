@@ -46,7 +46,7 @@ class WeatherProvider extends ChangeNotifier {
     try {
       _currentWeather = await client.getWeather('$_lat', '$_lon');
     } catch (e) {
-      catcherror();
+      catchError();
       print(e);
     }
     WeatherItem weatherItem = WeatherItem(
@@ -93,12 +93,12 @@ class WeatherProvider extends ChangeNotifier {
     }
   }
 
-  void catcherror() {
+  void catchError() {
     _isError = true;
     notifyListeners();
   }
 
-  void loadagain() {
+  void loadAgain() {
     _isError = false;
     _isLoading = false;
     notifyListeners();

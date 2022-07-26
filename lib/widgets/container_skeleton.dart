@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 
 class SkeletonContainer extends StatelessWidget {
@@ -14,7 +15,11 @@ class SkeletonContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.04),
       ),
-      child: const Center(child: CircularProgressIndicator()),
+      child: const Center(
+        child: CircularProgressIndicator(
+          color: MyColors.textGreyCityItem,
+        ),
+      ),
     );
   }
 }
