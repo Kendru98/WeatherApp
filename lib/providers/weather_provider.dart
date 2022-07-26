@@ -60,9 +60,13 @@ class WeatherProvider extends ChangeNotifier {
         temp: _currentWeather.current.temp,
         tempFeelsLike: _currentWeather.current.feelsLike);
 
-    if (getByCityCoords(_lon, _lat) == null) {
+    if (getByCityCoords(_lon, _lat) == null && cities.length == 5) {
+      deleteLastFromDatabase();
+      addWeatherItemToDatabase(weatherItem);
+    } else if (getByCityCoords(_lon, _lat) == null) {
       addWeatherItemToDatabase(weatherItem);
     }
+
     _cities = box.values.toList();
     _isLoading = false;
     notifyListeners();

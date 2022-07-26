@@ -10,6 +10,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(WeatherItemAdapter());
   await Hive.openBox<WeatherItem>('cities');
+
   //register adapter nad open box
   runApp(const MyApp());
 }
