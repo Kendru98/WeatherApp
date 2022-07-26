@@ -59,7 +59,7 @@ class _PermissionPageState extends State<PermissionPage> {
     try {
       Position? value = await Geolocator.getCurrentPosition();
 
-      await provider.initLocation(value);
+      await provider.initLocation(value.latitude, value.longitude);
       navigateToWeatherPage();
     } catch (e) {
       print(e);
@@ -68,7 +68,7 @@ class _PermissionPageState extends State<PermissionPage> {
           forceAndroidLocationManager: true);
       value != null
           ? {
-              await provider.initLocation(value),
+              await provider.initLocation(value.latitude, value.longitude),
               navigateToWeatherPage(),
             }
           : {

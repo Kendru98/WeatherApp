@@ -1,9 +1,16 @@
+import 'package:aplikacja_pogodowa/models/weather_item.dart';
 import 'package:aplikacja_pogodowa/pages/permission_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:flutter/material.dart';
+
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(WeatherItemAdapter());
+  await Hive.openBox<WeatherItem>('cities');
+  //register adapter nad open box
   runApp(const MyApp());
 }
 

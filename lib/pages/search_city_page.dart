@@ -54,7 +54,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
     );
 
     if (citiesListLength == 5 && currentItem == null) {
-      provider.cities.removeAt(0);
+      provider.deleteLastFromDatabase();
     }
 
     provider.fetchData();

@@ -4,8 +4,8 @@ import 'package:aplikacja_pogodowa/models/weather_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:collection/collection.dart';
+import 'package:hive/hive.dart';
 
 class WeatherProvider extends ChangeNotifier {
   bool _isLoading = false;
@@ -14,7 +14,7 @@ class WeatherProvider extends ChangeNotifier {
   bool _isError = false;
   bool get isError => _isError;
 
-  final List<WeatherItem> _cities = [];
+  List<WeatherItem> _cities = [];
   List<WeatherItem> get cities => _cities;
 
   String _city = '';
@@ -29,13 +29,16 @@ class WeatherProvider extends ChangeNotifier {
   late GetWeatherResponse _currentWeather;
   GetWeatherResponse get currentWeather => _currentWeather;
 
-  Future<void> initLocation(Position value) {
-    _lat = value.latitude;
-    _lon = value.longitude;
+  Box<WeatherItem> box = Hive.box<WeatherItem>('cities');
+
+  Future<void> initLocation(double lat, double lon) {
+    _lat = lat;
+    _lon = lon;
     return fetchData();
   }
 
   Future<void> fetchData() async {
+    _cities = box.values.toList();
     _isLoading = true;
 
     List<Placemark> placemarks = await placemarkFromCoordinates(_lat, _lon);
@@ -58,9 +61,9 @@ class WeatherProvider extends ChangeNotifier {
         tempFeelsLike: _currentWeather.current.feelsLike);
 
     if (getByCityCoords(_lon, _lat) == null) {
-      _cities.add(weatherItem);
+      addWeatherItemToDatabase(weatherItem);
     }
-
+    _cities = box.values.toList();
     _isLoading = false;
     notifyListeners();
   }
@@ -102,5 +105,13 @@ class WeatherProvider extends ChangeNotifier {
     _isError = false;
     _isLoading = false;
     notifyListeners();
+  }
+
+  void addWeatherItemToDatabase(WeatherItem weatherItem) {
+    box.add(weatherItem);
+  }
+
+  void deleteLastFromDatabase() {
+    box.deleteAt(0);
   }
 }
