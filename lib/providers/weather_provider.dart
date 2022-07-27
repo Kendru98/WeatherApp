@@ -48,26 +48,25 @@ class WeatherProvider extends ChangeNotifier {
     final client = RestClient(dio);
 
     if (citiesListLength == 5 && currentItem == null) {
-      deleteLastFromDatabase();
+      await deleteLastFromDatabase();
     }
 
     try {
       _currentWeather = await client.getWeather('$_lat', '$_lon');
     } catch (e) {
+      WeatherItem weatherItem = WeatherItem(
+          lat: _lat,
+          lon: _lon,
+          name: _city,
+          description: _currentWeather.current.weather[0].description,
+          temp: _currentWeather.current.temp,
+          tempFeelsLike: _currentWeather.current.feelsLike);
+
+      if (currentItem == null) {
+        await addWeatherItemToDatabase(weatherItem);
+      }
       catchError();
       print(e);
-    }
-    WeatherItem weatherItem = WeatherItem(
-        lat: _lat,
-        lon: _lon,
-        name: _city,
-        description: _currentWeather.current.weather[0].description,
-        temp: _currentWeather.current.temp,
-        tempFeelsLike: _currentWeather.current.feelsLike);
-
-    if (currentItem != null) {
-    } else {
-      addWeatherItemToDatabase(weatherItem);
     }
 
     _cities = box.values.toList();
@@ -111,7 +110,6 @@ class WeatherProvider extends ChangeNotifier {
   void loadAgain() {
     _isError = false;
     _isLoading = false;
-    notifyListeners();
   }
 
   Future<void> addWeatherItemToDatabase(WeatherItem weatherItem) async {

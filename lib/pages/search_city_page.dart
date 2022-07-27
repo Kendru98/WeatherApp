@@ -31,7 +31,10 @@ class _SearchCityPageState extends State<SearchCityPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Nie mogę wyszukać miasta: $city'),
+          title: Text(
+            'Nie udało się znaleźć miasta: $city, jeżeli jesteś pewien że takie miasto istnieje, sprawdz swoje połączenie z internetem.',
+            style: MyTheme.city16,
+          ),
           actions: [
             TextButton(
               onPressed: () {

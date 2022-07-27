@@ -4,6 +4,7 @@ import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/utils/my_theme.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
+import 'package:aplikacja_pogodowa/widgets/weather_error.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
@@ -58,23 +59,27 @@ class _PermissionPageState extends State<PermissionPage> {
 
     try {
       Position? value = await Geolocator.getCurrentPosition();
-
+      if (value == null) {
+        getLastPosition();
+      }
       await provider.initLocation(value.latitude, value.longitude);
       navigateToWeatherPage();
     } catch (e) {
-      print(e);
+      getLastPosition();
+    }
+  }
 
-      Position? value = await Geolocator.getLastKnownPosition(
-          forceAndroidLocationManager: true);
-      value != null
-          ? {
-              await provider.initLocation(value.latitude, value.longitude),
-              navigateToWeatherPage(),
-            }
-          : {
-              navigateToCityPage(),
-              provider.catchError(),
-            };
+  Future<void> getLastPosition() async {
+    final provider = context.read<WeatherProvider>();
+    Position? value = await Geolocator.getLastKnownPosition(
+        forceAndroidLocationManager: true);
+    if (value != null) {
+      try {
+        await provider.initLocation(value.latitude, value.longitude);
+        navigateToWeatherPage();
+      } catch (e) {
+        provider.catchError();
+      }
     }
   }
 
@@ -88,7 +93,7 @@ class _PermissionPageState extends State<PermissionPage> {
         context, MaterialPageRoute(builder: (context) => const WeatherPage()));
   }
 
-  void onErrorFetchDataAgain(BuildContext context) {
+  void onErrorFetchDataAgain() {
     final provider = context.read<WeatherProvider>();
     provider.loadAgain();
     determinePosition();
@@ -99,44 +104,20 @@ class _PermissionPageState extends State<PermissionPage> {
     final provider = Provider.of<WeatherProvider>(context);
     if (!provider.isError) {
       return const Scaffold(
-        body: WeatherBackgroundContainer(
-          child: Center(
-            child: CircularProgressIndicator(
-              color: MyColors.textGreyCityItem,
+        body: SafeArea(
+          child: WeatherBackgroundContainer(
+            topPadding: 8,
+            topRadius: 30,
+            child: Center(
+              child: CircularProgressIndicator(
+                color: MyColors.textGreyCityItem,
+              ),
             ),
           ),
         ),
       );
+    } else {
+      return WeatherError(onPressed: onErrorFetchDataAgain);
     }
-    return Scaffold(
-      body: WeatherBackgroundContainer(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Spróbuj pobrać dane ponownie',
-                style: MyTheme.main16w600,
-              ),
-              TextButton(
-                style: ElevatedButton.styleFrom(
-                  primary: MyColors.mainDark,
-                  elevation: 0,
-                  padding: const EdgeInsets.all(4),
-                ),
-                onPressed: () {
-                  provider.loadAgain();
-                  determinePosition();
-                },
-                child: Text(
-                  'Pobierz dane',
-                  style: MyTheme.main16w400,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }
