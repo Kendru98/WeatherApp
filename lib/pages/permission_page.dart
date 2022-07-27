@@ -100,20 +100,19 @@ class _PermissionPageState extends State<PermissionPage> {
     final provider = Provider.of<WeatherProvider>(context);
     if (provider.isError) {
       return WeatherError(onPressed: onErrorFetchDataAgain);
-    } else {
-      return const Scaffold(
-        body: SafeArea(
-          child: WeatherBackgroundContainer(
-            topPadding: 8,
-            topRadius: 30,
-            child: Center(
-              child: CircularProgressIndicator(
-                color: MyColors.textGreyCityItem,
-              ),
+    }
+    return const Scaffold(
+      body: SafeArea(
+        child: WeatherBackgroundContainer(
+          topPadding: 8,
+          topRadius: 30,
+          child: Center(
+            child: CircularProgressIndicator(
+              color: MyColors.textGreyCityItem,
             ),
           ),
         ),
-      );
-    }
+      ),
+    );
   }
 }
