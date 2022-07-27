@@ -44,14 +44,14 @@ class WeatherProvider extends ChangeNotifier {
     final WeatherItem? currentItem = getByCityCoords(_lon, _lat);
     List<Placemark> placemarks = await placemarkFromCoordinates(_lat, _lon);
     _city = locationName(placemarks[0]) ?? '';
-    final dio = Dio();
-    final client = RestClient(dio);
 
     if (citiesListLength == 5 && currentItem == null) {
       await deleteLastFromDatabase();
     }
 
     try {
+      final dio = Dio();
+      final client = RestClient(dio);
       _currentWeather = await client.getWeather('$_lat', '$_lon');
     } catch (e) {
       catchError();
