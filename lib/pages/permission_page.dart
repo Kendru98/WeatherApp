@@ -80,13 +80,11 @@ class _PermissionPageState extends State<PermissionPage> {
   }
 
   void navigateToCityPage() {
-    Navigator.of(context).pushNamed(SearchCityPage.routeName);
-    ModalRoute.withName('/');
+    Navigator.of(context).popAndPushNamed(SearchCityPage.routeName);
   }
 
   void navigateToWeatherPage() {
-    Navigator.of(context).pushNamed(WeatherPage.routeName);
-    ModalRoute.withName('/');
+    Navigator.of(context).popAndPushNamed(WeatherPage.routeName);
   }
 
   void onErrorFetchDataAgain() {

@@ -52,8 +52,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
     final provider = context.read<WeatherProvider>();
 
     provider.fetchData();
-    Navigator.of(context).pushNamed(WeatherPage.routeName);
-    ModalRoute.withName('/');
+    Navigator.pop(context);
   }
 
   void onSubmittedCity(BuildContext context, String city) async {
