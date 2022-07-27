@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 class SearchCityPage extends StatefulWidget {
   const SearchCityPage({Key? key}) : super(key: key);
-
+  static const routeName = '/search-city-page';
   @override
   State<SearchCityPage> createState() => _SearchCityPageState();
 }
@@ -52,12 +52,8 @@ class _SearchCityPageState extends State<SearchCityPage> {
     final provider = context.read<WeatherProvider>();
 
     provider.fetchData();
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const WeatherPage(),
-      ),
-    );
+    Navigator.of(context).pushNamed(WeatherPage.routeName);
+    ModalRoute.withName('/');
   }
 
   void onSubmittedCity(BuildContext context, String city) async {

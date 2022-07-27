@@ -1,5 +1,5 @@
 import 'package:aplikacja_pogodowa/models/current.dart';
-import 'package:aplikacja_pogodowa/pages/loading_screen.dart';
+import 'package:aplikacja_pogodowa/pages/loading_page.dart';
 import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
@@ -15,13 +15,10 @@ import 'package:provider/provider.dart';
 
 class WeatherPage extends StatelessWidget {
   const WeatherPage({Key? key}) : super(key: key);
+  static const routeName = '/weather-page';
+
   void onClickPlusButton(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SearchCityPage(),
-      ),
-    );
+    Navigator.of(context).pushNamed(SearchCityPage.routeName);
   }
 
   @override

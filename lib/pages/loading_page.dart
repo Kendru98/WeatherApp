@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class LoadingScreen extends StatelessWidget {
   const LoadingScreen({Key? key}) : super(key: key);
 
+  static const routeName = '/loading-page';
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;

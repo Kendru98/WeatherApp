@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 class PermissionPage extends StatefulWidget {
   const PermissionPage({Key? key}) : super(key: key);
-
+  static const routeName = '/permission-page';
   @override
   State<PermissionPage> createState() => _PermissionPageState();
 }
@@ -80,13 +80,13 @@ class _PermissionPageState extends State<PermissionPage> {
   }
 
   void navigateToCityPage() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const SearchCityPage()));
+    Navigator.of(context).pushNamed(SearchCityPage.routeName);
+    ModalRoute.withName('/');
   }
 
   void navigateToWeatherPage() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const WeatherPage()));
+    Navigator.of(context).pushNamed(WeatherPage.routeName);
+    ModalRoute.withName('/');
   }
 
   void onErrorFetchDataAgain() {
