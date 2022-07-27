@@ -9,6 +9,30 @@ enum Main {
   clouds,
   @JsonValue('Rain')
   rain,
+  @JsonValue('Thunderstorm')
+  thunderstorm,
+  @JsonValue('Drizzle')
+  drizzle,
+  @JsonValue('Snow')
+  snow,
+  @JsonValue('Mist')
+  mist,
+  @JsonValue('Smoke')
+  smoke,
+  @JsonValue('Haze')
+  haze,
+  @JsonValue('Dust')
+  dust,
+  @JsonValue('Fog')
+  fog,
+  @JsonValue('Sand')
+  sand,
+  @JsonValue('Ash')
+  ash,
+  @JsonValue('Squall')
+  squall,
+  @JsonValue('Tornado')
+  tornado,
 }
 
 @JsonSerializable()

@@ -47,15 +47,6 @@ class _SearchCityPageState extends State<SearchCityPage> {
 
   void addCityItem(BuildContext context, String city) async {
     final provider = context.read<WeatherProvider>();
-    final int citiesListLength = provider.cities.length;
-    final WeatherItem? currentItem = provider.getByCityCoords(
-      provider.lon,
-      provider.lat,
-    );
-
-    if (citiesListLength == 5 && currentItem == null) {
-      provider.deleteLastFromDatabase();
-    }
 
     provider.fetchData();
     Navigator.push(

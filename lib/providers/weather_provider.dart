@@ -40,11 +40,16 @@ class WeatherProvider extends ChangeNotifier {
   Future<void> fetchData() async {
     _cities = box.values.toList();
     _isLoading = true;
-
+    final int citiesListLength = cities.length;
+    final WeatherItem? currentItem = getByCityCoords(_lon, _lat);
     List<Placemark> placemarks = await placemarkFromCoordinates(_lat, _lon);
     _city = locationName(placemarks[0]) ?? '';
     final dio = Dio();
     final client = RestClient(dio);
+
+    if (citiesListLength == 5 && currentItem == null) {
+      deleteLastFromDatabase();
+    }
 
     try {
       _currentWeather = await client.getWeather('$_lat', '$_lon');
@@ -60,10 +65,8 @@ class WeatherProvider extends ChangeNotifier {
         temp: _currentWeather.current.temp,
         tempFeelsLike: _currentWeather.current.feelsLike);
 
-    if (getByCityCoords(_lon, _lat) == null && cities.length == 5) {
-      deleteLastFromDatabase();
-      addWeatherItemToDatabase(weatherItem);
-    } else if (getByCityCoords(_lon, _lat) == null) {
+    if (currentItem != null) {
+    } else {
       addWeatherItemToDatabase(weatherItem);
     }
 
@@ -111,11 +114,11 @@ class WeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addWeatherItemToDatabase(WeatherItem weatherItem) {
-    box.add(weatherItem);
+  Future<void> addWeatherItemToDatabase(WeatherItem weatherItem) async {
+    await box.add(weatherItem);
   }
 
-  void deleteLastFromDatabase() {
-    box.deleteAt(0);
+  Future<void> deleteLastFromDatabase() async {
+    await box.deleteAt(0);
   }
 }
