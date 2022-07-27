@@ -2,7 +2,6 @@ import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
-import 'package:aplikacja_pogodowa/utils/my_theme.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_error.dart';
 import 'package:flutter/material.dart';
@@ -59,9 +58,6 @@ class _PermissionPageState extends State<PermissionPage> {
 
     try {
       Position? value = await Geolocator.getCurrentPosition();
-      if (value == null) {
-        getLastPosition();
-      }
       await provider.initLocation(value.latitude, value.longitude);
       navigateToWeatherPage();
     } catch (e) {
@@ -102,7 +98,9 @@ class _PermissionPageState extends State<PermissionPage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<WeatherProvider>(context);
-    if (!provider.isError) {
+    if (provider.isError) {
+      return WeatherError(onPressed: onErrorFetchDataAgain);
+    } else {
       return const Scaffold(
         body: SafeArea(
           child: WeatherBackgroundContainer(
@@ -116,8 +114,6 @@ class _PermissionPageState extends State<PermissionPage> {
           ),
         ),
       );
-    } else {
-      return WeatherError(onPressed: onErrorFetchDataAgain);
     }
   }
 }

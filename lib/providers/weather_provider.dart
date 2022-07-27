@@ -54,21 +54,20 @@ class WeatherProvider extends ChangeNotifier {
     try {
       _currentWeather = await client.getWeather('$_lat', '$_lon');
     } catch (e) {
-      WeatherItem weatherItem = WeatherItem(
-          lat: _lat,
-          lon: _lon,
-          name: _city,
-          description: _currentWeather.current.weather[0].description,
-          temp: _currentWeather.current.temp,
-          tempFeelsLike: _currentWeather.current.feelsLike);
-
-      if (currentItem == null) {
-        await addWeatherItemToDatabase(weatherItem);
-      }
       catchError();
       print(e);
     }
+    WeatherItem weatherItem = WeatherItem(
+        lat: _lat,
+        lon: _lon,
+        name: _city,
+        description: _currentWeather.current.weather[0].description,
+        temp: _currentWeather.current.temp,
+        tempFeelsLike: _currentWeather.current.feelsLike);
 
+    if (currentItem == null) {
+      await addWeatherItemToDatabase(weatherItem);
+    }
     _cities = box.values.toList();
     _isLoading = false;
     notifyListeners();
