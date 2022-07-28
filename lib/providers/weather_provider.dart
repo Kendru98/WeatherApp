@@ -26,10 +26,14 @@ class WeatherProvider extends ChangeNotifier {
   double _lon = 0;
   double get lon => _lon;
 
-  late GetWeatherResponse _currentWeather;
-  GetWeatherResponse get currentWeather => _currentWeather;
+  GetWeatherResponse? _currentWeather;
+  GetWeatherResponse? get currentWeather => _currentWeather;
 
   Box<WeatherItem> box = Hive.box<WeatherItem>('cities');
+
+  WeatherProvider() {
+    _cities = box.values.toList();
+  }
 
   Future<void> initLocation(double lat, double lon) {
     _lat = lat;
@@ -38,8 +42,8 @@ class WeatherProvider extends ChangeNotifier {
   }
 
   Future<void> fetchData() async {
-    _cities = box.values.toList();
     _isLoading = true;
+
     final int citiesListLength = cities.length;
     final WeatherItem? currentItem = getByCityCoords(_lon, _lat);
     List<Placemark> placemarks = await placemarkFromCoordinates(_lat, _lon);
@@ -48,27 +52,25 @@ class WeatherProvider extends ChangeNotifier {
     if (citiesListLength == 5 && currentItem == null) {
       await deleteLastFromDatabase();
     }
-
+    final dio = Dio();
+    final client = RestClient(dio);
     try {
-      final dio = Dio();
-      final client = RestClient(dio);
       _currentWeather = await client.getWeather('$_lat', '$_lon');
-    } catch (e) {
-      catchError();
-      print(e);
-    }
-    WeatherItem weatherItem = WeatherItem(
+      WeatherItem weatherItem = WeatherItem(
         lat: _lat,
         lon: _lon,
         name: _city,
-        description: _currentWeather.current.weather[0].description,
-        temp: _currentWeather.current.temp,
-        tempFeelsLike: _currentWeather.current.feelsLike);
-
-    if (currentItem == null) {
-      await addWeatherItemToDatabase(weatherItem);
+        description: _currentWeather!.current.weather[0].description,
+        temp: _currentWeather!.current.temp,
+        tempFeelsLike: _currentWeather!.current.feelsLike,
+      );
+      if (currentItem == null) {
+        await addWeatherItemToDatabase(weatherItem);
+      }
+      _cities = box.values.toList();
+    } catch (e) {
+      catchError();
     }
-    _cities = box.values.toList();
     _isLoading = false;
     notifyListeners();
   }
@@ -103,12 +105,12 @@ class WeatherProvider extends ChangeNotifier {
 
   void catchError() {
     _isError = true;
-    notifyListeners();
   }
 
   void loadAgain() {
     _isError = false;
     _isLoading = false;
+    fetchData();
   }
 
   Future<void> addWeatherItemToDatabase(WeatherItem weatherItem) async {

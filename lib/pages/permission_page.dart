@@ -44,6 +44,7 @@ class _PermissionPageState extends State<PermissionPage> {
         // Android's shouldShowRequestPermissionRationale
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
+
         navigateToCityPage();
         return Future.error('Location permissions are denied');
       }
