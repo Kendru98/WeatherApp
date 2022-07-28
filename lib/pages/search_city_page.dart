@@ -27,24 +27,14 @@ class _SearchCityPageState extends State<SearchCityPage> {
   }
 
   void wrongCityDialog(BuildContext context, String city) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            'Nie udało się znaleźć miasta: $city, jeżeli jesteś pewien że takie miasto istnieje, sprawdz swoje połączenie z internetem.',
-            style: MyTheme.city16,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Ok'),
-            )
-          ],
-        );
-      },
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 7),
+        content: Text(
+          'Wpisz poprawną nazwę miasta, lub sprawdź swoje połączenie z internetem!',
+          style: MyTheme.snackBar14w400,
+        ),
+      ),
     );
   }
 

@@ -86,4 +86,11 @@ class MyTheme {
       fontWeight: FontWeight.w500,
     ),
   );
+  static final snackBar14w400 = GoogleFonts.poppins(
+    textStyle: const TextStyle(
+      color: MyColors.whiteBackground,
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+    ),
+  );
 }

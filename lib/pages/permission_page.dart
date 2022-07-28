@@ -2,6 +2,7 @@ import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
+import 'package:aplikacja_pogodowa/utils/my_theme.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_error.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +82,17 @@ class _PermissionPageState extends State<PermissionPage> {
   }
 
   void navigateToCityPage() {
-    Navigator.of(context).popAndPushNamed(SearchCityPage.routeName);
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        SearchCityPage.routeName, (Route route) => false);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 7),
+        content: Text(
+          'Lokalizacja wyłączona lub brak uprawnień, wpisz miasto aby pobrać pogodę!',
+          style: MyTheme.snackBar14w400,
+        ),
+      ),
+    );
   }
 
   void navigateToWeatherPage() {
