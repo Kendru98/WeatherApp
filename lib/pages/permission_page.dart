@@ -44,6 +44,7 @@ class _PermissionPageState extends State<PermissionPage> {
         // Android's shouldShowRequestPermissionRationale
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
+
         navigateToCityPage();
         return Future.error('Location permissions are denied');
       }
@@ -80,13 +81,17 @@ class _PermissionPageState extends State<PermissionPage> {
   }
 
   void navigateToCityPage() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const SearchCityPage()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const SearchCityPage()),
+    );
   }
 
   void navigateToWeatherPage() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const WeatherPage()));
+      context,
+      MaterialPageRoute(builder: (context) => const WeatherPage()),
+    );
   }
 
   void onErrorFetchDataAgain() {

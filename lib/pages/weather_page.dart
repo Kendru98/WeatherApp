@@ -9,6 +9,7 @@ import 'package:aplikacja_pogodowa/widgets/weather_appbar.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:aplikacja_pogodowa/widgets/homepage_exports.dart';
 import 'package:aplikacja_pogodowa/widgets/homepage_menu.dart';
+import 'package:aplikacja_pogodowa/widgets/weather_error.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,11 @@ class WeatherPage extends StatelessWidget {
     );
   }
 
+  void onClickDownloadData(BuildContext context) {
+    final provider = context.read<WeatherProvider>();
+    provider.loadAgain();
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<WeatherProvider>(context);
@@ -31,7 +37,15 @@ class WeatherPage extends StatelessWidget {
     if (provider.isLoading) {
       return const LoadingScreen();
     }
-    Current currentWeatherData = provider.currentWeather.current;
+    if (provider.isError) {
+      return WeatherError(
+        onPressed: () {
+          onClickDownloadData(context);
+        },
+      );
+    }
+    Current currentWeatherData = provider.currentWeather!.current;
+
     return Scaffold(
       backgroundColor: MyColors.whiteBackground,
       body: SingleChildScrollView(
@@ -115,7 +129,7 @@ class WeatherPage extends StatelessWidget {
                     humidity: '${currentWeatherData.humidity}%',
                     pressure: '${currentWeatherData.pressure} mbar',
                     rainchance: DataConversionHelpers.rainConversion(
-                        provider.currentWeather.hourly[0].pop),
+                        provider.currentWeather?.hourly[0].pop),
                     wind: DataConversionHelpers.windConversion(
                         currentWeatherData.windSpeed),
                   ),
@@ -123,10 +137,10 @@ class WeatherPage extends StatelessWidget {
               ),
             ),
             HourlyWeather(
-              hourly: provider.currentWeather.hourly,
+              hourly: provider.currentWeather!.hourly,
             ),
             const SizedBox(height: 16),
-            WeekWeather(daily: provider.currentWeather.daily),
+            WeekWeather(daily: provider.currentWeather!.daily),
           ],
         ),
       ),
