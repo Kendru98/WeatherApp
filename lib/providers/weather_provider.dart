@@ -26,6 +26,9 @@ class WeatherProvider extends ChangeNotifier {
   double _lon = 0;
   double get lon => _lon;
 
+  List<WeatherItem> _swiperCities = [];
+  List<WeatherItem> get swiperCities => _swiperCities;
+
   GetWeatherResponse? _currentWeather;
   GetWeatherResponse? get currentWeather => _currentWeather;
 
@@ -33,11 +36,19 @@ class WeatherProvider extends ChangeNotifier {
 
   WeatherProvider() {
     _cities = box.values.toList();
+    _swiperCities = _cities;
   }
 
   Future<void> initLocation(double lat, double lon) async {
     _lat = lat;
     _lon = lon;
+
+    return fetchData();
+  }
+
+  Future<void> swiperController(int index) async {
+    _lat = _swiperCities[index].lat;
+    _lon = _swiperCities[index].lon;
 
     return fetchData();
   }
