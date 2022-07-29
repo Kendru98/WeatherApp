@@ -135,7 +135,7 @@ class WeatherProvider extends ChangeNotifier {
       final int lastitem = _cities.lastIndexOf(_cities.last);
       if (_cities[i].lat == weatherItem.lat &&
           _cities[i].lon == weatherItem.lon) {
-        final temp = _cities[i]; //ostatni element
+        final temp = _cities[i];
         _cities.removeAt(i);
         _cities.insert(lastitem, temp);
         await box.clear();
