@@ -17,7 +17,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  dots_indicator: ^2.1.0
   json_annotation: ^4.6.0
   retrofit: '>=3.0.0 <4.0.0'
   cupertino_icons: ^1.0.2

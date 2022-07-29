@@ -84,8 +84,10 @@ class WeatherProvider extends ChangeNotifier {
 
       if (currentItem == null) {
         await addWeatherItemToDatabase(weatherItem);
-      } else if (_cities.last != currentItem) {
-        await sortCityList(weatherItem);
+      } else {
+        if (_cities.last != currentItem) {
+          await sortCityList(weatherItem);
+        } //not work when 2 localizations
       }
     } catch (e) {
       catchError();

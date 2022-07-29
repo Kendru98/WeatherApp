@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:aplikacja_pogodowa/models/current.dart';
+import 'package:aplikacja_pogodowa/models/weather_item.dart';
 import 'package:aplikacja_pogodowa/pages/loading_page.dart';
 import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
@@ -30,6 +33,8 @@ class WeatherPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final SwiperController controller = SwiperController();
+
     final provider = Provider.of<WeatherProvider>(context);
 
     if (provider.isLoading) {
@@ -42,26 +47,24 @@ class WeatherPage extends StatelessWidget {
         },
       );
     }
+
     Current currentWeatherData = provider.currentWeather!.current;
 
     return Scaffold(
       backgroundColor: MyColors.whiteBackground,
       body: Swiper(
+        controller: controller,
         pagination: const SwiperPagination(
           alignment: Alignment.topCenter,
           margin: EdgeInsets.only(top: 67),
           builder: DotSwiperPaginationBuilder(
             size: 8,
-
-            // color: MyColors.mainDark,
-            // activeColor: MyColors.mainLight,
           ),
         ),
-        // outer: true,
-        itemCount: provider.cities.length,
-        onIndexChanged: (cityIndex) {
-          print(cityIndex);
-          provider.swiperController(cityIndex);
+        itemCount: provider.swiperCities.length,
+        onIndexChanged: (value) {
+          WeatherItem weatherItem = provider.cities[controller.index];
+          provider.initLocation(weatherItem.lat, weatherItem.lon);
         },
         itemBuilder: (context, index) => SingleChildScrollView(
           child: Column(
