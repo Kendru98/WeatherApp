@@ -47,8 +47,18 @@ class WeatherPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: MyColors.whiteBackground,
       body: Swiper(
+        pagination: const SwiperPagination(
+          alignment: Alignment.topCenter,
+          margin: EdgeInsets.only(top: 67),
+          builder: DotSwiperPaginationBuilder(
+            size: 8,
+
+            // color: MyColors.mainDark,
+            // activeColor: MyColors.mainLight,
+          ),
+        ),
+        // outer: true,
         itemCount: provider.cities.length,
-        pagination: const SwiperPagination(alignment: Alignment.center),
         onIndexChanged: (cityIndex) {
           print(cityIndex);
           provider.swiperController(cityIndex);
