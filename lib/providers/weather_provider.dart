@@ -36,10 +36,10 @@ class WeatherProvider extends ChangeNotifier {
 
   WeatherProvider() {
     _cities = box.values.toList();
-    _swiperCities = _cities;
   }
 
   Future<void> initLocation(double lat, double lon) async {
+    _swiperCities = _cities;
     _lat = lat;
     _lon = lon;
 
@@ -91,6 +91,7 @@ class WeatherProvider extends ChangeNotifier {
       catchError();
     }
     _cities = box.values.toList();
+
     _isLoading = false;
     notifyListeners();
   }
@@ -135,6 +136,8 @@ class WeatherProvider extends ChangeNotifier {
 
   Future<void> addWeatherItemToDatabase(WeatherItem weatherItem) async {
     await box.add(weatherItem);
+    _cities = box.values.toList();
+    _swiperCities = _cities;
   }
 
   Future<void> deleteLastFromDatabase() async {

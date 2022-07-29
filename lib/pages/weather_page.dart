@@ -50,6 +50,7 @@ class WeatherPage extends StatelessWidget {
         itemCount: provider.cities.length,
         pagination: const SwiperPagination(alignment: Alignment.center),
         onIndexChanged: (cityIndex) {
+          print(cityIndex);
           provider.swiperController(cityIndex);
         },
         itemBuilder: (context, index) => SingleChildScrollView(
