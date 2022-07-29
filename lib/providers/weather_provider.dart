@@ -48,7 +48,6 @@ class WeatherProvider extends ChangeNotifier {
 
   Future<void> fetchData() async {
     _isLoading = true;
-
     final int citiesListLength = cities.length;
     final WeatherItem? currentItem = getByCityCoords(_lat, _lon);
     List<Placemark> placemarks = await placemarkFromCoordinates(_lat, _lon);
@@ -71,9 +70,10 @@ class WeatherProvider extends ChangeNotifier {
         temp: _currentWeather!.current.temp,
         tempFeelsLike: _currentWeather!.current.feelsLike,
       );
+
       if (currentItem == null) {
         await addWeatherItemToDatabase(weatherItem);
-      } else {
+      } else if (_cities.last != currentItem) {
         await sortCityList(weatherItem);
       }
     } catch (e) {
@@ -131,16 +131,11 @@ class WeatherProvider extends ChangeNotifier {
   }
 
   Future<void> sortCityList(WeatherItem weatherItem) async {
-    for (int i = 0; i < _cities.length - 1; i++) {
-      final int lastitem = _cities.lastIndexOf(_cities.last);
-      if (_cities[i].lat == weatherItem.lat &&
-          _cities[i].lon == weatherItem.lon) {
-        final temp = _cities[i];
-        _cities.removeAt(i);
-        _cities.insert(lastitem, temp);
-        await box.clear();
-        await box.addAll(_cities);
-      }
-    }
+    List<WeatherItem> temp = [..._cities];
+    temp.removeWhere((element) =>
+        element.lat == weatherItem.lat && element.lon == weatherItem.lon);
+    temp.add(weatherItem);
+    await box.clear();
+    await box.addAll(temp);
   }
 }
