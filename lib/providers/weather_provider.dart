@@ -35,25 +35,32 @@ class WeatherProvider extends ChangeNotifier {
     _cities = box.values.toList();
   }
 
-  Future<void> initLocation(double lat, double lon) {
+  Future<void> initLocation(double lat, double lon) async {
     _lat = lat;
     _lon = lon;
+
     return fetchData();
+  }
+
+  Future<void> loadLastLocalization() async {
+    await initLocation(_cities.last.lat, _cities.last.lon);
   }
 
   Future<void> fetchData() async {
     _isLoading = true;
 
     final int citiesListLength = cities.length;
-    final WeatherItem? currentItem = getByCityCoords(_lon, _lat);
+    final WeatherItem? currentItem = getByCityCoords(_lat, _lon);
     List<Placemark> placemarks = await placemarkFromCoordinates(_lat, _lon);
     _city = locationName(placemarks[0]) ?? '';
 
     if (citiesListLength == 5 && currentItem == null) {
       await deleteLastFromDatabase();
     }
+
     final dio = Dio();
     final client = RestClient(dio);
+
     try {
       _currentWeather = await client.getWeather('$_lat', '$_lon');
       WeatherItem weatherItem = WeatherItem(
@@ -66,16 +73,18 @@ class WeatherProvider extends ChangeNotifier {
       );
       if (currentItem == null) {
         await addWeatherItemToDatabase(weatherItem);
+      } else {
+        await sortCityList(weatherItem);
       }
-      _cities = box.values.toList();
     } catch (e) {
       catchError();
     }
+    _cities = box.values.toList();
     _isLoading = false;
     notifyListeners();
   }
 
-  WeatherItem? getByCityCoords(double lon, double lat) {
+  WeatherItem? getByCityCoords(double lat, double lon) {
     WeatherItem? weatherItem = _cities.firstWhereOrNull(
       (element) => element.lon == lon && element.lat == lat,
     );
@@ -119,5 +128,17 @@ class WeatherProvider extends ChangeNotifier {
 
   Future<void> deleteLastFromDatabase() async {
     await box.deleteAt(0);
+  }
+
+  Future<void> sortCityList(WeatherItem weatherItem) async {
+    for (int i = 0; i < _cities.length - 1; i++) {
+      final int lastitem = _cities.lastIndexOf(_cities.last);
+      if (_cities[i].lat == weatherItem.lat &&
+          _cities[i].lon == weatherItem.lon) {
+        final temp = _cities[lastitem];
+        await box.putAt(lastitem, _cities[i]);
+        await box.putAt(i, temp);
+      }
+    }
   }
 }

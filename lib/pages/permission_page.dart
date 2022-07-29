@@ -19,8 +19,23 @@ class PermissionPage extends StatefulWidget {
 class _PermissionPageState extends State<PermissionPage> {
   @override
   void initState() {
-    determinePosition();
+    fetchLastOrInit();
     super.initState();
+  }
+
+  Future<void> fetchLastOrInit() async {
+    final provider = context.read<WeatherProvider>();
+    if (provider.cities.isEmpty) {
+      determinePosition();
+    } else {
+      await provider.loadLastLocalization();
+      navigateToWeatherPage();
+    }
+  }
+
+  Future<void> initLastWeather(WeatherProvider provider) async {
+    await provider.loadLastLocalization();
+    navigateToWeatherPage();
   }
 
   Future<void> determinePosition() async {
@@ -114,7 +129,7 @@ class _PermissionPageState extends State<PermissionPage> {
     return const Scaffold(
       body: SafeArea(
         child: WeatherBackgroundContainer(
-          topPadding: 8,
+          topPadding: 4,
           topRadius: 30,
           child: Center(
             child: CircularProgressIndicator(
