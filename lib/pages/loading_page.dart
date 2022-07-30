@@ -15,7 +15,7 @@ class LoadingScreen extends StatelessWidget {
         body: Column(
           children: [
             Container(
-              height: (height / 2.2),
+              height: (height / 2.0),
               width: double.infinity,
               margin: const EdgeInsets.only(
                   left: 16, right: 16, bottom: 16, top: 4),
@@ -30,7 +30,7 @@ class LoadingScreen extends StatelessWidget {
                   end: Alignment.bottomCenter,
                 ),
               ),
-              child: Center(
+              child: const Center(
                 child: CircularProgressIndicator(
                   color: MyColors.textGreyCityItem,
                 ),

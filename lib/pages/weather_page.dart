@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:aplikacja_pogodowa/models/current.dart';
 import 'package:aplikacja_pogodowa/models/weather_item.dart';
 import 'package:aplikacja_pogodowa/pages/loading_page.dart';
@@ -55,6 +53,7 @@ class WeatherPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: MyColors.whiteBackground,
       body: Swiper(
+        //before hot restart weird swapping
         controller: controller,
         pagination: const SwiperPagination(
           alignment: Alignment.topCenter,
