@@ -47,16 +47,18 @@ class WeatherPage extends StatelessWidget {
         },
       );
     }
-
     Current currentWeatherData = provider.currentWeather!.current;
 
+    if (provider.isLoading) {
+      return const LoadingScreen();
+    }
     return Scaffold(
       backgroundColor: MyColors.whiteBackground,
       body: Swiper(
         controller: controller,
         pagination: const SwiperPagination(
           alignment: Alignment.topCenter,
-          margin: EdgeInsets.only(top: 67),
+          margin: EdgeInsets.only(top: 70),
           builder: DotSwiperPaginationBuilder(
             size: 8,
           ),
@@ -66,102 +68,107 @@ class WeatherPage extends StatelessWidget {
           WeatherItem weatherItem = provider.cities[controller.index];
           provider.initLocation(weatherItem.lat, weatherItem.lon);
         },
-        itemBuilder: (context, index) => SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              WeatherAppBar(
-                title: Text(
-                  provider.city,
-                  style: MyTheme.main16w600,
-                ),
-                leading: IconButton(
-                  onPressed: () => onClickPlusButton(context),
-                  icon: const Image(
-                    width: 32,
-                    height: 32,
-                    color: MyColors.whiteBackground,
-                    image: AssetImage('icons/akar-icons_plus.png'),
+        itemBuilder: (context, index) {
+          if (provider.isLoading) {
+            return const LoadingScreen();
+          }
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                WeatherAppBar(
+                  title: Text(
+                    provider.city,
+                    style: MyTheme.main16w600,
                   ),
-                  color: MyColors.whiteBackground,
-                ),
-                actions: const [
-                  HomepageMenu(),
-                ],
-              ),
-              WeatherBackgroundContainer(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image(
-                          width: 120,
-                          color: MyColors.whiteBackground,
-                          image: AssetImage(
-                            DataConversionHelpers.chooseMainIcon(
-                                currentWeatherData.weather[0].description),
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  DateFormat('EEEE').format(DateTime.now()),
-                                  style: MyTheme.main16w400,
-                                ),
-                                const SizedBox(width: 11),
-                                const SizedBox(
-                                  height: 19,
-                                  child: VerticalDivider(
-                                    color: Colors.white,
-                                    width: 2,
-                                    thickness: 2,
-                                  ),
-                                ),
-                                const SizedBox(width: 11),
-                                Text(
-                                  DateFormat('MMM d').format(DateTime.now()),
-                                  style: MyTheme.main16w400,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              DataConversionHelpers.temperatureConversion(
-                                  currentWeatherData.temp),
-                              style: MyTheme.main72w700,
-                            ),
-                            Text(
-                              currentWeatherData.weather[0].description,
-                              style: MyTheme.main16w400,
-                            ),
-                          ],
-                        ),
-                      ],
+                  leading: IconButton(
+                    onPressed: () => onClickPlusButton(context),
+                    icon: const Image(
+                      width: 32,
+                      height: 32,
+                      color: MyColors.whiteBackground,
+                      image: AssetImage('icons/akar-icons_plus.png'),
                     ),
-                    WeatherGrid(
-                      //TODO [WeatherGrid] positioning bad when text lenght changes
-                      humidity: '${currentWeatherData.humidity}%',
-                      pressure: '${currentWeatherData.pressure} mbar',
-                      rainchance: DataConversionHelpers.rainConversion(
-                          provider.currentWeather?.hourly[0].pop),
-                      wind: DataConversionHelpers.windConversion(
-                          currentWeatherData.windSpeed),
-                    ),
+                    color: MyColors.whiteBackground,
+                  ),
+                  actions: const [
+                    HomepageMenu(),
                   ],
                 ),
-              ),
-              HourlyWeather(
-                hourly: provider.currentWeather!.hourly,
-              ),
-              const SizedBox(height: 16),
-              WeekWeather(daily: provider.currentWeather!.daily),
-            ],
-          ),
-        ),
+                WeatherBackgroundContainer(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image(
+                            width: 120,
+                            color: MyColors.whiteBackground,
+                            image: AssetImage(
+                              DataConversionHelpers.chooseMainIcon(
+                                  currentWeatherData.weather[0].description),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    DateFormat('EEEE').format(DateTime.now()),
+                                    style: MyTheme.main16w400,
+                                  ),
+                                  const SizedBox(width: 11),
+                                  const SizedBox(
+                                    height: 19,
+                                    child: VerticalDivider(
+                                      color: Colors.white,
+                                      width: 2,
+                                      thickness: 2,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 11),
+                                  Text(
+                                    DateFormat('MMM d').format(DateTime.now()),
+                                    style: MyTheme.main16w400,
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                DataConversionHelpers.temperatureConversion(
+                                    currentWeatherData.temp),
+                                style: MyTheme.main72w700,
+                              ),
+                              Text(
+                                currentWeatherData.weather[0].description,
+                                style: MyTheme.main16w400,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      WeatherGrid(
+                        //TODO [WeatherGrid] positioning bad when text lenght changes
+                        humidity: '${currentWeatherData.humidity}%',
+                        pressure: '${currentWeatherData.pressure} mbar',
+                        rainchance: DataConversionHelpers.rainConversion(
+                            provider.currentWeather?.hourly[0].pop),
+                        wind: DataConversionHelpers.windConversion(
+                            currentWeatherData.windSpeed),
+                      ),
+                    ],
+                  ),
+                ),
+                HourlyWeather(
+                  hourly: provider.currentWeather!.hourly,
+                ),
+                const SizedBox(height: 16),
+                WeekWeather(daily: provider.currentWeather!.daily),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

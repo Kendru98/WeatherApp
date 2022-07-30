@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/widgets/container_skeleton.dart';
 import 'package:flutter/material.dart';
 
@@ -14,20 +15,29 @@ class LoadingScreen extends StatelessWidget {
         body: Column(
           children: [
             Container(
-              margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+              height: (height / 2.2),
+              width: double.infinity,
+              margin: const EdgeInsets.only(
+                  left: 16, right: 16, bottom: 16, top: 4),
               decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30),
+                ),
+                gradient: LinearGradient(
+                  colors: [MyColors.mainLight, MyColors.mainDark],
+                  begin: Alignment.center,
+                  end: Alignment.bottomCenter,
                 ),
               ),
-              child: SkeletonContainer(
-                height: (height / 2),
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: MyColors.textGreyCityItem,
+                ),
               ),
             ),
             SkeletonContainer(
-              height: (height / 4.5),
+              height: (height / 5),
             ),
             const SizedBox(height: 16),
           ],

@@ -12,8 +12,12 @@ class SkeletonContainer extends StatelessWidget {
       height: height,
       width: width,
       padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.04),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [MyColors.mainLight, MyColors.mainDark],
+          begin: Alignment.center,
+          end: Alignment.bottomCenter,
+        ),
       ),
       child: const Center(
         child: CircularProgressIndicator(
