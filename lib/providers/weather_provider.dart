@@ -45,14 +45,15 @@ class WeatherProvider extends ChangeNotifier {
     return fetchData();
   }
 
-  Future<void> swiperController(int index) async {
-    _lat = _cities[index].lat;
-    _lon = _cities[index].lon;
-
-    return fetchData();
+  Future<void> initLocationFromCityList(double lat, double lon) async {
+    _lat = lat;
+    _lon = lon;
+    await fetchData();
+    swiperList();
   }
 
   Future<void> loadLastLocalization() async {
+    swiperList();
     await initLocation(_cities.last.lat, _cities.last.lon);
   }
 
@@ -138,7 +139,11 @@ class WeatherProvider extends ChangeNotifier {
   Future<void> addWeatherItemToDatabase(WeatherItem weatherItem) async {
     await box.add(weatherItem);
     _cities = box.values.toList();
-    _swiperCities = _cities;
+    swiperList();
+  }
+
+  void swiperList() {
+    _swiperCities = _cities.reversed.toList();
   }
 
   Future<void> deleteLastFromDatabase() async {

@@ -33,9 +33,7 @@ class WeatherPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<WeatherProvider>(context);
-    if (provider.isLoading) {
-      return const LoadingScreen();
-    }
+
     if (provider.isError) {
       return WeatherError(
         onPressed: () {
@@ -44,16 +42,21 @@ class WeatherPage extends StatelessWidget {
       );
     }
     Current currentWeatherData = provider.currentWeather!.current;
-
+    if (provider.isLoading) {
+      return const LoadingScreen();
+    }
     return Scaffold(
       backgroundColor: MyColors.whiteBackground,
       body: Swiper(
-        itemCount: provider.cities.length,
+        itemCount: provider.swiperCities.length,
         onIndexChanged: (value) {
-          WeatherItem currentWeatherItem = provider.cities[0];
+          WeatherItem currentWeatherItem = provider.swiperCities[value];
           provider.initLocation(currentWeatherItem.lat, currentWeatherItem.lon);
         },
         itemBuilder: (context, index) {
+          if (provider.isLoading) {
+            return const LoadingScreen();
+          }
           return SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -81,7 +84,7 @@ class WeatherPage extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 20,
+                        height: 12,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -118,6 +121,7 @@ class WeatherPage extends StatelessWidget {
                           ],
                         ),
                       ),
+                      const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
