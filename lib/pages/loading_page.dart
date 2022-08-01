@@ -41,24 +41,6 @@ class LoadingScreen extends StatelessWidget {
               height: (height / 5),
             ),
             const SizedBox(height: 26),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Forecast for 7 Days',
-                  style: MyTheme.main16w500b,
-                ),
-                const SizedBox(width: 4),
-                const Image(
-                  width: 24,
-                  height: 24,
-                  color: MyColors.mainDark,
-                  image: AssetImage(
-                    'icons/arrowdownward.png',
-                  ),
-                ),
-              ],
-            ),
           ],
         ),
       ),
