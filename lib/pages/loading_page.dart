@@ -1,5 +1,4 @@
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
-import 'package:aplikacja_pogodowa/utils/my_theme.dart';
 import 'package:aplikacja_pogodowa/widgets/container_skeleton.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +18,11 @@ class LoadingScreen extends StatelessWidget {
               height: (height / 2.0),
               width: double.infinity,
               margin: const EdgeInsets.only(
-                  left: 16, right: 16, bottom: 16, top: 4),
+                left: 16,
+                right: 16,
+                bottom: 16,
+                top: 4,
+              ),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(

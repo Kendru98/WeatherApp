@@ -26,6 +26,9 @@ class WeatherProvider extends ChangeNotifier {
   double _lon = 0;
   double get lon => _lon;
 
+  List<WeatherItem> _swiperCities = [];
+  List<WeatherItem> get swiperCities => _swiperCities;
+
   GetWeatherResponse? _currentWeather;
   GetWeatherResponse? get currentWeather => _currentWeather;
 
@@ -135,6 +138,7 @@ class WeatherProvider extends ChangeNotifier {
   Future<void> addWeatherItemToDatabase(WeatherItem weatherItem) async {
     await box.add(weatherItem);
     _cities = box.values.toList();
+    _swiperCities = _cities;
   }
 
   Future<void> deleteLastFromDatabase() async {

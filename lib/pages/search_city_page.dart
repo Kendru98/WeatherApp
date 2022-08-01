@@ -42,8 +42,10 @@ class _SearchCityPageState extends State<SearchCityPage> {
     final provider = context.read<WeatherProvider>();
 
     provider.fetchData();
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil(WeatherPage.routeName, (Route route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      WeatherPage.routeName,
+      (Route route) => false,
+    );
   }
 
   void onSubmittedCity(BuildContext context, String city) async {

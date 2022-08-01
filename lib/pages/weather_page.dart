@@ -12,6 +12,7 @@ import 'package:aplikacja_pogodowa/widgets/homepage_exports.dart';
 import 'package:aplikacja_pogodowa/widgets/homepage_menu.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_error.dart';
 import 'package:card_swiper/card_swiper.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,6 @@ class WeatherPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<WeatherProvider>(context);
-
     if (provider.isLoading) {
       return const LoadingScreen();
     }
@@ -45,28 +45,15 @@ class WeatherPage extends StatelessWidget {
     }
     Current currentWeatherData = provider.currentWeather!.current;
 
-    if (provider.isLoading) {
-      return const LoadingScreen();
-    }
     return Scaffold(
       backgroundColor: MyColors.whiteBackground,
       body: Swiper(
-        pagination: const SwiperPagination(
-          alignment: Alignment.topCenter,
-          margin: EdgeInsets.only(top: 70),
-          builder: DotSwiperPaginationBuilder(
-            size: 7,
-          ),
-        ),
         itemCount: provider.cities.length,
         onIndexChanged: (value) {
           WeatherItem currentWeatherItem = provider.cities[0];
           provider.initLocation(currentWeatherItem.lat, currentWeatherItem.lon);
         },
         itemBuilder: (context, index) {
-          if (provider.isLoading) {
-            return const LoadingScreen();
-          }
           return SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -93,6 +80,44 @@ class WeatherPage extends StatelessWidget {
                 WeatherBackgroundContainer(
                   child: Column(
                     children: [
+                      SizedBox(
+                        height: 20,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: provider.cities.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, i) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(left: 4),
+                                  child: Row(
+                                    children: [
+                                      index == i
+                                          ? const CircleAvatar(
+                                              radius: 6,
+                                              backgroundColor:
+                                                  MyColors.whiteBackground,
+                                            )
+                                          : const CircleAvatar(
+                                              radius: 6,
+                                              backgroundColor:
+                                                  MyColors.whiteBackground,
+                                              child: CircleAvatar(
+                                                radius: 5,
+                                                backgroundColor:
+                                                    MyColors.mainLight,
+                                              ),
+                                            ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
