@@ -26,9 +26,6 @@ class WeatherProvider extends ChangeNotifier {
   double _lon = 0;
   double get lon => _lon;
 
-  List<WeatherItem> _swiperCities = [];
-  List<WeatherItem> get swiperCities => _swiperCities;
-
   GetWeatherResponse? _currentWeather;
   GetWeatherResponse? get currentWeather => _currentWeather;
 
@@ -39,7 +36,6 @@ class WeatherProvider extends ChangeNotifier {
   }
 
   Future<void> initLocation(double lat, double lon) async {
-    _swiperCities = _cities;
     _lat = lat;
     _lon = lon;
 
@@ -47,8 +43,8 @@ class WeatherProvider extends ChangeNotifier {
   }
 
   Future<void> swiperController(int index) async {
-    _lat = _swiperCities[index].lat;
-    _lon = _swiperCities[index].lon;
+    _lat = _cities[index].lat;
+    _lon = _cities[index].lon;
 
     return fetchData();
   }
@@ -87,7 +83,7 @@ class WeatherProvider extends ChangeNotifier {
       } else {
         if (_cities.last != currentItem) {
           await sortCityList(weatherItem);
-        } //not work when 2 localizations
+        }
       }
     } catch (e) {
       catchError();
@@ -139,7 +135,6 @@ class WeatherProvider extends ChangeNotifier {
   Future<void> addWeatherItemToDatabase(WeatherItem weatherItem) async {
     await box.add(weatherItem);
     _cities = box.values.toList();
-    _swiperCities = _cities;
   }
 
   Future<void> deleteLastFromDatabase() async {

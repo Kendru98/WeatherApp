@@ -1,4 +1,5 @@
 import 'package:aplikacja_pogodowa/models/weather_item.dart';
+import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/utils/my_theme.dart';
@@ -41,7 +42,8 @@ class _SearchCityPageState extends State<SearchCityPage> {
     final provider = context.read<WeatherProvider>();
 
     provider.fetchData();
-    Navigator.pop(context);
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(WeatherPage.routeName, (Route route) => false);
   }
 
   void onSubmittedCity(BuildContext context, String city) async {
@@ -52,6 +54,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
       addCityItem(context, city);
     }
     _givenCityController.clear();
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   @override

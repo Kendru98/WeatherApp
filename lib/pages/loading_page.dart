@@ -1,4 +1,5 @@
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
+import 'package:aplikacja_pogodowa/utils/my_theme.dart';
 import 'package:aplikacja_pogodowa/widgets/container_skeleton.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +40,25 @@ class LoadingScreen extends StatelessWidget {
             SkeletonContainer(
               height: (height / 5),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 26),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Forecast for 7 Days',
+                  style: MyTheme.main16w500b,
+                ),
+                const SizedBox(width: 4),
+                const Image(
+                  width: 24,
+                  height: 24,
+                  color: MyColors.mainDark,
+                  image: AssetImage(
+                    'icons/arrowdownward.png',
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),

@@ -31,8 +31,6 @@ class WeatherPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SwiperController controller = SwiperController();
-
     final provider = Provider.of<WeatherProvider>(context);
 
     if (provider.isLoading) {
@@ -53,19 +51,17 @@ class WeatherPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: MyColors.whiteBackground,
       body: Swiper(
-        //before hot restart weird swapping
-        controller: controller,
         pagination: const SwiperPagination(
           alignment: Alignment.topCenter,
           margin: EdgeInsets.only(top: 70),
           builder: DotSwiperPaginationBuilder(
-            size: 8,
+            size: 7,
           ),
         ),
-        itemCount: provider.swiperCities.length,
+        itemCount: provider.cities.length,
         onIndexChanged: (value) {
-          WeatherItem weatherItem = provider.cities[controller.index];
-          provider.initLocation(weatherItem.lat, weatherItem.lon);
+          WeatherItem currentWeatherItem = provider.cities[0];
+          provider.initLocation(currentWeatherItem.lat, currentWeatherItem.lon);
         },
         itemBuilder: (context, index) {
           if (provider.isLoading) {
