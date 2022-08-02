@@ -8,6 +8,7 @@ import 'package:aplikacja_pogodowa/widgets/cities_history_item.dart';
 import 'package:aplikacja_pogodowa/widgets/shared_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:provider/provider.dart';
 
 class SearchCityPage extends StatefulWidget {
@@ -40,8 +41,8 @@ class _SearchCityPageState extends State<SearchCityPage> {
 
   void addCityItem(BuildContext context, String city) async {
     final provider = context.read<WeatherProvider>();
-
-    provider.fetchData();
+    final Location position = provider.position[0];
+    provider.fetchData(position.latitude, position.longitude);
     Navigator.of(context).pushNamedAndRemoveUntil(
       WeatherPage.routeName,
       (Route route) => false,

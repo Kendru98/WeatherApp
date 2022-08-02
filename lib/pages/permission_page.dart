@@ -1,4 +1,3 @@
-import 'package:aplikacja_pogodowa/models/weather_item.dart';
 import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
@@ -26,19 +25,17 @@ class _PermissionPageState extends State<PermissionPage> {
 
   Future<void> fetchLastOrInit() async {
     final provider = context.read<WeatherProvider>();
-    WeatherItem weatherItem = provider.cities.first;
+
     if (provider.cities.isEmpty) {
       determinePosition();
     } else {
-      await provider.initLocation(weatherItem.lat, weatherItem.lon);
       navigateToWeatherPage();
     }
   }
 
   Future<void> initLastWeather(WeatherProvider provider) async {
-    WeatherItem weatherItem = provider.cities.first;
-    await provider.initLocation(weatherItem.lat, weatherItem.lon);
-    navigateToWeatherPage();
+    // provider.getWeatherForCity(provider.cities.first);
+    navigateToWeatherPage(); //do mainpage gdzie selector pokaze liste
   }
 
   Future<void> determinePosition() async {
@@ -78,7 +75,7 @@ class _PermissionPageState extends State<PermissionPage> {
 
     try {
       Position? value = await Geolocator.getCurrentPosition();
-      await provider.initLocation(value.latitude, value.longitude);
+      await provider.fetchData(value.latitude, value.longitude);
       navigateToWeatherPage();
     } catch (e) {
       getLastPosition();
@@ -91,7 +88,7 @@ class _PermissionPageState extends State<PermissionPage> {
         forceAndroidLocationManager: true);
     if (value != null) {
       try {
-        await provider.initLocation(value.latitude, value.longitude);
+        await provider.fetchData(value.latitude, value.longitude);
         navigateToWeatherPage();
       } catch (e) {
         provider.catchError();
