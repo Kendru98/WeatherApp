@@ -96,7 +96,6 @@ class _SearchCityPageState extends State<SearchCityPage> {
                     itemBuilder: (context, index) {
                       return CitiesHistoryItem(
                         weatherItem: cityList[index],
-                        isFirst: index == 0,
                       );
                     },
                   );
