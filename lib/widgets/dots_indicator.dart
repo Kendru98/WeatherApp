@@ -5,11 +5,11 @@ class DotsIndicator extends StatelessWidget {
   const DotsIndicator({
     Key? key,
     required this.listLength,
-    required this.index,
+    required this.currentDotIndex,
   }) : super(key: key);
 
   final int listLength;
-  final int index;
+  final int currentDotIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class DotsIndicator extends StatelessWidget {
         itemBuilder: (context, dotsIndex) {
           return Padding(
             padding: const EdgeInsets.only(left: 4),
-            child: index == dotsIndex
+            child: currentDotIndex == dotsIndex
                 ? const CircleAvatar(
                     radius: 6,
                     backgroundColor: MyColors.whiteBackground,

@@ -19,18 +19,11 @@ class WeatherGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Divider(
-              thickness: 1,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -58,6 +51,37 @@ class WeatherGrid extends StatelessWidget {
                   )
                 ],
               ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  const Image(
+                    width: 32,
+                    height: 32,
+                    color: MyColors.whiteBackground,
+                    image: AssetImage(
+                      'icons/pressure.png',
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        pressure,
+                        style: MyTheme.main12w400,
+                      ),
+                      Text(
+                        'Pressure',
+                        style: MyTheme.main12w400,
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Row(
                 children: [
                   const Image(
@@ -84,37 +108,7 @@ class WeatherGrid extends StatelessWidget {
                   )
                 ],
               ),
-            ],
-          ),
-          const SizedBox(height: 22),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
-                children: [
-                  const Image(
-                    width: 32,
-                    height: 32,
-                    color: MyColors.whiteBackground,
-                    image: AssetImage(
-                      'icons/pressure.png',
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        pressure,
-                        style: MyTheme.main12w400,
-                      ),
-                      Text(
-                        'Pressure',
-                        style: MyTheme.main12w400,
-                      )
-                    ],
-                  )
-                ],
-              ),
+              const SizedBox(height: 8),
               Row(
                 children: [
                   const Image(

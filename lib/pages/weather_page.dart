@@ -1,5 +1,3 @@
-import 'package:aplikacja_pogodowa/models/current.dart';
-import 'package:aplikacja_pogodowa/models/daily.dart';
 import 'package:aplikacja_pogodowa/models/weather_item.dart';
 import 'package:aplikacja_pogodowa/pages/loading_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
@@ -32,9 +30,7 @@ class WeatherPage extends StatelessWidget {
         },
       );
     }
-    Current currentWeatherData = provider.currentWeather!.current;
-    List<Current> hourlyWeatherData = provider.currentWeather!.hourly;
-    List<Daily> currentWeatherDaily = provider.currentWeather!.daily;
+
     return Scaffold(
       backgroundColor: MyColors.whiteBackground,
       body: Swiper(
@@ -48,9 +44,7 @@ class WeatherPage extends StatelessWidget {
             cityname: provider.city,
             cityLength: provider.cities.length,
             index: index,
-            currentWeather: currentWeatherData,
-            hourlyWeather: hourlyWeatherData,
-            dailyWeather: currentWeatherDaily,
+            currentWeather: provider.currentWeather,
           );
         },
       ),

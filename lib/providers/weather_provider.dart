@@ -42,15 +42,11 @@ class WeatherProvider extends ChangeNotifier {
     return fetchData();
   }
 
-  Future<void> loadLastLocalization() async {
-    await initLocation(_cities.first.lat, _cities.first.lon);
-  }
-
   Future<void> fetchDataAndSort(WeatherItem weatherItem) async {
     if (_cities.first != weatherItem) {
-      await sortCityList(weatherItem);
+      await setMainCity(weatherItem);
     }
-    await fetchData();
+    await initLocation(weatherItem.lat, weatherItem.lon);
   }
 
   Future<void> fetchData() async {
@@ -130,7 +126,6 @@ class WeatherProvider extends ChangeNotifier {
 
   Future<void> addWeatherItemToDatabase(WeatherItem weatherItem) async {
     List<WeatherItem> temp = [..._cities];
-    _cities.insert(0, weatherItem);
     temp.insert(0, weatherItem);
     await box.clear();
     await box.addAll(temp);
@@ -142,7 +137,7 @@ class WeatherProvider extends ChangeNotifier {
     _cities = box.values.toList();
   }
 
-  Future<void> sortCityList(WeatherItem weatherItem) async {
+  Future<void> setMainCity(WeatherItem weatherItem) async {
     List<WeatherItem> temp = [..._cities];
     temp.removeWhere((element) =>
         element.lat == weatherItem.lat && element.lon == weatherItem.lon);

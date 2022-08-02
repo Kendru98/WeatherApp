@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/models/weather_item.dart';
 import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
@@ -25,16 +26,18 @@ class _PermissionPageState extends State<PermissionPage> {
 
   Future<void> fetchLastOrInit() async {
     final provider = context.read<WeatherProvider>();
+    WeatherItem weatherItem = provider.cities.first;
     if (provider.cities.isEmpty) {
       determinePosition();
     } else {
-      await provider.loadLastLocalization();
+      await provider.initLocation(weatherItem.lat, weatherItem.lon);
       navigateToWeatherPage();
     }
   }
 
   Future<void> initLastWeather(WeatherProvider provider) async {
-    await provider.loadLastLocalization();
+    WeatherItem weatherItem = provider.cities.first;
+    await provider.initLocation(weatherItem.lat, weatherItem.lon);
     navigateToWeatherPage();
   }
 
