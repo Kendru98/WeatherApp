@@ -45,6 +45,8 @@ class WeatherPage extends StatelessWidget {
         },
         itemBuilder: (context, index) {
           return WeatherSwiperItem(
+            cityname: provider.city,
+            cityLength: provider.cities.length,
             index: index,
             currentWeather: currentWeatherData,
             hourlyWeather: hourlyWeatherData,

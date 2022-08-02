@@ -90,13 +90,15 @@ class _SearchCityPageState extends State<SearchCityPage> {
               child: Selector<WeatherProvider, List<WeatherItem>>(
                 selector: (_, provider) => provider.cities,
                 builder: (context, cityList, child) {
+                  bool isFirst = false;
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: cityList.length,
                     itemBuilder: (context, index) {
+                      index == 0 ? isFirst = true : isFirst = false;
                       return CitiesHistoryItem(
                         weatherItem: cityList[index],
-                        index: index,
+                        isFirst: isFirst,
                       );
                     },
                   );

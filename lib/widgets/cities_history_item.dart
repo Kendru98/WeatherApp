@@ -10,12 +10,11 @@ import 'package:provider/provider.dart';
 class CitiesHistoryItem extends StatelessWidget {
   const CitiesHistoryItem({
     Key? key,
-    required this.index,
     required this.weatherItem,
+    required this.isFirst,
   }) : super(key: key);
   final WeatherItem weatherItem;
-  final int index;
-
+  final bool isFirst;
   void onTapCityList(BuildContext context) {
     final provider = context.read<WeatherProvider>();
     provider.fetchDataAndSort(weatherItem);
@@ -38,11 +37,29 @@ class CitiesHistoryItem extends StatelessWidget {
       ),
       child: ListTile(
         onTap: () => onTapCityList(context),
-        title: Text(
-          textAlign: TextAlign.left,
-          weatherItem.name,
-          style: MyTheme.city16,
-        ),
+        title: isFirst == true
+            ? Row(
+                children: [
+                  Text(
+                    textAlign: TextAlign.left,
+                    weatherItem.name,
+                    style: MyTheme.city16,
+                  ),
+                  const SizedBox(width: 4),
+                  const Image(
+                    width: 16,
+                    height: 16,
+                    image: AssetImage(
+                      'icons/ph_map-pin.png',
+                    ),
+                  ),
+                ],
+              )
+            : Text(
+                textAlign: TextAlign.left,
+                weatherItem.name,
+                style: MyTheme.city16,
+              ),
         subtitle: Text(
           textAlign: TextAlign.left,
           '${DataConversionHelpers.temperatureConversion(weatherItem.temp)}/${DataConversionHelpers.temperatureConversion(weatherItem.tempFeelsLike)}',

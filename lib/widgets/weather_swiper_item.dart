@@ -21,25 +21,28 @@ class WeatherSwiperItem extends StatelessWidget {
     required this.currentWeather,
     required this.dailyWeather,
     required this.hourlyWeather,
+    required this.cityname,
+    required this.cityLength,
   }) : super(key: key);
   final Current currentWeather;
   final int index;
   final List<Current> hourlyWeather;
   final List<Daily> dailyWeather;
+  final String cityname;
+  final int cityLength;
   void onClickPlusButton(BuildContext context) {
     Navigator.of(context).pushNamed(SearchCityPage.routeName);
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<WeatherProvider>();
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           WeatherAppBar(
             title: Text(
-              provider.city,
+              cityname,
               style: MyTheme.main16w600,
             ),
             leading: IconButton(
@@ -59,7 +62,7 @@ class WeatherSwiperItem extends StatelessWidget {
           WeatherBackgroundContainer(
             child: Column(
               children: [
-                DotsIndicator(listLength: provider.cities.length, index: index),
+                DotsIndicator(listLength: cityLength, index: index),
                 const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
