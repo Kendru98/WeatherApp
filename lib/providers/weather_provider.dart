@@ -26,9 +26,6 @@ class WeatherProvider extends ChangeNotifier {
   double _lon = 0;
   double get lon => _lon;
 
-  List<WeatherItem> _swiperCities = [];
-  List<WeatherItem> get swiperCities => _swiperCities;
-
   GetWeatherResponse? _currentWeather;
   GetWeatherResponse? get currentWeather => _currentWeather;
 
@@ -45,16 +42,15 @@ class WeatherProvider extends ChangeNotifier {
     return fetchData();
   }
 
-  Future<void> initLocationFromCityList(double lat, double lon) async {
-    _lat = lat;
-    _lon = lon;
-    await fetchData();
-    swiperList();
+  Future<void> loadLastLocalization() async {
+    await initLocation(_cities.first.lat, _cities.first.lon);
   }
 
-  Future<void> loadLastLocalization() async {
-    swiperList();
-    await initLocation(_cities.last.lat, _cities.last.lon);
+  Future<void> fetchDataAndSort(WeatherItem weatherItem) async {
+    if (_cities.first != weatherItem) {
+      await sortCityList(weatherItem);
+    }
+    await fetchData();
   }
 
   Future<void> fetchData() async {
@@ -84,10 +80,6 @@ class WeatherProvider extends ChangeNotifier {
 
       if (currentItem == null) {
         await addWeatherItemToDatabase(weatherItem);
-      } else {
-        if (_cities.last != currentItem) {
-          await sortCityList(weatherItem);
-        }
       }
     } catch (e) {
       catchError();
@@ -137,24 +129,24 @@ class WeatherProvider extends ChangeNotifier {
   }
 
   Future<void> addWeatherItemToDatabase(WeatherItem weatherItem) async {
-    await box.add(weatherItem);
+    List<WeatherItem> temp = [..._cities];
+    _cities.insert(0, weatherItem);
+    temp.insert(0, weatherItem);
+    await box.clear();
+    await box.addAll(temp);
     _cities = box.values.toList();
-    swiperList();
-  }
-
-  void swiperList() {
-    _swiperCities = _cities.reversed.toList();
   }
 
   Future<void> deleteLastFromDatabase() async {
-    await box.deleteAt(0);
+    await box.deleteAt(4);
+    _cities = box.values.toList();
   }
 
   Future<void> sortCityList(WeatherItem weatherItem) async {
     List<WeatherItem> temp = [..._cities];
     temp.removeWhere((element) =>
         element.lat == weatherItem.lat && element.lon == weatherItem.lon);
-    temp.add(weatherItem);
+    temp.insert(0, weatherItem);
     await box.clear();
     await box.addAll(temp);
   }

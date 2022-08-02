@@ -1,36 +1,38 @@
 import 'package:aplikacja_pogodowa/models/current.dart';
-import 'package:aplikacja_pogodowa/pages/loading_page.dart';
+import 'package:aplikacja_pogodowa/models/daily.dart';
 import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:aplikacja_pogodowa/utils/data_conversion_helpers.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/utils/my_theme.dart';
+import 'package:aplikacja_pogodowa/widgets/dots_indicator.dart';
 import 'package:aplikacja_pogodowa/widgets/homepage_exports.dart';
 import 'package:aplikacja_pogodowa/widgets/homepage_menu.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_appbar.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-class WeatherSwiper extends StatelessWidget {
-  const WeatherSwiper({
+class WeatherSwiperItem extends StatelessWidget {
+  const WeatherSwiperItem({
     Key? key,
     required this.index,
-    required this.provider,
+    required this.currentWeather,
+    required this.dailyWeather,
+    required this.hourlyWeather,
   }) : super(key: key);
-
-  final WeatherProvider provider;
+  final Current currentWeather;
   final int index;
+  final List<Current> hourlyWeather;
+  final List<Daily> dailyWeather;
   void onClickPlusButton(BuildContext context) {
     Navigator.of(context).pushNamed(SearchCityPage.routeName);
   }
 
   @override
   Widget build(BuildContext context) {
-    Current currentWeatherData = provider.currentWeather!.current;
-    if (provider.isLoading) {
-      return const LoadingScreen();
-    } // jak usuniemy to nie będzie loadingscreena przy swipe'owaniu nie wiem czy to jest ok
+    final provider = context.read<WeatherProvider>();
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -57,37 +59,7 @@ class WeatherSwiper extends StatelessWidget {
           WeatherBackgroundContainer(
             child: Column(
               children: [
-                SizedBox(
-                  height: 12,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: provider.cities.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, i) {
-                          return Padding(
-                            padding: const EdgeInsets.only(left: 4),
-                            child: index == i
-                                ? const CircleAvatar(
-                                    radius: 6,
-                                    backgroundColor: MyColors.whiteBackground,
-                                  )
-                                : const CircleAvatar(
-                                    radius: 6,
-                                    backgroundColor: MyColors.whiteBackground,
-                                    child: CircleAvatar(
-                                      radius: 5,
-                                      backgroundColor: MyColors.mainLight,
-                                    ),
-                                  ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+                DotsIndicator(listLength: provider.cities.length, index: index),
                 const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -97,7 +69,8 @@ class WeatherSwiper extends StatelessWidget {
                       color: MyColors.whiteBackground,
                       image: AssetImage(
                         DataConversionHelpers.chooseMainIcon(
-                            currentWeatherData.weather[0].description),
+                          currentWeather.weather[0].description,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 20),
@@ -128,11 +101,12 @@ class WeatherSwiper extends StatelessWidget {
                         ),
                         Text(
                           DataConversionHelpers.temperatureConversion(
-                              currentWeatherData.temp),
+                            currentWeather.temp,
+                          ),
                           style: MyTheme.main72w700,
                         ),
                         Text(
-                          currentWeatherData.weather[0].description,
+                          currentWeather.weather[0].description,
                           style: MyTheme.main16w400,
                         ),
                       ],
@@ -141,21 +115,20 @@ class WeatherSwiper extends StatelessWidget {
                 ),
                 WeatherGrid(
                   //TODO [WeatherGrid] positioning bad when text lenght changes
-                  humidity: '${currentWeatherData.humidity}%',
-                  pressure: '${currentWeatherData.pressure} mbar',
-                  rainchance: DataConversionHelpers.rainConversion(
-                      provider.currentWeather?.hourly[0].pop),
+                  humidity: '${currentWeather.humidity}%',
+                  pressure: '${currentWeather.pressure} mbar',
+                  rainchance:
+                      DataConversionHelpers.rainConversion(currentWeather.pop),
                   wind: DataConversionHelpers.windConversion(
-                      currentWeatherData.windSpeed),
+                    currentWeather.windSpeed,
+                  ),
                 ),
               ],
             ),
           ),
-          HourlyWeather(
-            hourly: provider.currentWeather!.hourly,
-          ),
+          HourlyWeather(hourly: hourlyWeather),
           const SizedBox(height: 16),
-          WeekWeather(daily: provider.currentWeather!.daily),
+          WeekWeather(daily: dailyWeather),
         ],
       ),
     );
