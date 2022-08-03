@@ -23,7 +23,7 @@ class _PermissionPageState extends State<PermissionPage> {
     super.initState();
   }
 
-  Future<void> fetchLastOrInit() async {
+  void fetchLastOrInit() {
     final provider = context.read<WeatherProvider>();
 
     if (provider.cities.isEmpty) {

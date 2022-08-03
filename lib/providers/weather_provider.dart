@@ -8,8 +8,8 @@ import 'package:collection/collection.dart';
 import 'package:hive/hive.dart';
 
 class WeatherKey {
-  final double lat;
-  final double lon;
+  double lat;
+  double lon;
 
   WeatherKey(this.lat, this.lon);
 }
@@ -33,23 +33,24 @@ class WeatherProvider extends ChangeNotifier {
   GetWeatherResponse? get currentWeather => _currentWeather;
 
   Box<WeatherItem> box = Hive.box<WeatherItem>('cities');
+//ta mapa nie dziala
+  Map<WeatherKey, bool> _loadings = {};
 
   Map<WeatherKey, GetWeatherResponse> _weather = {};
   Map<WeatherKey, GetWeatherResponse> get weather => _weather;
 
-  Map<WeatherKey, bool> _loadings = {};
-
   GetWeatherResponse? getWeatherForCity(WeatherItem item) {
-    final key = WeatherKey(item.lat, item.lon);
-    final test = _weather[WeatherKey(item.lat, item.lon)];
+    var key = WeatherKey(item.lat, item.lon);
+
+    var test = _weather[key];
 
     if (test != null) {
       return test;
     }
 
-    if (!_loadings.containsKey(key)) {
-      fetchData(item.lat, item.lon);
-    }
+    // if (!_loadings.containsKey(key)) {
+    //   fetchData(item.lat, item.lon);
+    // }
   }
 
   WeatherProvider() {
@@ -93,14 +94,16 @@ class WeatherProvider extends ChangeNotifier {
 
       if (_cities.length == citieslimit) {
         deleteLastFromDatabase();
-      } else if (_cities.contains(weatherItem) == false) {
-        addWeatherItemToDatabase(weatherItem);
+      } else if (!_cities.contains(weatherItem)) {
+        await addWeatherItemToDatabase(weatherItem);
       }
+      var key = WeatherKey(weatherItem.lat, weatherItem.lon);
+      _weather[key] = currentWeather!;
     } catch (e) {
       catchError();
     }
     _cities = box.values.toList();
-    weather[WeatherKey(lat, lon)] = _currentWeather!; //dodaje to mapy
+
     _isLoading = false;
     notifyListeners();
   }
@@ -139,7 +142,6 @@ class WeatherProvider extends ChangeNotifier {
     temp.insert(0, weatherItem);
     await box.clear();
     await box.addAll(temp);
-    _cities = box.values.toList();
   }
 
   Future<void> setMainCity(WeatherItem weatherItem) async {
