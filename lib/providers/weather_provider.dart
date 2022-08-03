@@ -5,7 +5,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:collection/collection.dart';
 import 'package:hive/hive.dart';
 
 class WeatherKey extends Equatable {
