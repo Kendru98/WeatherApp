@@ -4,7 +4,7 @@ part 'weather_item.g.dart';
 
 @HiveType(typeId: 1)
 class WeatherItem {
-  WeatherItem({
+  const WeatherItem({
     required this.lat,
     required this.lon,
     required this.name,
@@ -14,20 +14,20 @@ class WeatherItem {
   });
 
   @HiveField(0)
-  double lat;
+  final double lat;
 
   @HiveField(1)
-  double lon;
+  final double lon;
 
   @HiveField(2)
-  String name;
+  final String name;
 
   @HiveField(3)
-  String description;
+  final String description;
 
   @HiveField(4)
-  double temp;
+  final double temp;
 
   @HiveField(5)
-  double tempFeelsLike;
+  final double tempFeelsLike;
 }

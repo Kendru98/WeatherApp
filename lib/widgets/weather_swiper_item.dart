@@ -32,8 +32,6 @@ class WeatherSwiperItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(currentWeather);
-
     Current currentWeatherData = currentWeather!.current;
     List<Current> hourlyWeatherData = currentWeather!.hourly;
     List<Daily> dailyWeatherData = currentWeather!.daily;

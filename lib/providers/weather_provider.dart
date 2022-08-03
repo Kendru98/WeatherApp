@@ -1,17 +1,21 @@
 import 'package:aplikacja_pogodowa/api/weather_api.dart';
 import 'package:aplikacja_pogodowa/models/responses/get_weather.dart';
 import 'package:aplikacja_pogodowa/models/weather_item.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:collection/collection.dart';
 import 'package:hive/hive.dart';
 
-class WeatherKey {
-  double lat;
-  double lon;
+class WeatherKey extends Equatable {
+  final double lat;
+  final double lon;
 
-  WeatherKey(this.lat, this.lon);
+  const WeatherKey(this.lat, this.lon);
+
+  @override
+  List<Object?> get props => [lat, lon];
 }
 
 class WeatherProvider extends ChangeNotifier {
@@ -23,109 +27,103 @@ class WeatherProvider extends ChangeNotifier {
   bool _isError = false;
   bool get isError => _isError;
 
-  List<Location> _position = [];
-  List<Location> get position => _position;
+  Location? _location;
+  Location? get location => _location;
 
   List<WeatherItem> _cities = [];
   List<WeatherItem> get cities => _cities;
 
-  GetWeatherResponse? _currentWeather;
-  GetWeatherResponse? get currentWeather => _currentWeather;
-
   Box<WeatherItem> box = Hive.box<WeatherItem>('cities');
-//ta mapa nie dziala
-  Map<WeatherKey, bool> _loadings = {};
 
-  Map<WeatherKey, GetWeatherResponse> _weather = {};
+  final Map<WeatherKey, bool> _loadings = {};
+
+  final Map<WeatherKey, GetWeatherResponse> _weather = {};
   Map<WeatherKey, GetWeatherResponse> get weather => _weather;
 
   GetWeatherResponse? getWeatherForCity(WeatherItem item) {
     var key = WeatherKey(item.lat, item.lon);
-
     var test = _weather[key];
-
     if (test != null) {
       return test;
     }
-
-    // if (!_loadings.containsKey(key)) {
-    //   fetchData(item.lat, item.lon);
-    // }
+    if (!_loadings.containsKey(key)) {
+      _loadings[key] = true;
+      fetchData(item.lat, item.lon);
+    }
+    return null;
   }
 
   WeatherProvider() {
     _cities = box.values.toList();
   }
 
-  // Future<void> initLocation(double lat, double lon) async {
-  //   _lat = lat;
-  //   _lon = lon;
-  //
-  //   return fetchData();
-  // }
-  //
-  // Future<void> fetchDataAndSort(WeatherItem weatherItem) async {
-  //   if (_cities.first != weatherItem) {
-  //     await setMainCity(weatherItem);
-  //   }
-  //   await initLocation(weatherItem.lat, weatherItem.lon);
-  // }
-
   Future<void> fetchData(double lat, double lon) async {
     _isLoading = true;
-
-    // final WeatherItem? currentItem = getByCityCoords(_lat, _lon);
     List<Placemark> placemarks = await placemarkFromCoordinates(lat, lon);
     final String city = locationName(placemarks[0]) ?? '';
-
     final dio = Dio();
     final client = RestClient(dio);
 
     try {
-      _currentWeather = await client.getWeather('$lat', '$lon');
+      var response = await client.getWeather('$lat', '$lon');
       WeatherItem weatherItem = WeatherItem(
         lat: lat,
         lon: lon,
         name: city,
-        description: _currentWeather!.current.weather[0].description,
-        temp: _currentWeather!.current.temp,
-        tempFeelsLike: _currentWeather!.current.feelsLike,
+        description: response.current.weather[0].description,
+        temp: response.current.temp,
+        tempFeelsLike: response.current.feelsLike,
       );
-
-      if (_cities.length == citieslimit) {
-        deleteLastFromDatabase();
-      } else if (!_cities.contains(weatherItem)) {
-        await addWeatherItemToDatabase(weatherItem);
-      }
       var key = WeatherKey(weatherItem.lat, weatherItem.lon);
-      _weather[key] = currentWeather!;
+      _weather[key] = response;
     } catch (e) {
       catchError();
     }
-    _cities = box.values.toList();
-
     _isLoading = false;
     notifyListeners();
   }
 
-  WeatherItem? getByCityCoords(double lat, double lon) {
-    WeatherItem? weatherItem = _cities.firstWhereOrNull(
-      (element) => element.lon == lon && element.lat == lat,
-    );
+  Future<void> fetchDataAndAddCity(double lat, double lon) async {
+    _isLoading = true;
+    List<Placemark> placemarks = await placemarkFromCoordinates(lat, lon);
+    final String city = locationName(placemarks[0]) ?? '';
+    final dio = Dio();
+    final client = RestClient(dio);
 
-    return weatherItem;
+    try {
+      var response = await client.getWeather('$lat', '$lon');
+      WeatherItem weatherItem = WeatherItem(
+        lat: lat,
+        lon: lon,
+        name: city,
+        description: response.current.weather[0].description,
+        temp: response.current.temp,
+        tempFeelsLike: response.current.feelsLike,
+      );
+
+      if (!_cities.contains(weatherItem)) {
+        await addWeatherItemToDatabase(weatherItem);
+      }
+
+      var key = WeatherKey(weatherItem.lat, weatherItem.lon);
+      _weather[key] = response;
+    } catch (e) {
+      catchError();
+    }
+    _isLoading = false;
+    notifyListeners();
   }
 
   String? locationName(Placemark placemark) => placemark.locality == ''
       ? placemark.administrativeArea
       : placemark.locality;
 
-  Future<bool> cityCheckAndInit(String cityName) async {
+  Future<Location?> isCityExistAndInit(String cityName) async {
     List<Location> position = await locationFromAddress(cityName);
-    if (position.isEmpty) {
-      return false;
+    if (position.isNotEmpty) {
+      return _location = position[0];
     }
-    return true;
+    return null;
   }
 
   void catchError() {
@@ -139,9 +137,11 @@ class WeatherProvider extends ChangeNotifier {
 
   Future<void> addWeatherItemToDatabase(WeatherItem weatherItem) async {
     List<WeatherItem> temp = [..._cities];
+    if (_cities.length == citieslimit) temp.removeLast();
     temp.insert(0, weatherItem);
     await box.clear();
     await box.addAll(temp);
+    _cities = box.values.toList();
   }
 
   Future<void> setMainCity(WeatherItem weatherItem) async {
@@ -153,7 +153,11 @@ class WeatherProvider extends ChangeNotifier {
     await box.addAll(temp);
   }
 
-  Future<void> deleteLastFromDatabase() async {
-    await box.deleteAt(citieslimit);
+  Future<void> setAsFirst(WeatherItem weatherItem) async {
+    if (_cities.first != weatherItem) {
+      await setMainCity(weatherItem);
+    }
+    _cities = box.values.toList();
+    notifyListeners();
   }
 }

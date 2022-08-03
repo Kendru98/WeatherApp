@@ -6,6 +6,7 @@ import 'package:aplikacja_pogodowa/utils/my_theme.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_error.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
@@ -29,13 +30,10 @@ class _PermissionPageState extends State<PermissionPage> {
     if (provider.cities.isEmpty) {
       determinePosition();
     } else {
-      navigateToWeatherPage();
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        navigateToWeatherPage();
+      });
     }
-  }
-
-  Future<void> initLastWeather(WeatherProvider provider) async {
-    // provider.getWeatherForCity(provider.cities.first);
-    navigateToWeatherPage(); //do mainpage gdzie selector pokaze liste
   }
 
   Future<void> determinePosition() async {
@@ -75,7 +73,7 @@ class _PermissionPageState extends State<PermissionPage> {
 
     try {
       Position? value = await Geolocator.getCurrentPosition();
-      await provider.fetchData(value.latitude, value.longitude);
+      await provider.fetchDataAndAddCity(value.latitude, value.longitude);
       navigateToWeatherPage();
     } catch (e) {
       getLastPosition();
@@ -88,7 +86,7 @@ class _PermissionPageState extends State<PermissionPage> {
         forceAndroidLocationManager: true);
     if (value != null) {
       try {
-        await provider.fetchData(value.latitude, value.longitude);
+        await provider.fetchDataAndAddCity(value.latitude, value.longitude);
         navigateToWeatherPage();
       } catch (e) {
         provider.catchError();
