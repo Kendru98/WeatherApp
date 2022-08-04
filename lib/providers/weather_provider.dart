@@ -128,9 +128,7 @@ class WeatherProvider extends ChangeNotifier {
 
   void loadAgain() {
     _isError = false;
-    _isLoading = false;
     _loadings.clear();
-    // _cities = box.values.toList();
     notifyListeners();
   }
 }
