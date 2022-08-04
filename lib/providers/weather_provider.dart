@@ -107,6 +107,7 @@ class WeatherProvider extends ChangeNotifier {
     await box.clear();
     await box.addAll(temp);
     _cities = box.values.toList();
+    notifyListeners();
   }
 
   String? locationName(Placemark placemark) => placemark.locality == ''
@@ -129,6 +130,7 @@ class WeatherProvider extends ChangeNotifier {
     _isError = false;
     _isLoading = false;
     _loadings.clear();
+    // _cities = box.values.toList();
     notifyListeners();
   }
 }

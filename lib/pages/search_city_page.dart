@@ -40,7 +40,6 @@ class _SearchCityPageState extends State<SearchCityPage> {
 
   void addCityItem(Location location, String city) async {
     final provider = context.read<WeatherProvider>();
-
     await provider.addNewWeatherItem(location.latitude, location.longitude);
     navigateToWeatherPage();
   }
