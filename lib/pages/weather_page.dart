@@ -20,9 +20,6 @@ class WeatherPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<WeatherProvider>(context);
-    if (provider.isLoading) {
-      return const LoadingScreen();
-    }
     if (provider.isError) {
       return WeatherError(
         onPressed: () {
@@ -40,7 +37,9 @@ class WeatherPage extends StatelessWidget {
             selector: (_, provider) =>
                 provider.getWeatherForCity(provider.cities[index]),
             builder: (context, weatherData, child) {
-              if (weatherData == null) {
+              if (provider.loadings[
+                      provider.getFromWeatherItem(provider.cities[index])] ==
+                  true) {
                 return const LoadingScreen();
               }
               return WeatherSwiperItem(

@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/models/responses/get_weather.dart';
 import 'package:aplikacja_pogodowa/models/weather_item.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
@@ -11,59 +12,70 @@ class CitiesHistoryItem extends StatelessWidget {
   const CitiesHistoryItem({
     Key? key,
     required this.weatherItem,
+    required this.cityIndex,
   }) : super(key: key);
   final WeatherItem weatherItem;
+  final int cityIndex;
 
   void onTapCityList(BuildContext context) {
     final provider = context.read<WeatherProvider>();
-    provider.setAsFirst(weatherItem);
+    provider.cityTapSort(weatherItem);
     Navigator.of(context)
         .pushNamedAndRemoveUntil(WeatherPage.routeName, (Route route) => false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(
-        left: 16,
-        right: 16,
-        top: 16,
-      ),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
-      child: ListTile(
-        onTap: () => onTapCityList(context),
-        title: Text(
-          textAlign: TextAlign.left,
-          weatherItem.name,
-          style: MyTheme.city16,
-        ),
-        subtitle: Text(
-          textAlign: TextAlign.left,
-          '${DataConversionHelpers.temperatureConversion(weatherItem.temp)}/${DataConversionHelpers.temperatureConversion(weatherItem.tempFeelsLike)}',
-          style: MyTheme.city12,
-        ),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Image(
-              width: 32,
-              height: 32,
-              color: MyColors.popText,
-              image: AssetImage(
-                DataConversionHelpers.chooseMainIcon(weatherItem.description),
+    return Selector<WeatherProvider, GetWeatherResponse?>(
+        selector: (_, provider) =>
+            provider.getWeatherForCity(provider.cities[cityIndex]),
+        builder: (context, weatherData, child) {
+          if (weatherData == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return Container(
+            margin: const EdgeInsets.only(
+              left: 16,
+              right: 16,
+              top: 16,
+            ),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(16)),
+            ),
+            child: ListTile(
+              onTap: () => onTapCityList(context),
+              title: Text(
+                textAlign: TextAlign.left,
+                weatherItem.name,
+                style: MyTheme.city16,
+              ),
+              subtitle: Text(
+                textAlign: TextAlign.left,
+                '${DataConversionHelpers.temperatureConversion(weatherData.current.temp)}/${DataConversionHelpers.temperatureConversion(weatherData.current.feelsLike)}',
+                style: MyTheme.city12,
+              ),
+              trailing: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Image(
+                    width: 32,
+                    height: 32,
+                    color: MyColors.popText,
+                    image: AssetImage(
+                      DataConversionHelpers.chooseMainIcon(
+                          weatherData.current.weather[0].description),
+                    ),
+                  ),
+                  Text(
+                    weatherData.current.weather[0].description,
+                    style: MyTheme.city12,
+                  ),
+                ],
               ),
             ),
-            Text(
-              weatherItem.description,
-              style: MyTheme.city12,
-            ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }

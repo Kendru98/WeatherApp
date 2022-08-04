@@ -1,4 +1,3 @@
-import 'package:aplikacja_pogodowa/models/weather_item.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
@@ -8,6 +7,7 @@ import 'package:aplikacja_pogodowa/widgets/cities_history_item.dart';
 import 'package:aplikacja_pogodowa/widgets/shared_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:provider/provider.dart';
 
 class SearchCityPage extends StatefulWidget {
@@ -26,7 +26,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
     super.dispose();
   }
 
-  void wrongCityDialog(BuildContext context, String city) {
+  void wrongCityDialog(String city) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: const Duration(seconds: 7),
@@ -38,13 +38,10 @@ class _SearchCityPageState extends State<SearchCityPage> {
     );
   }
 
-  void addCityItem(BuildContext context, String city) async {
+  void addCityItem(Location location, String city) async {
     final provider = context.read<WeatherProvider>();
 
-    await provider.fetchDataAndAddCity(
-      provider.location!.latitude,
-      provider.location!.longitude,
-    );
+    await provider.addNewWeatherItem(location.latitude, location.longitude);
     navigateToWeatherPage();
   }
 
@@ -57,10 +54,11 @@ class _SearchCityPageState extends State<SearchCityPage> {
 
   void onSubmittedCity(BuildContext context, String city) async {
     final provider = context.read<WeatherProvider>();
-    if (await provider.isCityExistAndInit(city) == null) {
-      wrongCityDialog(context, city);
+    final Location? location = await provider.isCityExistAndInit(city);
+    if (location == null) {
+      wrongCityDialog(city);
     } else {
-      addCityItem(context, city);
+      addCityItem(location, city);
     }
     _givenCityController.clear();
     FocusManager.instance.primaryFocus?.unfocus();
@@ -68,51 +66,46 @@ class _SearchCityPageState extends State<SearchCityPage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<WeatherProvider>(context);
     return SharedScaffold(
-      title: 'Manage Location',
-      body: WeatherBackgroundContainer(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextField(
-                controller: _givenCityController,
-                onSubmitted: (city) => onSubmittedCity(context, city),
-                cursorColor: Colors.grey,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(FontAwesomeIcons.searchengin),
-                  fillColor: MyColors.textFieldFill,
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
+        title: 'Manage Location',
+        body: WeatherBackgroundContainer(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: TextField(
+                  controller: _givenCityController,
+                  onSubmitted: (city) => onSubmittedCity(context, city),
+                  cursorColor: Colors.grey,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(FontAwesomeIcons.searchengin),
+                    fillColor: MyColors.textFieldFill,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide.none,
+                    ),
+                    hintText: 'Search Your City',
+                    hintStyle: MyTheme.city12g,
                   ),
-                  hintText: 'Search Your City',
-                  hintStyle: MyTheme.city12g,
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: Selector<WeatherProvider, List<WeatherItem>>(
-                selector: (_, provider) => provider.cities,
-                builder: (context, cityList, child) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: cityList.length,
-                    itemBuilder: (context, index) {
-                      return CitiesHistoryItem(
-                        weatherItem: cityList[index],
-                      );
-                    },
-                  );
-                },
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: provider.cities.length,
+                  itemBuilder: (context, cityIndex) {
+                    return CitiesHistoryItem(
+                      weatherItem: provider.cities[cityIndex],
+                      cityIndex: cityIndex,
+                    );
+                  },
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
-    );
+              const SizedBox(height: 20),
+            ],
+          ),
+        ));
   }
 }

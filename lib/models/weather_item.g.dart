@@ -20,28 +20,19 @@ class WeatherItemAdapter extends TypeAdapter<WeatherItem> {
       lat: fields[0] as double,
       lon: fields[1] as double,
       name: fields[2] as String,
-      description: fields[3] as String,
-      temp: fields[4] as double,
-      tempFeelsLike: fields[5] as double,
     );
   }
 
   @override
   void write(BinaryWriter writer, WeatherItem obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.lat)
       ..writeByte(1)
       ..write(obj.lon)
       ..writeByte(2)
-      ..write(obj.name)
-      ..writeByte(3)
-      ..write(obj.description)
-      ..writeByte(4)
-      ..write(obj.temp)
-      ..writeByte(5)
-      ..write(obj.tempFeelsLike);
+      ..write(obj.name);
   }
 
   @override
