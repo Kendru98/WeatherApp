@@ -52,6 +52,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
   }
 
   void onSubmittedCity(BuildContext context, String city) async {
+    FocusManager.instance.primaryFocus?.unfocus();
     final provider = context.read<WeatherProvider>();
     final Location? location = await provider.isCityExistAndInit(city);
     if (location == null) {
@@ -60,7 +61,6 @@ class _SearchCityPageState extends State<SearchCityPage> {
       addCityItem(location, city);
     }
     _givenCityController.clear();
-    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   @override
@@ -70,6 +70,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
         title: 'Manage Location',
         body: WeatherBackgroundContainer(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),

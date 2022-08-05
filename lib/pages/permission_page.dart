@@ -116,7 +116,7 @@ class _PermissionPageState extends State<PermissionPage> {
 
   void onErrorFetchDataAgain() {
     final provider = context.read<WeatherProvider>();
-    provider.loadAgain();
+    provider.resetErrorAndLoadings();
     determinePosition();
   }
 

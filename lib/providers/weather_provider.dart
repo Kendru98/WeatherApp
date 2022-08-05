@@ -20,9 +20,6 @@ class WeatherKey extends Equatable {
 class WeatherProvider extends ChangeNotifier {
   final int _citieslimit = 5;
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
-
   bool _isError = false;
   bool get isError => _isError;
 
@@ -61,7 +58,6 @@ class WeatherProvider extends ChangeNotifier {
   Future<void> fetchData(double lat, double lon) async {
     WeatherKey key = WeatherKey(lat, lon);
     _loadings[key] = true;
-    _isLoading = true;
 
     final dio = Dio();
     final client = RestClient(dio);
@@ -73,40 +69,19 @@ class WeatherProvider extends ChangeNotifier {
       catchError();
     }
     _loadings[key] = false;
-    _isLoading = false;
     notifyListeners();
   }
 
   Future<void> addNewWeatherItem(double lat, double lon) async {
     List<Placemark> placemarks = await placemarkFromCoordinates(lat, lon);
     final String city = locationName(placemarks[0]) ?? '';
+
     WeatherItem weatherItem = WeatherItem(
       lat: lat,
       lon: lon,
       name: city,
     );
-    if (!_cities.contains(weatherItem)) {
-      if (_cities.length == _citieslimit) _cities.removeLast();
-      List<WeatherItem> temp = [..._cities];
-      await insertAtFirst(temp, weatherItem);
-    }
-  }
-
-  Future<void> cityTapSort(WeatherItem weatherItem) async {
-    if (_cities.contains(weatherItem) && _cities.first != weatherItem) {
-      List<WeatherItem> temp = [..._cities];
-      temp.removeWhere((element) =>
-          element.lat == weatherItem.lat && element.lon == weatherItem.lon);
-      await insertAtFirst(temp, weatherItem);
-    }
-  }
-
-  Future<void> insertAtFirst(
-      List<WeatherItem> temp, WeatherItem weatherItem) async {
-    temp.insert(0, weatherItem);
-    await box.clear();
-    await box.addAll(temp);
-    _cities = box.values.toList();
+    await manageList(weatherItem);
     notifyListeners();
   }
 
@@ -116,9 +91,11 @@ class WeatherProvider extends ChangeNotifier {
 
   Future<Location?> isCityExistAndInit(String cityName) async {
     List<Location> position = await locationFromAddress(cityName);
+
     if (position.isNotEmpty) {
-      return position[0];
+      return position.first;
     }
+
     return null;
   }
 
@@ -126,9 +103,32 @@ class WeatherProvider extends ChangeNotifier {
     _isError = true;
   }
 
-  void loadAgain() {
+  void resetErrorAndLoadings() {
     _isError = false;
     _loadings.clear();
+    notifyListeners();
+  }
+
+  Future<void> manageList(WeatherItem weatherItem) async {
+    List<WeatherItem> temp = [..._cities];
+    if (!temp.contains(weatherItem)) {
+      if (temp.length == _citieslimit) {
+        temp.removeLast();
+      }
+    } else {
+      temp.removeWhere((element) => element == weatherItem);
+    }
+    await insertAtFirst(temp, weatherItem);
+  }
+
+  Future<void> insertAtFirst(
+    List<WeatherItem> temp,
+    WeatherItem weatherItem,
+  ) async {
+    temp.insert(0, weatherItem);
+    await box.clear();
+    await box.addAll(temp);
+    _cities = box.values.toList();
     notifyListeners();
   }
 }

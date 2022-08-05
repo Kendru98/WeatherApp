@@ -7,6 +7,7 @@ import 'package:aplikacja_pogodowa/widgets/weather_swiper_item.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 class WeatherPage extends StatelessWidget {
   const WeatherPage({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class WeatherPage extends StatelessWidget {
 
   void onClickDownloadData(BuildContext context) {
     final provider = context.read<WeatherProvider>();
-    provider.loadAgain();
+    provider.resetErrorAndLoadings();
   }
 
   @override
@@ -29,22 +30,24 @@ class WeatherPage extends StatelessWidget {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: MyColors.whiteBackground,
       body: Swiper(
         itemCount: provider.cities.length,
         itemBuilder: (context, index) {
-          return Selector<WeatherProvider, GetWeatherResponse?>(
-            selector: (_, provider) =>
-                provider.getWeatherForCity(provider.cities[index]),
+          return Selector<WeatherProvider,
+              Tuple2<Map<WeatherKey, bool>, GetWeatherResponse?>>(
+            selector: (_, provider) => Tuple2(provider.loadings,
+                provider.getWeatherForCity(provider.cities[index])),
             builder: (context, weatherData, child) {
-              if (provider.loadings[
+              if (weatherData.item1[
                       provider.getFromWeatherItem(provider.cities[index])] ==
                   true) {
                 return const LoadingScreen();
               }
               return WeatherSwiperItem(
                 index: index,
-                currentWeather: weatherData,
+                currentWeather: weatherData.item2,
                 cityname: provider.cities[index].name,
                 cityLength: provider.cities.length,
               );
