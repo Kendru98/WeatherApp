@@ -85,9 +85,16 @@ class WeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String? locationName(Placemark placemark) => placemark.locality == ''
-      ? placemark.administrativeArea
-      : placemark.locality;
+  String? locationName(Placemark placemark) {
+    if (placemark.locality == '') {
+      if (placemark.administrativeArea != '') {
+        return placemark.administrativeArea;
+      } else {
+        return placemark.country;
+      }
+    }
+    return placemark.locality;
+  }
 
   Future<Location?> isCityExistAndInit(String cityName) async {
     List<Location> position = await locationFromAddress(cityName);

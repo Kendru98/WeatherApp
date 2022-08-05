@@ -7,6 +7,7 @@ import 'package:aplikacja_pogodowa/utils/my_theme.dart';
 import 'package:aplikacja_pogodowa/utils/data_conversion_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 class CitiesHistoryItem extends StatelessWidget {
   const CitiesHistoryItem({
@@ -27,12 +28,16 @@ class CitiesHistoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.read<WeatherProvider>();
-    return Selector<WeatherProvider, GetWeatherResponse?>(
-      selector: (_, provider) =>
-          provider.getWeatherForCity(provider.cities[cityIndex]),
+    final currentWeatherItem = provider.cities;
+    return Selector<WeatherProvider, Tuple2<GetWeatherResponse?, bool?>>(
+      selector: (_, provider) => Tuple2(
+        provider.getWeatherForCity(provider.cities[cityIndex]),
+        provider.loadings[
+            provider.getFromWeatherItem(currentWeatherItem[cityIndex])],
+      ),
       builder: (context, weatherData, child) {
         if (provider.loadings[
-                provider.getFromWeatherItem(provider.cities[cityIndex])] ==
+                provider.getFromWeatherItem(currentWeatherItem[cityIndex])] ==
             true) {
           return const Center(child: CircularProgressIndicator());
         }
@@ -55,7 +60,7 @@ class CitiesHistoryItem extends StatelessWidget {
             ),
             subtitle: Text(
               textAlign: TextAlign.left,
-              '${DataConversionHelpers.temperatureConversion(weatherData!.current.temp)}/${DataConversionHelpers.temperatureConversion(weatherData.current.feelsLike)}',
+              '${DataConversionHelpers.temperatureConversion(weatherData.item1!.current.temp)}/${DataConversionHelpers.temperatureConversion(weatherData.item1!.current.feelsLike)}',
               style: MyTheme.city12,
             ),
             trailing: Column(
@@ -68,11 +73,11 @@ class CitiesHistoryItem extends StatelessWidget {
                   color: MyColors.popText,
                   image: AssetImage(
                     DataConversionHelpers.chooseMainIcon(
-                        weatherData.current.weather[0].description),
+                        weatherData.item1!.current.weather[0].description),
                   ),
                 ),
                 Text(
-                  weatherData.current.weather[0].description,
+                  weatherData.item1!.current.weather[0].description,
                   style: MyTheme.city12,
                 ),
               ],
