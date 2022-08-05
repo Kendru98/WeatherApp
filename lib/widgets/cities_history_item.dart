@@ -1,5 +1,5 @@
 import 'package:aplikacja_pogodowa/models/responses/get_weather.dart';
-import 'package:aplikacja_pogodowa/models/weather_item.dart';
+import 'package:aplikacja_pogodowa/models/city_item.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
@@ -15,12 +15,12 @@ class CitiesHistoryItem extends StatelessWidget {
     required this.weatherItem,
     required this.cityIndex,
   }) : super(key: key);
-  final WeatherItem weatherItem;
+  final CityItem weatherItem;
   final int cityIndex;
 
   void onTapCityList(BuildContext context) {
     final provider = context.read<WeatherProvider>();
-    provider.addNewWeatherItem(weatherItem.lat, weatherItem.lon);
+    provider.addNewCityItem(weatherItem.lat, weatherItem.lon);
     Navigator.of(context)
         .pushNamedAndRemoveUntil(WeatherPage.routeName, (Route route) => false);
   }
@@ -28,17 +28,15 @@ class CitiesHistoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.read<WeatherProvider>();
-    final currentWeatherItem = provider.cities;
-    return Selector<WeatherProvider, Tuple2<GetWeatherResponse?, bool?>>(
+    final citiesList = provider.cities;
+    final currentWeatherItem = citiesList[cityIndex];
+    return Selector<WeatherProvider, Tuple2<GetWeatherResponse?, bool>>(
       selector: (_, provider) => Tuple2(
-        provider.getWeatherForCity(provider.cities[cityIndex]),
-        provider.loadings[
-            provider.getFromWeatherItem(currentWeatherItem[cityIndex])],
+        provider.getWeatherForCity(currentWeatherItem),
+        provider.loadings[currentWeatherItem.getFromCityItem]!,
       ),
       builder: (context, weatherData, child) {
-        if (provider.loadings[
-                provider.getFromWeatherItem(currentWeatherItem[cityIndex])] ==
-            true) {
+        if (weatherData.item2 == true) {
           return const Center(child: CircularProgressIndicator());
         }
         return Container(

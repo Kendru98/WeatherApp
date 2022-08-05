@@ -1,4 +1,4 @@
-import 'package:aplikacja_pogodowa/models/weather_item.dart';
+import 'package:aplikacja_pogodowa/models/city_item.dart';
 import 'package:aplikacja_pogodowa/pages/loading_page.dart';
 import 'package:aplikacja_pogodowa/pages/permission_page.dart';
 import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
@@ -12,8 +12,8 @@ import 'package:provider/provider.dart';
 
 void main() async {
   await Hive.initFlutter();
-  Hive.registerAdapter(WeatherItemAdapter());
-  await Hive.openBox<WeatherItem>('cities');
+  Hive.registerAdapter(CityItemAdapter());
+  await Hive.openBox<CityItem>('cities');
 
   //register adapter nad open box
   runApp(const MyApp());

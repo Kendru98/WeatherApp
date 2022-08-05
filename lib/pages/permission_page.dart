@@ -74,7 +74,7 @@ class _PermissionPageState extends State<PermissionPage> {
     try {
       Position? value = await Geolocator.getCurrentPosition();
       //DodajPogode(laat,lon) tylko dodaje do cities
-      await provider.addNewWeatherItem(value.latitude, value.longitude);
+      await provider.addNewCityItem(value.latitude, value.longitude);
 
       navigateToWeatherPage();
     } catch (e) {
@@ -88,7 +88,7 @@ class _PermissionPageState extends State<PermissionPage> {
         forceAndroidLocationManager: true);
     if (value != null) {
       try {
-        await provider.addNewWeatherItem(value.latitude, value.longitude);
+        await provider.addNewCityItem(value.latitude, value.longitude);
         navigateToWeatherPage();
       } catch (e) {
         provider.catchError();

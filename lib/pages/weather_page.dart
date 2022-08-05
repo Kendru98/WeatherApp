@@ -21,7 +21,8 @@ class WeatherPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<WeatherProvider>(context);
-    final currentWeatherItem = provider.cities;
+    final citiesList = provider.cities;
+
     if (provider.isError) {
       return WeatherError(
         onPressed: () {
@@ -34,13 +35,13 @@ class WeatherPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: MyColors.whiteBackground,
       body: Swiper(
-        itemCount: currentWeatherItem.length,
+        itemCount: citiesList.length,
         itemBuilder: (context, index) {
-          return Selector<WeatherProvider, Tuple2<GetWeatherResponse?, bool?>>(
+          final currentWeatherItem = citiesList[index];
+          return Selector<WeatherProvider, Tuple2<GetWeatherResponse?, bool>>(
             selector: (_, provider) => Tuple2(
-              provider.getWeatherForCity(currentWeatherItem[index]),
-              provider.loadings[
-                  provider.getFromWeatherItem(currentWeatherItem[index])],
+              provider.getWeatherForCity(currentWeatherItem),
+              provider.loadings[currentWeatherItem.getFromCityItem]!,
             ),
             builder: (context, weatherData, child) {
               if (weatherData.item2 == true) {
@@ -49,7 +50,7 @@ class WeatherPage extends StatelessWidget {
               return WeatherSwiperItem(
                 index: index,
                 currentWeather: weatherData.item1,
-                cityname: provider.cities[index].name,
+                cityname: currentWeatherItem.name,
                 cityLength: provider.cities.length,
               );
             },

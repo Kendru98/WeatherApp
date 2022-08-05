@@ -1,11 +1,12 @@
+import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
-part 'weather_item.g.dart';
+part 'city_item.g.dart';
 
 @HiveType(typeId: 1)
-class WeatherItem extends Equatable {
-  const WeatherItem({
+class CityItem extends Equatable {
+  const CityItem({
     required this.lat,
     required this.lon,
     required this.name,
@@ -26,4 +27,7 @@ class WeatherItem extends Equatable {
         lon,
         name,
       ];
+  WeatherKey get getFromCityItem {
+    return WeatherKey(lat, lon);
+  }
 }

@@ -1,6 +1,6 @@
 import 'package:aplikacja_pogodowa/api/weather_api.dart';
 import 'package:aplikacja_pogodowa/models/responses/get_weather.dart';
-import 'package:aplikacja_pogodowa/models/weather_item.dart';
+import 'package:aplikacja_pogodowa/models/city_item.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart';
@@ -23,10 +23,10 @@ class WeatherProvider extends ChangeNotifier {
   bool _isError = false;
   bool get isError => _isError;
 
-  List<WeatherItem> _cities = [];
-  List<WeatherItem> get cities => _cities;
+  List<CityItem> _cities = [];
+  List<CityItem> get cities => _cities;
 
-  Box<WeatherItem> box = Hive.box<WeatherItem>('cities');
+  Box<CityItem> box = Hive.box<CityItem>('cities');
 
   final Map<WeatherKey, bool> _loadings = {};
   Map<WeatherKey, bool> get loadings => _loadings;
@@ -34,12 +34,8 @@ class WeatherProvider extends ChangeNotifier {
   final Map<WeatherKey, GetWeatherResponse> _weather = {};
   Map<WeatherKey, GetWeatherResponse> get weather => _weather;
 
-  WeatherKey getFromWeatherItem(WeatherItem item) {
-    return WeatherKey(item.lat, item.lon);
-  }
-
-  GetWeatherResponse? getWeatherForCity(WeatherItem item) {
-    WeatherKey key = getFromWeatherItem(item);
+  GetWeatherResponse? getWeatherForCity(CityItem item) {
+    WeatherKey key = item.getFromCityItem;
 
     GetWeatherResponse? downloadedWeather = _weather[key];
     if (downloadedWeather != null) {
@@ -72,16 +68,16 @@ class WeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addNewWeatherItem(double lat, double lon) async {
+  Future<void> addNewCityItem(double lat, double lon) async {
     List<Placemark> placemarks = await placemarkFromCoordinates(lat, lon);
     final String city = locationName(placemarks[0]) ?? '';
 
-    WeatherItem weatherItem = WeatherItem(
+    CityItem cityItem = CityItem(
       lat: lat,
       lon: lon,
       name: city,
     );
-    await manageList(weatherItem);
+    await manageList(cityItem);
     notifyListeners();
   }
 
@@ -116,23 +112,23 @@ class WeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> manageList(WeatherItem weatherItem) async {
-    List<WeatherItem> temp = [..._cities];
-    if (!temp.contains(weatherItem)) {
+  Future<void> manageList(CityItem cityItem) async {
+    List<CityItem> temp = [..._cities];
+    if (!temp.contains(cityItem)) {
       if (temp.length == _citieslimit) {
         temp.removeLast();
       }
     } else {
-      temp.removeWhere((element) => element == weatherItem);
+      temp.removeWhere((element) => element == cityItem);
     }
-    await insertAtFirst(temp, weatherItem);
+    await insertAtFirst(temp, cityItem);
   }
 
   Future<void> insertAtFirst(
-    List<WeatherItem> temp,
-    WeatherItem weatherItem,
+    List<CityItem> temp,
+    CityItem cityItem,
   ) async {
-    temp.insert(0, weatherItem);
+    temp.insert(0, cityItem);
     await box.clear();
     await box.addAll(temp);
     _cities = box.values.toList();
