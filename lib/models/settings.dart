@@ -5,9 +5,9 @@ part 'settings.g.dart';
 @HiveType(typeId: 2)
 class Settings extends HiveObject {
   Settings({
-    required this.language,
-    required this.wind,
     required this.temperature,
+    required this.wind,
+    required this.language,
   });
 
   @HiveField(0)
@@ -16,4 +16,15 @@ class Settings extends HiveObject {
   late String wind;
   @HiveField(2)
   late String language;
+
+  Settings copyWith({
+    String? temperature,
+    String? wind,
+    String? language,
+  }) =>
+      Settings(
+        temperature: temperature ?? this.temperature,
+        wind: wind ?? this.wind,
+        language: language ?? this.language,
+      );
 }

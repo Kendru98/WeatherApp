@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/models/current.dart';
 import 'package:aplikacja_pogodowa/models/responses/get_weather.dart';
 import 'package:aplikacja_pogodowa/models/city_item.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
@@ -40,6 +41,7 @@ class CitiesHistoryItem extends StatelessWidget {
         if (weatherData.item2) {
           return const Center(child: CircularProgressIndicator());
         }
+        Current currentWeather = weatherData.item1!.current;
         return Container(
           margin: const EdgeInsets.only(
             left: 16,
@@ -59,7 +61,7 @@ class CitiesHistoryItem extends StatelessWidget {
             ),
             subtitle: Text(
               textAlign: TextAlign.left,
-              '${DataConversionHelpers.temperatureConversion(weatherData.item1!.current.temp, context)}/${DataConversionHelpers.temperatureConversion(weatherData.item1!.current.feelsLike, context)}',
+              '${DataConversionHelpers.temperatureConversion(currentWeather.temp, context)}/${DataConversionHelpers.temperatureConversion(currentWeather.feelsLike, context)}',
               style: MyTheme.city12,
             ),
             trailing: Column(
@@ -72,11 +74,11 @@ class CitiesHistoryItem extends StatelessWidget {
                   color: MyColors.popText,
                   image: AssetImage(
                     DataConversionHelpers.chooseMainIcon(
-                        weatherData.item1!.current.weather[0].description),
+                        currentWeather.weather[0].description),
                   ),
                 ),
                 Text(
-                  weatherData.item1!.current.weather[0].description,
+                  currentWeather.weather[0].description,
                   style: MyTheme.city12,
                 ),
               ],

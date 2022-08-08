@@ -2,6 +2,14 @@ import 'package:aplikacja_pogodowa/providers/settings_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
+extension DataConversions on double {
+  String get tempC => '${(this - 273.14).ceil()}°';
+  String get tempF => '${((this * 1.8) - 459.67).toStringAsPrecision(2)}F';
+  String get windKm => '${(this * 3.6).toStringAsPrecision(2)} km/h';
+  String get windMs => '${toStringAsPrecision(2)} m/s';
+  String get rain => '${(this * 100).ceil()}%';
+}
+
 class DataConversionHelpers {
   static String chooseIcon(String description) {
     if (description.contains('rain')) {
@@ -36,23 +44,23 @@ class DataConversionHelpers {
     BuildContext context,
   ) {
     final provider = context.watch<SettingsProvider>();
-    if (provider.currentSettings!.temperature == 'celsius') {
-      return '${(temperature.toInt() - 273.14.ceil())}°';
+    if (provider.currentSettings.temperature == 'celsius') {
+      return temperature.tempC;
     } else {
-      return '${((temperature.toInt() * 1.8) - 459.67).toStringAsPrecision(2)}F';
+      return temperature.tempF;
     }
   }
 
   static String windConversion(double? wind, BuildContext context) {
     final provider = context.watch<SettingsProvider>();
-    if (provider.currentSettings!.wind == 'kmh') {
-      return '${((wind ?? 0) * 3.6).toStringAsPrecision(2)} km/h';
+    if (provider.currentSettings.wind == 'kmh') {
+      return wind != null ? wind.windKm : '0 km/h';
     } else {
-      return '${(wind ?? 0).toStringAsPrecision(2)} m/s';
+      return wind != null ? wind.windMs : '0 m/s';
     }
   }
 
   static String rainConversion(double? rain) {
-    return '${((rain ?? 0) * 100).ceil()}%';
+    return rain != null ? rain.rain : '0%';
   }
 }

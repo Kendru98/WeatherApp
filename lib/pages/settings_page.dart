@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
   static const routeName = '/settings-page';
+
   @override
   Widget build(BuildContext context) {
     final settingsProvider = Provider.of<SettingsProvider>(context);
@@ -35,7 +36,7 @@ class SettingsPage extends StatelessWidget {
                     style: MyTheme.main16w400,
                   ),
                   TemperatureSettingsMenu(
-                    currentValue: settingsProvider.currentSettings!.temperature,
+                    currentValue: settingsProvider.currentSettings.temperature,
                   ),
                 ],
               ),
@@ -48,7 +49,7 @@ class SettingsPage extends StatelessWidget {
                     style: MyTheme.main16w400,
                   ),
                   WindSettingsMenu(
-                    currentValue: settingsProvider.currentSettings!.wind,
+                    currentValue: settingsProvider.currentSettings.wind,
                   )
                 ],
               ),

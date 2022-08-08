@@ -102,7 +102,9 @@ class WeatherSwiperItem extends StatelessWidget {
                         ),
                         Text(
                           DataConversionHelpers.temperatureConversion(
-                              currentWeatherData.temp, context),
+                            currentWeatherData.temp,
+                            context,
+                          ),
                           style: MyTheme.main72w700,
                         ),
                         Text(

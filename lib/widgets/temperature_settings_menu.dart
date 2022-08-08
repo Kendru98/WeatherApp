@@ -3,20 +3,16 @@ import 'package:aplikacja_pogodowa/utils/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-enum MenuOptions { celsius, fahrenheit }
+enum MenuTemperature { celsius, fahrenheit }
 
 class TemperatureSettingsMenu extends StatelessWidget {
   const TemperatureSettingsMenu({Key? key, required this.currentValue})
       : super(key: key);
 
   final String currentValue;
-  void actionPopUp(BuildContext context, MenuOptions value) {
+  void actionPopUp(BuildContext context, MenuTemperature value) {
     final settingsProvider = context.read<SettingsProvider>();
-    if (value == MenuOptions.celsius) {
-      settingsProvider.changeTemperature(value.name);
-    } else if (value == MenuOptions.fahrenheit) {
-      settingsProvider.changeTemperature(value.name);
-    }
+    settingsProvider.changeTemperature(value);
   }
 
   @override
@@ -30,14 +26,14 @@ class TemperatureSettingsMenu extends StatelessWidget {
       itemBuilder: (context) {
         return [
           PopupMenuItem(
-            value: MenuOptions.celsius,
+            value: MenuTemperature.celsius,
             child: Text(
               'Celsius',
               style: MyTheme.popmenutext,
             ),
           ),
           PopupMenuItem(
-            value: MenuOptions.fahrenheit,
+            value: MenuTemperature.fahrenheit,
             child: Text(
               'Fahrenheit',
               style: MyTheme.popmenutext,
@@ -45,7 +41,7 @@ class TemperatureSettingsMenu extends StatelessWidget {
           ),
         ];
       },
-      onSelected: (MenuOptions value) => actionPopUp(context, value),
+      onSelected: (MenuTemperature value) => actionPopUp(context, value),
       child: Text(currentValue, style: MyTheme.settingsValue),
     );
   }
