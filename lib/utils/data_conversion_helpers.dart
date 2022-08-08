@@ -1,3 +1,7 @@
+import 'package:aplikacja_pogodowa/providers/settings_provider.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+
 class DataConversionHelpers {
   static String chooseIcon(String description) {
     if (description.contains('rain')) {
@@ -27,13 +31,25 @@ class DataConversionHelpers {
     }
   }
 
-  static String temperatureConversion(double temperature) {
-    return '${(temperature.toInt() - 273.14.ceil())}°';
-    //ifuserunit.kelwins => temperature.toInt()
+  static String temperatureConversion(
+    double temperature,
+    BuildContext context,
+  ) {
+    final provider = context.watch<SettingsProvider>();
+    if (provider.currentSettings!.temperature == 'celsius') {
+      return '${(temperature.toInt() - 273.14.ceil())}°';
+    } else {
+      return '${((temperature.toInt() * 1.8) - 459.67).toStringAsPrecision(2)}F';
+    }
   }
 
-  static String windConversion(double? wind) {
-    return '${(wind ?? 0 * 3.6).toStringAsPrecision(2)} km/h';
+  static String windConversion(double? wind, BuildContext context) {
+    final provider = context.watch<SettingsProvider>();
+    if (provider.currentSettings!.wind == 'kmh') {
+      return '${((wind ?? 0) * 3.6).toStringAsPrecision(2)} km/h';
+    } else {
+      return '${(wind ?? 0).toStringAsPrecision(2)} m/s';
+    }
   }
 
   static String rainConversion(double? rain) {

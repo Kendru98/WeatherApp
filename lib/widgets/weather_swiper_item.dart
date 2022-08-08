@@ -102,8 +102,7 @@ class WeatherSwiperItem extends StatelessWidget {
                         ),
                         Text(
                           DataConversionHelpers.temperatureConversion(
-                            currentWeatherData.temp,
-                          ),
+                              currentWeatherData.temp, context),
                           style: MyTheme.main72w700,
                         ),
                         Text(
@@ -127,8 +126,7 @@ class WeatherSwiperItem extends StatelessWidget {
                   rainchance: DataConversionHelpers.rainConversion(
                       dailyWeatherData[0].pop),
                   wind: DataConversionHelpers.windConversion(
-                    currentWeatherData.windSpeed,
-                  ),
+                      currentWeatherData.windSpeed, context),
                 ),
               ],
             ),

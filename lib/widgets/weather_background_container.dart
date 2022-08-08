@@ -29,7 +29,7 @@ class WeatherBackgroundContainer extends StatelessWidget {
         ),
         gradient: const LinearGradient(
           colors: [MyColors.mainLight, MyColors.mainDark],
-          begin: Alignment.center,
+          begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
       ),

@@ -93,4 +93,18 @@ class MyTheme {
       fontWeight: FontWeight.w400,
     ),
   );
+  static final settingsTitle = GoogleFonts.poppins(
+    textStyle: const TextStyle(
+      color: MyColors.whiteBackground,
+      fontSize: 12,
+      fontWeight: FontWeight.w500,
+    ),
+  );
+  static final settingsValue = GoogleFonts.poppins(
+    textStyle: const TextStyle(
+      color: MyColors.settingsColor,
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+    ),
+  );
 }

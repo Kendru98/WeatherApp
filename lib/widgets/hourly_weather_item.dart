@@ -40,7 +40,7 @@ class HourlyWeatherItem extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-            '${DataConversionHelpers.temperatureConversion(hourly.temp)}/${DataConversionHelpers.temperatureConversion(hourly.feelsLike)}',
+            '${DataConversionHelpers.temperatureConversion(hourly.temp, context)}/${DataConversionHelpers.temperatureConversion(hourly.feelsLike, context)}',
             style: MyTheme.main12w400),
         Text('${DataConversionHelpers.rainConversion(hourly.pop)} rain',
             style: MyTheme.main12w400),

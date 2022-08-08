@@ -1,9 +1,11 @@
 import 'package:aplikacja_pogodowa/models/city_item.dart';
+import 'package:aplikacja_pogodowa/models/settings.dart';
 import 'package:aplikacja_pogodowa/pages/loading_page.dart';
 import 'package:aplikacja_pogodowa/pages/permission_page.dart';
 import 'package:aplikacja_pogodowa/pages/search_city_page.dart';
 import 'package:aplikacja_pogodowa/pages/settings_page.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
+import 'package:aplikacja_pogodowa/providers/settings_provider.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -13,9 +15,9 @@ import 'package:provider/provider.dart';
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(CityItemAdapter());
+  Hive.registerAdapter(SettingsAdapter());
   await Hive.openBox<CityItem>('cities');
-
-  //register adapter nad open box
+  await Hive.openBox<Settings>('settings');
   runApp(const MyApp());
 }
 
@@ -26,7 +28,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => WeatherProvider())
+        ChangeNotifierProvider(create: (context) => WeatherProvider()),
+        ChangeNotifierProvider(create: (context) => SettingsProvider()),
       ],
       child: MaterialApp(
         title: 'Aplikacja pogodowa',

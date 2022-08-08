@@ -8,4 +8,5 @@ class MyColors {
   static const textFieldFill = Color(0xffF2F2F2);
   static const textHint = Color(0xff828282);
   static const textGreyCityItem = Color(0xff545B70);
+  static const settingsColor = Color(0xffE0E0E0);
 }

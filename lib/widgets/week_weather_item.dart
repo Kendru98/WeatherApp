@@ -54,7 +54,7 @@ class WeekWeatherItem extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              '${DataConversionHelpers.temperatureConversion(daily.temp.max)}/${DataConversionHelpers.temperatureConversion(daily.temp.min)}',
+              '${DataConversionHelpers.temperatureConversion(daily.temp.max, context)}/${DataConversionHelpers.temperatureConversion(daily.temp.min, context)}',
               style: MyTheme.main12w400,
             ),
           )
