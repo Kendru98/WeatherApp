@@ -30,6 +30,7 @@ class CitiesHistoryItem extends StatelessWidget {
     final provider = context.read<WeatherProvider>();
     final citiesList = provider.cities;
     final currentWeatherItem = citiesList[cityIndex];
+
     return Selector<WeatherProvider, Tuple2<GetWeatherResponse?, bool>>(
       selector: (_, provider) => Tuple2(
         provider.getWeatherForCity(currentWeatherItem),
