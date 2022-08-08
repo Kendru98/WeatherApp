@@ -8,29 +8,30 @@ class SettingsProvider extends ChangeNotifier {
   Settings? get currentSettings => _currentSettings;
 
   SettingsProvider() {
-    _currentSettings = settingsBox.get(0,
-        defaultValue: Settings(
-            language: 'english', wind: 'km/h', temperature: 'celsius'));
-    notifyListeners();
+    _currentSettings = settingsBox.get(
+      0,
+      defaultValue: Settings(
+        language: 'english',
+        wind: 'km/h',
+        temperature: 'celsius',
+      ),
+    );
   }
   Future<void> changeTemperature(String value) async {
     Settings temp = _currentSettings!;
     temp.temperature = value;
-    await settingsBox.clear();
-    await settingsBox.add(
-      Settings(
-        language: temp.language,
-        wind: temp.wind,
-        temperature: temp.temperature,
-      ),
-    );
-    _currentSettings = settingsBox.get(0);
-    notifyListeners();
+
+    await addSetting(temp);
   }
 
   Future<void> changeWind(String value) async {
     Settings temp = _currentSettings!;
     temp.wind = value;
+
+    await addSetting(temp);
+  }
+
+  Future<void> addSetting(Settings temp) async {
     await settingsBox.clear();
     await settingsBox.add(
       Settings(
@@ -39,6 +40,7 @@ class SettingsProvider extends ChangeNotifier {
         temperature: temp.temperature,
       ),
     );
+
     _currentSettings = settingsBox.get(0);
     notifyListeners();
   }

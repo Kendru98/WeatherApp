@@ -21,6 +21,8 @@ class WindSettingsMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String kmh = 'km/h';
+    const String ms = 'm/s';
     return PopupMenuButton(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -32,21 +34,24 @@ class WindSettingsMenu extends StatelessWidget {
           PopupMenuItem(
             value: MenuOptions.kmh,
             child: Text(
-              'km/h',
+              kmh,
               style: MyTheme.popmenutext,
             ),
           ),
           PopupMenuItem(
             value: MenuOptions.ms,
             child: Text(
-              'm/s',
+              ms,
               style: MyTheme.popmenutext,
             ),
           ),
         ];
       },
       onSelected: (MenuOptions value) => actionPopUp(context, value),
-      child: Text(currentValue, style: MyTheme.settingsValue),
+      child: Text(
+        currentValue == 'kmh' ? kmh : ms,
+        style: MyTheme.settingsValue,
+      ),
     );
   }
 }
