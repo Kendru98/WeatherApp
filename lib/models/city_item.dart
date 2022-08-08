@@ -27,7 +27,7 @@ class CityItem extends Equatable {
         lon,
         name,
       ];
-  WeatherKey get getFromCityItem {
+  WeatherKey get key {
     return WeatherKey(lat, lon);
   }
 }

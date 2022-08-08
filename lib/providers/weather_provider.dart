@@ -35,7 +35,7 @@ class WeatherProvider extends ChangeNotifier {
   Map<WeatherKey, GetWeatherResponse> get weather => _weather;
 
   GetWeatherResponse? getWeatherForCity(CityItem item) {
-    WeatherKey key = item.getFromCityItem;
+    WeatherKey key = item.key;
 
     GetWeatherResponse? downloadedWeather = _weather[key];
     if (downloadedWeather != null) {
