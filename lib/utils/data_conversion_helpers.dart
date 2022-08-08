@@ -43,7 +43,7 @@ class DataConversionHelpers {
     double temperature,
     BuildContext context,
   ) {
-    final provider = context.watch<SettingsProvider>();
+    final provider = context.read<SettingsProvider>();
     if (provider.currentSettings.temperature == 'celsius') {
       return temperature.tempC;
     } else {
@@ -52,7 +52,7 @@ class DataConversionHelpers {
   }
 
   static String windConversion(double? wind, BuildContext context) {
-    final provider = context.watch<SettingsProvider>();
+    final provider = context.read<SettingsProvider>();
     if (provider.currentSettings.wind == 'kmh') {
       return wind != null ? wind.windKm : '0 km/h';
     } else {

@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_appbar.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +16,15 @@ class SharedScaffold extends StatelessWidget {
       appBar: WeatherAppBar(
         title: Text(title),
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: MyColors.whiteBackground,
-            size: 32,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: MyColors.whiteBackground,
+              size: 32,
+            ),
+            onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
+                  WeatherPage.routeName,
+                  (Route route) => false,
+                )),
       ),
       body: body,
     );
