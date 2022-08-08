@@ -30,13 +30,14 @@ class CitiesHistoryItem extends StatelessWidget {
     final provider = context.read<WeatherProvider>();
     final citiesList = provider.cities;
     final currentWeatherItem = citiesList[cityIndex];
+
     return Selector<WeatherProvider, Tuple2<GetWeatherResponse?, bool>>(
       selector: (_, provider) => Tuple2(
         provider.getWeatherForCity(currentWeatherItem),
-        provider.loadings[currentWeatherItem.getFromCityItem]!,
+        provider.loadings[currentWeatherItem.key] ?? true,
       ),
       builder: (context, weatherData, child) {
-        if (weatherData.item2 == true) {
+        if (weatherData.item2) {
           return const Center(child: CircularProgressIndicator());
         }
         return Container(
