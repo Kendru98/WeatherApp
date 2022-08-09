@@ -93,13 +93,16 @@ class WeatherProvider extends ChangeNotifier {
   }
 
   Future<Location?> isCityExistAndInit(String cityName) async {
-    List<Location> position = await locationFromAddress(cityName);
+    try {
+      List<Location> position = await locationFromAddress(cityName);
+      if (position.isNotEmpty) {
+        return position.first;
+      }
 
-    if (position.isNotEmpty) {
-      return position.first;
+      return null;
+    } catch (e) {
+      return null;
     }
-
-    return null;
   }
 
   void catchError() {

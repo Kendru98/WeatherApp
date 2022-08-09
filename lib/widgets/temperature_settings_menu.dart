@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TemperatureSettingsMenu extends StatelessWidget {
-  const TemperatureSettingsMenu({Key? key}) : super(key: key);
+  const TemperatureSettingsMenu({Key? key, required this.currentValue})
+      : super(key: key);
 
+  final String currentValue;
   void actionPopUp(BuildContext context, MenuTemperature value) {
     final settingsProvider = context.read<SettingsProvider>();
     settingsProvider.changeTemperature(value);
@@ -14,14 +16,12 @@ class TemperatureSettingsMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingsProvider = context.watch<SettingsProvider>();
     return PopupMenu<MenuTemperature>(
       values: const {
         MenuTemperature.celsius: 'Celsius',
         MenuTemperature.fahrenheit: 'Fahrenheit'
       },
-      currentValue: settingsProvider.currentSettings.temperature ==
-              MenuTemperature.celsius.name
+      currentValue: currentValue == MenuTemperature.celsius.name
           ? MenuTemperature.celsius
           : MenuTemperature.fahrenheit,
       onSelected: (MenuTemperature value) => actionPopUp(context, value),

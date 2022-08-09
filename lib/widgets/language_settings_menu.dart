@@ -5,24 +5,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LanguageSettingsMenu extends StatelessWidget {
-  const LanguageSettingsMenu({Key? key}) : super(key: key);
+  const LanguageSettingsMenu({Key? key, required this.currentValue})
+      : super(key: key);
 
+  final String currentValue;
   void actionPopUp(BuildContext context, MenuLanguage value) {
-    //todo
+    final settingsProvider = context.read<SettingsProvider>();
+    settingsProvider.changeLanguage(value);
   }
 
   @override
   Widget build(BuildContext context) {
-    final settingsProvider = context.watch<SettingsProvider>();
     return PopupMenu<MenuLanguage>(
       values: const {
         MenuLanguage.polish: 'polish',
         MenuLanguage.english: 'english'
       },
-      currentValue:
-          settingsProvider.currentSettings.language == MenuLanguage.polish.name
-              ? MenuLanguage.polish
-              : MenuLanguage.english,
+      currentValue: currentValue == MenuLanguage.polish.name
+          ? MenuLanguage.polish
+          : MenuLanguage.english,
       onSelected: (MenuLanguage value) => actionPopUp(context, value),
     );
   }

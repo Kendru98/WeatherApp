@@ -1,0 +1,29 @@
+{
+    "appname": "Weather app",
+    "localizationError": "Location disabled or no permissions, enter city to download weather!",
+    "citysearchError": "Enter the correct city name, or check your internet connection!",
+    "cityPageTitle": "Manage Location",
+    "cityPageHint": "Search Your City",
+    "wind":"Wind",
+    "chanceOfRain":"Chance of rain",
+    "pressure":"Pressure",
+    "humidity":"Humidity",
+    "nowHoursWidget": "Now",
+    "rain": "rain",
+    "weekWeatherTitle":"Forecast for 7 Days",
+    "nowDay":"Today",
+    "unit":"UNIT",
+    "extra":"EXTRA",
+    "temperatureUnit":"Temperature unit",
+    "windSpeedUnit":"Wind speed unit",
+    "language":"Language",
+    "settingsTitle":"Settings",
+    "unitC":"Celsius",
+    "unitF":"Fahrenheit",
+    "share":"Share"
+
+    
+
+}
+
+

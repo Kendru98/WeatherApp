@@ -1,0 +1,29 @@
+{
+    "appname": "Aplikacja pogodowa",
+    "localizationError": "Lokalizacja wyłączona lub brak uprawnień, wprowadź miasto, aby pobrać pogodę!",
+    "citysearchError": "Wpisz prawidłową nazwę miasta lub sprawdź połączenie internetowe!",
+    "cityPageTitle": "Zarządzaj lokalizacją",
+    "cityPageHint": "Wyszukaj swoje miasto",
+    "wind":"Wiatr",
+    "chanceOfRain":"Szansa opadów",
+    "pressure":"Ciśnienie",
+    "humidity":"Wilgotność",
+    "nowHoursWidget": "Teraz",
+    "rain": "opady",
+    "weekWeatherTitle":"Pogoda na 7 dni",
+    "nowDay":"Dziś",
+    "unit":"JEDNOSTKA",
+    "extra":"EXTRA",
+    "temperatureUnit":"Jednostka temperatury",
+    "windSpeedUnit":"Jednostka prędkości wiatru",
+    "language":"Język",
+    "settingsTitle":"Ustawienia",
+    "unitC":"Celsjusz",
+    "unitF":"Farenhajt",
+    "share":"Udostępnij"
+     
+    
+
+}
+
+

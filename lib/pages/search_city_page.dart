@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/generated/l10n.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
@@ -31,7 +32,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
       SnackBar(
         duration: const Duration(seconds: 7),
         content: Text(
-          'Wpisz poprawną nazwę miasta, lub sprawdź swoje połączenie z internetem!',
+          S.of(context).citysearchError,
           style: MyTheme.snackBar14w400,
         ),
       ),
@@ -67,7 +68,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<WeatherProvider>(context);
     return SharedScaffold(
-        title: 'Manage Location',
+        title: S.of(context).cityPageTitle,
         body: WeatherBackgroundContainer(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -86,7 +87,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide.none,
                     ),
-                    hintText: 'Search Your City',
+                    hintText: S.of(context).cityPageHint,
                     hintStyle: MyTheme.city12g,
                   ),
                 ),

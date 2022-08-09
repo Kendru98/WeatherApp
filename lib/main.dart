@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/generated/l10n.dart';
 import 'package:aplikacja_pogodowa/models/city_item.dart';
 import 'package:aplikacja_pogodowa/models/settings.dart';
 import 'package:aplikacja_pogodowa/pages/loading_page.dart';
@@ -8,9 +9,9 @@ import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/providers/settings_provider.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
 import 'package:flutter/material.dart';
-
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -32,7 +33,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SettingsProvider()),
       ],
       child: MaterialApp(
-        title: 'Aplikacja pogodowa',
+        onGenerateTitle: (context) => S.of(context).appname, //notsureaboutit
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
         home: const PermissionPage(),
         routes: {
           LoadingScreen.routeName: (context) => const LoadingScreen(),

@@ -7,8 +7,10 @@ import 'package:provider/provider.dart';
 class WindSettingsMenu extends StatelessWidget {
   const WindSettingsMenu({
     Key? key,
+    required this.currentValue,
   }) : super(key: key);
 
+  final String currentValue;
   void actionPopUp(BuildContext context, MenuWind value) {
     final settingsProvider = context.read<SettingsProvider>();
     settingsProvider.changeWind(value);
@@ -16,13 +18,10 @@ class WindSettingsMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingsProvider = context.watch<SettingsProvider>();
-
     return PopupMenu<MenuWind>(
       values: const {MenuWind.kmh: 'km/h', MenuWind.ms: 'm/s'},
-      currentValue: settingsProvider.currentSettings.wind == MenuWind.kmh.name
-          ? MenuWind.kmh
-          : MenuWind.ms,
+      currentValue:
+          currentValue == MenuWind.kmh.name ? MenuWind.kmh : MenuWind.ms,
       onSelected: (MenuWind value) => actionPopUp(context, value),
     );
   }

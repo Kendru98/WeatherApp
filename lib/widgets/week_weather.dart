@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/generated/l10n.dart';
 import 'package:aplikacja_pogodowa/models/daily.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/utils/my_theme.dart';
@@ -37,7 +38,7 @@ class _WeekWeatherState extends State<WeekWeather> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Forecast for 7 Days',
+                              S.of(context).weekWeatherTitle,
                               style: MyTheme.main16w500,
                             ),
                             const SizedBox(
@@ -93,7 +94,7 @@ class _WeekWeatherState extends State<WeekWeather> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Forecast for 7 Days',
+                    S.of(context).weekWeatherTitle,
                     style: MyTheme.main16w500b,
                   ),
                   const SizedBox(width: 4),

@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/generated/l10n.dart';
 import 'package:aplikacja_pogodowa/pages/settings_page.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/utils/my_theme.dart';
@@ -35,14 +36,14 @@ class HomepageMenu extends StatelessWidget {
           PopupMenuItem(
             value: MenuOptions.share,
             child: Text(
-              'Share',
+              S.of(context).share,
               style: MyTheme.popmenutext,
             ),
           ),
           PopupMenuItem(
             value: MenuOptions.settings,
             child: Text(
-              'Settings',
+              S.of(context).settingsTitle,
               style: MyTheme.popmenutext,
             ),
           ),

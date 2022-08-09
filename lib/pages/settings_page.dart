@@ -1,4 +1,6 @@
+import 'package:aplikacja_pogodowa/generated/l10n.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
+import 'package:aplikacja_pogodowa/providers/settings_provider.dart';
 import 'package:aplikacja_pogodowa/utils/my_theme.dart';
 import 'package:aplikacja_pogodowa/widgets/language_settings_menu.dart';
 import 'package:aplikacja_pogodowa/widgets/temperature_settings_menu.dart';
@@ -6,6 +8,8 @@ import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:aplikacja_pogodowa/widgets/shared_scaffold.dart';
 import 'package:aplikacja_pogodowa/widgets/wind_settings_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -19,13 +23,14 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settingsProvider = context.watch<SettingsProvider>();
     return WillPopScope(
       onWillPop: () async {
         await navigateToWeatherPage(context);
         return true;
       },
       child: SharedScaffold(
-        title: 'Settings',
+        title: S.of(context).settingsTitle,
         body: WeatherBackgroundContainer(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -33,7 +38,7 @@ class SettingsPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'UNIT',
+                  S.of(context).unit,
                   style: MyTheme.settingsTitle,
                 ),
                 const SizedBox(height: 16),
@@ -41,10 +46,13 @@ class SettingsPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Temperature unit',
+                      S.of(context).temperatureUnit,
                       style: MyTheme.main16w400,
                     ),
-                    const TemperatureSettingsMenu(),
+                    TemperatureSettingsMenu(
+                      currentValue:
+                          settingsProvider.currentSettings.temperature,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -52,10 +60,12 @@ class SettingsPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Wind speed unit',
+                      S.of(context).windSpeedUnit,
                       style: MyTheme.main16w400,
                     ),
-                    const WindSettingsMenu()
+                    WindSettingsMenu(
+                      currentValue: settingsProvider.currentSettings.wind,
+                    )
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -68,7 +78,7 @@ class SettingsPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'EXTRA',
+                  S.of(context).extra,
                   style: MyTheme.settingsTitle,
                 ),
                 const SizedBox(height: 16),
@@ -76,10 +86,14 @@ class SettingsPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Language',
+                      S.of(context).language,
                       style: MyTheme.main16w400,
                     ),
-                    const LanguageSettingsMenu()
+                    LanguageSettingsMenu(
+                      currentValue: Intl.getCurrentLocale() == 'en'
+                          ? 'english'
+                          : 'polish',
+                    )
                   ],
                 ),
               ],

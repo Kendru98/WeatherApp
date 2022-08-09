@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/generated/l10n.dart';
 import 'package:aplikacja_pogodowa/models/current.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/utils/my_theme.dart';
@@ -22,7 +23,7 @@ class HourlyWeatherItem extends StatelessWidget {
       children: [
         Text(
           hourIndex == 0
-              ? 'Now'
+              ? S.of(context).nowHoursWidget
               : '${DateFormat('HH').format(
                   DateTime.now().add(
                     Duration(hours: hourIndex),
@@ -42,7 +43,8 @@ class HourlyWeatherItem extends StatelessWidget {
         Text(
             '${DataConversions.temperatureConversion(hourly.temp, context)}/${DataConversions.temperatureConversion(hourly.feelsLike, context)}',
             style: MyTheme.main12w400),
-        Text('${DataConversions.rainConversion(hourly.pop)} rain',
+        Text(
+            '${DataConversions.rainConversion(hourly.pop)} ${S.of(context).rain}',
             style: MyTheme.main12w400),
         const SizedBox(width: 72)
       ],

@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/generated/l10n.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/utils/my_theme.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class WeatherGrid extends StatelessWidget {
                         style: MyTheme.main12w400,
                       ),
                       Text(
-                        'Wind',
+                        S.of(context).wind,
                         style: MyTheme.main12w400,
                       )
                     ],
@@ -70,7 +71,7 @@ class WeatherGrid extends StatelessWidget {
                         style: MyTheme.main12w400,
                       ),
                       Text(
-                        'Pressure',
+                        S.of(context).pressure,
                         style: MyTheme.main12w400,
                       )
                     ],
@@ -101,7 +102,7 @@ class WeatherGrid extends StatelessWidget {
                         style: MyTheme.main12w400,
                       ),
                       Text(
-                        'Chance of rain',
+                        S.of(context).chanceOfRain,
                         style: MyTheme.main12w400,
                       )
                     ],
@@ -127,7 +128,7 @@ class WeatherGrid extends StatelessWidget {
                         style: MyTheme.main12w400,
                       ),
                       Text(
-                        'Humidity $humidity',
+                        '${S.of(context).humidity} $humidity',
                         style: MyTheme.main12w400,
                       )
                     ],

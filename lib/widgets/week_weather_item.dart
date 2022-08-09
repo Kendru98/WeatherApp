@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/generated/l10n.dart';
 import 'package:aplikacja_pogodowa/models/daily.dart';
 import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:aplikacja_pogodowa/utils/data_conversion_helpers.dart';
@@ -23,7 +24,7 @@ class WeekWeatherItem extends StatelessWidget {
             flex: 3,
             child: Text(
               dayIndex == 0
-                  ? 'Today'
+                  ? S.of(context).nowDay
                   : DateFormat('E').format(
                       DateTime.now().add(Duration(days: dayIndex)),
                     ),
@@ -45,7 +46,7 @@ class WeekWeatherItem extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  '${DataConversions.rainConversion(daily.pop)} rain',
+                  '${DataConversions.rainConversion(daily.pop)} ${S.of(context).rain}',
                   style: MyTheme.main12w400,
                 ),
               ],
