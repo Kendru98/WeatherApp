@@ -61,7 +61,7 @@ class CitiesHistoryItem extends StatelessWidget {
             ),
             subtitle: Text(
               textAlign: TextAlign.left,
-              '${DataConversionHelpers.temperatureConversion(currentWeather.temp, context)}/${DataConversionHelpers.temperatureConversion(currentWeather.feelsLike, context)}',
+              '${DataConversions.temperatureConversion(currentWeather.temp, context)}/${DataConversions.temperatureConversion(currentWeather.feelsLike, context)}',
               style: MyTheme.city12,
             ),
             trailing: Column(

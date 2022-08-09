@@ -2,6 +2,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 part 'settings.g.dart';
 
+enum MenuTemperature { celsius, fahrenheit }
+
+enum MenuWind { kmh, ms }
+
+enum MenuLanguage { english, polish }
+
 @HiveType(typeId: 2)
 class Settings extends HiveObject {
   Settings({
@@ -11,11 +17,11 @@ class Settings extends HiveObject {
   });
 
   @HiveField(0)
-  late String temperature;
+  String temperature;
   @HiveField(1)
-  late String wind;
+  String wind;
   @HiveField(2)
-  late String language;
+  String language;
 
   Settings copyWith({
     String? temperature,

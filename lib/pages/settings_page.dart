@@ -1,5 +1,4 @@
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
-import 'package:aplikacja_pogodowa/providers/settings_provider.dart';
 import 'package:aplikacja_pogodowa/utils/my_theme.dart';
 import 'package:aplikacja_pogodowa/widgets/language_settings_menu.dart';
 import 'package:aplikacja_pogodowa/widgets/temperature_settings_menu.dart';
@@ -7,7 +6,6 @@ import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:aplikacja_pogodowa/widgets/shared_scaffold.dart';
 import 'package:aplikacja_pogodowa/widgets/wind_settings_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -21,7 +19,6 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingsProvider = Provider.of<SettingsProvider>(context);
     return WillPopScope(
       onWillPop: () async {
         await navigateToWeatherPage(context);
@@ -47,10 +44,7 @@ class SettingsPage extends StatelessWidget {
                       'Temperature unit',
                       style: MyTheme.main16w400,
                     ),
-                    TemperatureSettingsMenu(
-                      currentValue:
-                          settingsProvider.currentSettings.temperature,
-                    ),
+                    const TemperatureSettingsMenu(),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -61,9 +55,7 @@ class SettingsPage extends StatelessWidget {
                       'Wind speed unit',
                       style: MyTheme.main16w400,
                     ),
-                    WindSettingsMenu(
-                      currentValue: settingsProvider.currentSettings.wind,
-                    )
+                    const WindSettingsMenu()
                   ],
                 ),
                 const SizedBox(height: 16),

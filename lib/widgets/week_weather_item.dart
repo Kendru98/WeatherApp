@@ -45,7 +45,7 @@ class WeekWeatherItem extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  '${DataConversionHelpers.rainConversion(daily.pop)} rain',
+                  '${DataConversions.rainConversion(daily.pop)} rain',
                   style: MyTheme.main12w400,
                 ),
               ],
@@ -54,7 +54,7 @@ class WeekWeatherItem extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              '${DataConversionHelpers.temperatureConversion(daily.temp.max, context)}/${DataConversionHelpers.temperatureConversion(daily.temp.min, context)}',
+              '${DataConversions.temperatureConversion(daily.temp.max, context)}/${DataConversions.temperatureConversion(daily.temp.min, context)}',
               style: MyTheme.main12w400,
             ),
           )

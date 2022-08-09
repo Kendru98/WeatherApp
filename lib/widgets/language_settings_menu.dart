@@ -1,7 +1,8 @@
-import 'package:aplikacja_pogodowa/utils/my_theme.dart';
+import 'package:aplikacja_pogodowa/models/settings.dart';
+import 'package:aplikacja_pogodowa/providers/settings_provider.dart';
+import 'package:aplikacja_pogodowa/widgets/popup_menu.dart';
 import 'package:flutter/material.dart';
-
-enum MenuLanguage { english, polish }
+import 'package:provider/provider.dart';
 
 class LanguageSettingsMenu extends StatelessWidget {
   const LanguageSettingsMenu({Key? key}) : super(key: key);
@@ -12,32 +13,17 @@ class LanguageSettingsMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(16),
-        ),
-      ),
-      itemBuilder: (context) {
-        return [
-          PopupMenuItem(
-            value: MenuLanguage.english,
-            child: Text(
-              'English',
-              style: MyTheme.popmenutext,
-            ),
-          ),
-          PopupMenuItem(
-            value: MenuLanguage.polish,
-            child: Text(
-              'Polish',
-              style: MyTheme.popmenutext,
-            ),
-          ),
-        ];
+    final settingsProvider = context.watch<SettingsProvider>();
+    return PopupMenu<MenuLanguage>(
+      values: const {
+        MenuLanguage.polish: 'polish',
+        MenuLanguage.english: 'english'
       },
+      currentValue:
+          settingsProvider.currentSettings.language == MenuLanguage.polish.name
+              ? MenuLanguage.polish
+              : MenuLanguage.english,
       onSelected: (MenuLanguage value) => actionPopUp(context, value),
-      child: Text('English', style: MyTheme.settingsValue),
     );
   }
 }

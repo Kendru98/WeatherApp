@@ -8,6 +8,31 @@ extension DataConversions on double {
   String get windKm => '${(this * 3.6).toStringAsPrecision(2)} km/h';
   String get windMs => '${toStringAsPrecision(2)} m/s';
   String get rain => '${(this * 100).ceil()}%';
+
+  static String windConversion(double? wind, BuildContext context) {
+    final provider = context.read<SettingsProvider>();
+    if (provider.currentSettings.wind == 'kmh') {
+      return wind != null ? wind.windKm : '0 km/h';
+    } else {
+      return wind != null ? wind.windMs : '0 m/s';
+    }
+  }
+
+  static String temperatureConversion(
+    double temperature,
+    BuildContext context,
+  ) {
+    final provider = context.read<SettingsProvider>();
+    if (provider.currentSettings.temperature == 'celsius') {
+      return temperature.tempC;
+    } else {
+      return temperature.tempF;
+    }
+  }
+
+  static String rainConversion(double? rain) {
+    return rain != null ? rain.rain : '0%';
+  }
 }
 
 class DataConversionHelpers {
@@ -37,30 +62,5 @@ class DataConversionHelpers {
     } else {
       return 'icons/weather-lightning.png';
     }
-  }
-
-  static String temperatureConversion(
-    double temperature,
-    BuildContext context,
-  ) {
-    final provider = context.read<SettingsProvider>();
-    if (provider.currentSettings.temperature == 'celsius') {
-      return temperature.tempC;
-    } else {
-      return temperature.tempF;
-    }
-  }
-
-  static String windConversion(double? wind, BuildContext context) {
-    final provider = context.read<SettingsProvider>();
-    if (provider.currentSettings.wind == 'kmh') {
-      return wind != null ? wind.windKm : '0 km/h';
-    } else {
-      return wind != null ? wind.windMs : '0 m/s';
-    }
-  }
-
-  static String rainConversion(double? rain) {
-    return rain != null ? rain.rain : '0%';
   }
 }

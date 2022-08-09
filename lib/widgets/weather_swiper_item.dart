@@ -101,7 +101,7 @@ class WeatherSwiperItem extends StatelessWidget {
                           ],
                         ),
                         Text(
-                          DataConversionHelpers.temperatureConversion(
+                          DataConversions.temperatureConversion(
                             currentWeatherData.temp,
                             context,
                           ),
@@ -125,9 +125,9 @@ class WeatherSwiperItem extends StatelessWidget {
                 WeatherGrid(
                   humidity: '${currentWeatherData.humidity}%',
                   pressure: '${currentWeatherData.pressure} mbar',
-                  rainchance: DataConversionHelpers.rainConversion(
-                      dailyWeatherData[0].pop),
-                  wind: DataConversionHelpers.windConversion(
+                  rainchance:
+                      DataConversions.rainConversion(dailyWeatherData[0].pop),
+                  wind: DataConversions.windConversion(
                       currentWeatherData.windSpeed, context),
                 ),
               ],
