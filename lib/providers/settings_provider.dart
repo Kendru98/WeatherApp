@@ -5,12 +5,14 @@ import 'package:hive/hive.dart';
 class SettingsProvider extends ChangeNotifier {
   static Box<Settings> settingsBox = Hive.box<Settings>('settings');
 
-  Settings _currentSettings = settingsBox.get(0,
-      defaultValue: Settings(
-        temperature: 'celsius',
-        wind: 'kmh',
-        language: 'english',
-      ))!;
+  Settings _currentSettings = settingsBox.get(
+    0,
+    defaultValue: Settings(
+      temperature: 'celsius',
+      wind: 'kmh',
+      language: 'english',
+    ),
+  )!;
 
   Settings get currentSettings => _currentSettings;
 
