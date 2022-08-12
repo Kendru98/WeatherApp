@@ -13,24 +13,19 @@ class Settings extends HiveObject {
   Settings({
     required this.temperature,
     required this.wind,
-    required this.language,
   });
 
   @HiveField(0)
   String temperature;
   @HiveField(1)
   String wind;
-  @HiveField(2)
-  String language;
 
   Settings copyWith({
     String? temperature,
     String? wind,
-    String? language,
   }) =>
       Settings(
         temperature: temperature ?? this.temperature,
         wind: wind ?? this.wind,
-        language: language ?? this.language,
       );
 }

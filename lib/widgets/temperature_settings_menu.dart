@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/generated/l10n.dart';
 import 'package:aplikacja_pogodowa/models/settings.dart';
 import 'package:aplikacja_pogodowa/providers/settings_provider.dart';
 import 'package:aplikacja_pogodowa/widgets/popup_menu.dart';
@@ -17,9 +18,9 @@ class TemperatureSettingsMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenu<MenuTemperature>(
-      values: const {
-        MenuTemperature.celsius: 'Celsius',
-        MenuTemperature.fahrenheit: 'Fahrenheit'
+      values: {
+        MenuTemperature.celsius: S.of(context).unitC,
+        MenuTemperature.fahrenheit: S.of(context).unitF
       },
       currentValue: currentValue == MenuTemperature.celsius.name
           ? MenuTemperature.celsius

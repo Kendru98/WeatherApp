@@ -17,22 +17,19 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Settings(
-      language: fields[2] as String,
-      wind: fields[1] as String,
       temperature: fields[0] as String,
+      wind: fields[1] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(2)
       ..writeByte(0)
       ..write(obj.temperature)
       ..writeByte(1)
-      ..write(obj.wind)
-      ..writeByte(2)
-      ..write(obj.language);
+      ..write(obj.wind);
   }
 
   @override

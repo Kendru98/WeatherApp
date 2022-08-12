@@ -20,10 +20,12 @@
     "settingsTitle":"Ustawienia",
     "unitC":"Celsjusz",
     "unitF":"Farenhajt",
-    "share":"Udostępnij"
-     
-    
-
+    "share":"Udostępnij",
+    "english": "Angielski",
+    "polish": "Polski",
+    "privacyPolicy":"Polityka prywatności",
+    "licenses":"Licencje",
+    "shareScreenshotError":"Błąd podczas udostępniania, spróbuj ponownie!"
 }
 
 

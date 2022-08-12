@@ -8,10 +8,13 @@ import 'package:aplikacja_pogodowa/pages/settings_page.dart';
 import 'package:aplikacja_pogodowa/pages/weather_page.dart';
 import 'package:aplikacja_pogodowa/providers/settings_provider.dart';
 import 'package:aplikacja_pogodowa/providers/weather_provider.dart';
+import 'package:aplikacja_pogodowa/utils/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl_standalone.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -19,11 +22,23 @@ void main() async {
   Hive.registerAdapter(SettingsAdapter());
   await Hive.openBox<CityItem>('cities');
   await Hive.openBox<Settings>('settings');
-  runApp(const MyApp());
+  await UserPreferences.init().then(
+    (preferences) {
+      findSystemLocale();
+      String currentLanguage =
+          UserPreferences.getLanguage() ?? Intl.systemLocale.substring(0, 2);
+
+      return runApp(
+        MyApp(userLanguage: currentLanguage),
+      );
+    },
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.userLanguage});
+
+  final String userLanguage;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +48,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SettingsProvider()),
       ],
       child: MaterialApp(
-        onGenerateTitle: (context) => S.of(context).appname, //notsureaboutit
         localizationsDelegates: const [
           S.delegate,
           GlobalMaterialLocalizations.delegate,
@@ -41,6 +55,7 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
+        locale: Locale(userLanguage),
         home: const PermissionPage(),
         routes: {
           LoadingScreen.routeName: (context) => const LoadingScreen(),

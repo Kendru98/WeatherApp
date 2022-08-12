@@ -52,5 +52,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryAddUsageDescription </key>
+	<dict>
+	<key>YourPurposeKey</key>
+	<string>App needs permision to save screenshot with weather and share it</string>
+	</dict>
+	  
 </dict>
 </plist>

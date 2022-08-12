@@ -1,3 +1,4 @@
+import 'package:aplikacja_pogodowa/generated/l10n.dart';
 import 'package:aplikacja_pogodowa/models/settings.dart';
 import 'package:aplikacja_pogodowa/providers/settings_provider.dart';
 import 'package:aplikacja_pogodowa/widgets/popup_menu.dart';
@@ -17,9 +18,9 @@ class LanguageSettingsMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenu<MenuLanguage>(
-      values: const {
-        MenuLanguage.polish: 'polish',
-        MenuLanguage.english: 'english'
+      values: {
+        MenuLanguage.polish: S.of(context).polish,
+        MenuLanguage.english: S.of(context).english
       },
       currentValue: currentValue == MenuLanguage.polish.name
           ? MenuLanguage.polish

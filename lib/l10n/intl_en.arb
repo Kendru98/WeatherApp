@@ -20,10 +20,12 @@
     "settingsTitle":"Settings",
     "unitC":"Celsius",
     "unitF":"Fahrenheit",
-    "share":"Share"
-
-    
-
+    "share":"Share",
+    "english": "English",
+    "polish": "Polish",
+    "privacyPolicy":"Privacy policy",
+    "licenses":"Licences",
+    "shareScreenshotError":"Error while sharing, try again!"
 }
 
 

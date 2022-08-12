@@ -15,7 +15,7 @@ class LoadingScreen extends StatelessWidget {
         body: Column(
           children: [
             Container(
-              height: (height / 2.0),
+              height: (height / 2),
               width: double.infinity,
               margin: const EdgeInsets.only(
                 left: 16,

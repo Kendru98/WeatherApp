@@ -63,6 +63,7 @@ class MyTheme {
       color: MyColors.whiteBackground,
       fontSize: 72,
       fontWeight: FontWeight.w700,
+      height: 1.2,
     ),
   );
   static final main12w400 = GoogleFonts.poppins(

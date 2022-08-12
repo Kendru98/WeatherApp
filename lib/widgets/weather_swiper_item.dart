@@ -8,6 +8,7 @@ import 'package:aplikacja_pogodowa/utils/my_theme.dart';
 import 'package:aplikacja_pogodowa/widgets/dots_indicator.dart';
 import 'package:aplikacja_pogodowa/widgets/homepage_exports.dart';
 import 'package:aplikacja_pogodowa/widgets/homepage_menu.dart';
+
 import 'package:aplikacja_pogodowa/widgets/weather_appbar.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class WeatherSwiperItem extends StatelessWidget {
   final GetWeatherResponse? currentWeather;
   final String cityname;
   final int cityLength;
+
   void onClickPlusButton(BuildContext context) {
     Navigator.of(context).pushNamed(SearchCityPage.routeName);
   }
@@ -55,7 +57,7 @@ class WeatherSwiperItem extends StatelessWidget {
               color: MyColors.whiteBackground,
             ),
             actions: const [
-              HomepageMenu(),
+              SettingsButton(),
             ],
           ),
           WeatherBackgroundContainer(
@@ -71,11 +73,14 @@ class WeatherSwiperItem extends StatelessWidget {
                       color: MyColors.whiteBackground,
                       image: AssetImage(
                         DataConversionHelpers.chooseMainIcon(
-                            currentWeatherData.weather[0].description),
+                          currentWeatherData.weather[0].description,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 20),
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -108,7 +113,8 @@ class WeatherSwiperItem extends StatelessWidget {
                           style: MyTheme.main72w700,
                         ),
                         Text(
-                          currentWeatherData.weather[0].description,
+                          DataConversionHelpers.translateDescription(
+                              currentWeatherData.weather[0].description),
                           style: MyTheme.main16w400,
                         ),
                       ],

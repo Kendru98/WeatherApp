@@ -30,17 +30,23 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Manage Location"),
         "citysearchError": MessageLookupByLibrary.simpleMessage(
             "Enter the correct city name, or check your internet connection!"),
+        "english": MessageLookupByLibrary.simpleMessage("English"),
         "extra": MessageLookupByLibrary.simpleMessage("EXTRA"),
         "humidity": MessageLookupByLibrary.simpleMessage("Humidity"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
+        "licenses": MessageLookupByLibrary.simpleMessage("Licences"),
         "localizationError": MessageLookupByLibrary.simpleMessage(
             "Location disabled or no permissions, enter city to download weather!"),
         "nowDay": MessageLookupByLibrary.simpleMessage("Today"),
         "nowHoursWidget": MessageLookupByLibrary.simpleMessage("Now"),
+        "polish": MessageLookupByLibrary.simpleMessage("Polish"),
         "pressure": MessageLookupByLibrary.simpleMessage("Pressure"),
+        "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy policy"),
         "rain": MessageLookupByLibrary.simpleMessage("rain"),
         "settingsTitle": MessageLookupByLibrary.simpleMessage("Settings"),
         "share": MessageLookupByLibrary.simpleMessage("Share"),
+        "shareScreenshotError": MessageLookupByLibrary.simpleMessage(
+            "Error while sharing, try again!"),
         "temperatureUnit":
             MessageLookupByLibrary.simpleMessage("Temperature unit"),
         "unit": MessageLookupByLibrary.simpleMessage("UNIT"),

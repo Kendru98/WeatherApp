@@ -1,5 +1,7 @@
 import 'package:aplikacja_pogodowa/providers/settings_provider.dart';
+import 'package:aplikacja_pogodowa/utils/user_preferences.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 extension DataConversions on double {
@@ -62,5 +64,28 @@ class DataConversionHelpers {
     } else {
       return 'icons/weather-lightning.png';
     }
+  }
+
+  static String translateDescription(String description) {
+    UserPreferences.init();
+    String currentLanguage = Intl.getCurrentLocale();
+    if (currentLanguage == 'pl') {
+      if (description.contains('drizzle')) {
+        return 'opady deszczu';
+      } else if (description.contains('rain')) {
+        return 'mżawka';
+      } else if (description.contains('snow')) {
+        return 'opady śniegu';
+      } else if (description.contains('thunderstorm')) {
+        return 'burza';
+      } else if (description.contains('clear sky')) {
+        return 'czyste niebo';
+      } else if (description.contains('clouds')) {
+        return 'zachmurzenie';
+      } else {
+        return 'mgła';
+      }
+    }
+    return description;
   }
 }

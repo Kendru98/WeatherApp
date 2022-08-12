@@ -123,6 +123,7 @@ class _PermissionPageState extends State<PermissionPage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<WeatherProvider>(context);
+
     if (provider.isError) {
       return WeatherError(onPressed: onErrorFetchDataAgain);
     }

@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
   static const routeName = '/settings-page';
+
   Future<void> navigateToWeatherPage(BuildContext context) async {
     await Navigator.of(context).pushNamedAndRemoveUntil(
       WeatherPage.routeName,
@@ -94,6 +95,26 @@ class SettingsPage extends StatelessWidget {
                           ? 'english'
                           : 'polish',
                     )
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      S.of(context).privacyPolicy,
+                      style: MyTheme.main16w400,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      S.of(context).licenses,
+                      style: MyTheme.main16w400,
+                    ),
                   ],
                 ),
               ],

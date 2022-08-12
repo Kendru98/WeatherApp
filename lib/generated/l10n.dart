@@ -269,6 +269,56 @@ class S {
       args: [],
     );
   }
+
+  /// `English`
+  String get english {
+    return Intl.message(
+      'English',
+      name: 'english',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Polish`
+  String get polish {
+    return Intl.message(
+      'Polish',
+      name: 'polish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Privacy policy`
+  String get privacyPolicy {
+    return Intl.message(
+      'Privacy policy',
+      name: 'privacyPolicy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Licences`
+  String get licenses {
+    return Intl.message(
+      'Licences',
+      name: 'licenses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error while sharing, try again!`
+  String get shareScreenshotError {
+    return Intl.message(
+      'Error while sharing, try again!',
+      name: 'shareScreenshotError',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

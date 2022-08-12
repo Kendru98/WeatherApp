@@ -30,17 +30,24 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Zarządzaj lokalizacją"),
         "citysearchError": MessageLookupByLibrary.simpleMessage(
             "Wpisz prawidłową nazwę miasta lub sprawdź połączenie internetowe!"),
+        "english": MessageLookupByLibrary.simpleMessage("Angielski"),
         "extra": MessageLookupByLibrary.simpleMessage("EXTRA"),
         "humidity": MessageLookupByLibrary.simpleMessage("Wilgotność"),
         "language": MessageLookupByLibrary.simpleMessage("Język"),
+        "licenses": MessageLookupByLibrary.simpleMessage("Licencje"),
         "localizationError": MessageLookupByLibrary.simpleMessage(
             "Lokalizacja wyłączona lub brak uprawnień, wprowadź miasto, aby pobrać pogodę!"),
         "nowDay": MessageLookupByLibrary.simpleMessage("Dziś"),
         "nowHoursWidget": MessageLookupByLibrary.simpleMessage("Teraz"),
+        "polish": MessageLookupByLibrary.simpleMessage("Polski"),
         "pressure": MessageLookupByLibrary.simpleMessage("Ciśnienie"),
+        "privacyPolicy":
+            MessageLookupByLibrary.simpleMessage("Polityka prywatności"),
         "rain": MessageLookupByLibrary.simpleMessage("opady"),
         "settingsTitle": MessageLookupByLibrary.simpleMessage("Ustawienia"),
         "share": MessageLookupByLibrary.simpleMessage("Udostępnij"),
+        "shareScreenshotError": MessageLookupByLibrary.simpleMessage(
+            "Błąd podczas udostępniania, spróbuj ponownie!"),
         "temperatureUnit":
             MessageLookupByLibrary.simpleMessage("Jednostka temperatury"),
         "unit": MessageLookupByLibrary.simpleMessage("JEDNOSTKA"),
