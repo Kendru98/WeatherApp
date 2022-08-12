@@ -37,6 +37,7 @@ class WeatherSwiperItem extends StatelessWidget {
     Current currentWeatherData = currentWeather!.current;
     List<Current> hourlyWeatherData = currentWeather!.hourly;
     List<Daily> dailyWeatherData = currentWeather!.daily;
+
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,

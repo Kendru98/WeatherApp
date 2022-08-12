@@ -290,10 +290,10 @@ class S {
     );
   }
 
-  /// `Privacy policy`
+  /// `App design inspired by Ihza Creative - Licence CC4.0`
   String get privacyPolicy {
     return Intl.message(
-      'Privacy policy',
+      'App design inspired by Ihza Creative - Licence CC4.0',
       name: 'privacyPolicy',
       desc: '',
       args: [],

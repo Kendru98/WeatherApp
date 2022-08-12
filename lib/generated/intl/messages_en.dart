@@ -41,7 +41,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "nowHoursWidget": MessageLookupByLibrary.simpleMessage("Now"),
         "polish": MessageLookupByLibrary.simpleMessage("Polish"),
         "pressure": MessageLookupByLibrary.simpleMessage("Pressure"),
-        "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy policy"),
+        "privacyPolicy": MessageLookupByLibrary.simpleMessage(
+            "App design inspired by Ihza Creative - Licence CC4.0"),
         "rain": MessageLookupByLibrary.simpleMessage("rain"),
         "settingsTitle": MessageLookupByLibrary.simpleMessage("Settings"),
         "share": MessageLookupByLibrary.simpleMessage("Share"),

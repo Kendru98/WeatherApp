@@ -54,6 +54,14 @@ class MyTheme {
     ),
   );
 
+  static final main16w400Link = GoogleFonts.poppins(
+    textStyle: const TextStyle(
+        color: Colors.blue,
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        decoration: TextDecoration.underline),
+  );
+
   static final popmenutext = GoogleFonts.roboto(
     textStyle: const TextStyle(
       color: MyColors.popText,

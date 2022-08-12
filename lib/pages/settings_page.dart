@@ -7,9 +7,11 @@ import 'package:aplikacja_pogodowa/widgets/temperature_settings_menu.dart';
 import 'package:aplikacja_pogodowa/widgets/weather_background_container.dart';
 import 'package:aplikacja_pogodowa/widgets/shared_scaffold.dart';
 import 'package:aplikacja_pogodowa/widgets/wind_settings_menu.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -98,24 +100,29 @@ class SettingsPage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      S.of(context).privacyPolicy,
-                      style: MyTheme.main16w400,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      S.of(context).licenses,
-                      style: MyTheme.main16w400,
-                    ),
-                  ],
+                const Spacer(),
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'App design inspired by Ihza Creative - ',
+                        style: MyTheme.main16w400,
+                      ),
+                      TextSpan(
+                        text: 'Licence CC4.0',
+                        style: MyTheme.main16w400Link,
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            launchUrl(
+                              Uri.parse(
+                                'https://creativecommons.org/licenses/by/4.0/',
+                              ),
+                            );
+                          },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

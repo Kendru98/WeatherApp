@@ -33,6 +33,7 @@ dependencies:
   equatable: ^2.0.3
   tuple: ^2.0.0
   shared_preferences: ^2.0.15
+  url_launcher: ^6.1.5
  
 
   
