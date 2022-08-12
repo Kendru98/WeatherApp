@@ -37,6 +37,7 @@ class MyTheme {
       letterSpacing: 0.24,
     ),
   );
+
   static final main16w600 = GoogleFonts.poppins(
     textStyle: const TextStyle(
       color: MyColors.whiteBackground,
@@ -44,6 +45,7 @@ class MyTheme {
       fontWeight: FontWeight.w600,
     ),
   );
+
   static final main16w400 = GoogleFonts.poppins(
     textStyle: const TextStyle(
       color: MyColors.whiteBackground,
@@ -51,6 +53,7 @@ class MyTheme {
       fontWeight: FontWeight.w400,
     ),
   );
+
   static final popmenutext = GoogleFonts.roboto(
     textStyle: const TextStyle(
       color: MyColors.popText,
@@ -58,6 +61,7 @@ class MyTheme {
       fontWeight: FontWeight.w300,
     ),
   );
+
   static final main72w700 = GoogleFonts.poppins(
     textStyle: const TextStyle(
       color: MyColors.whiteBackground,
@@ -66,6 +70,7 @@ class MyTheme {
       height: 1.2,
     ),
   );
+
   static final main12w400 = GoogleFonts.poppins(
     textStyle: const TextStyle(
       color: MyColors.whiteBackground,
@@ -73,6 +78,7 @@ class MyTheme {
       fontWeight: FontWeight.w400,
     ),
   );
+
   static final main16w500 = GoogleFonts.poppins(
     textStyle: const TextStyle(
       color: MyColors.whiteBackground,
@@ -80,6 +86,7 @@ class MyTheme {
       fontWeight: FontWeight.w500,
     ),
   );
+
   static final main16w500b = GoogleFonts.poppins(
     textStyle: const TextStyle(
       color: MyColors.mainDark,
@@ -87,6 +94,7 @@ class MyTheme {
       fontWeight: FontWeight.w500,
     ),
   );
+
   static final snackBar14w400 = GoogleFonts.poppins(
     textStyle: const TextStyle(
       color: MyColors.whiteBackground,
@@ -94,6 +102,7 @@ class MyTheme {
       fontWeight: FontWeight.w400,
     ),
   );
+
   static final settingsTitle = GoogleFonts.poppins(
     textStyle: const TextStyle(
       color: MyColors.whiteBackground,
@@ -101,6 +110,7 @@ class MyTheme {
       fontWeight: FontWeight.w500,
     ),
   );
+
   static final settingsValue = GoogleFonts.poppins(
     textStyle: const TextStyle(
       color: MyColors.settingsColor,

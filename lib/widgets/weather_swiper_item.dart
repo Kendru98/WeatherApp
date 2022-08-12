@@ -114,7 +114,7 @@ class WeatherSwiperItem extends StatelessWidget {
                         ),
                         Text(
                           DataConversionHelpers.translateDescription(
-                              currentWeatherData.weather[0].description),
+                              currentWeatherData.weather.first.description),
                           style: MyTheme.main16w400,
                         ),
                       ],
