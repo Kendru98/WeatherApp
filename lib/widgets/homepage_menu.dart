@@ -1,4 +1,5 @@
 import 'package:aplikacja_pogodowa/pages/settings_page.dart';
+import 'package:aplikacja_pogodowa/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 
 class SettingsButton extends StatelessWidget {
@@ -19,9 +20,9 @@ class SettingsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () => actionPopUp(context),
-      icon: const Icon(
-        Icons.settings,
-        size: 26,
+      icon: const Image(
+        color: MyColors.whiteBackground,
+        image: AssetImage('icons/settings-ui.png'),
       ),
     );
   }
