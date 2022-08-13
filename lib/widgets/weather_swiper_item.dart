@@ -135,7 +135,9 @@ class WeatherSwiperItem extends StatelessWidget {
                   rainchance:
                       DataConversions.rainConversion(dailyWeatherData[0].pop),
                   wind: DataConversions.windConversion(
-                      currentWeatherData.windSpeed, context),
+                    currentWeatherData.windSpeed,
+                    context,
+                  ),
                 ),
               ],
             ),
