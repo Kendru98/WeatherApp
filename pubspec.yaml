@@ -34,7 +34,14 @@ dependencies:
   tuple: ^2.0.0
   shared_preferences: ^2.0.15
   url_launcher: ^6.1.5
- 
+  flutter_launcher_icons: ^0.10.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "icons/1024.png"
+  adaptive_icon_background: "icons/ic_launcher_adaptive_back.png"
+  adaptive_icon_foreground: "icons/ic_launcher_adaptive_fore.png"
 
   
 
