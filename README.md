@@ -17,4 +17,4 @@ samples, guidance on mobile development, and a full API reference.
 ![Screenshot_2022-11-12-19-33-05-352_com kendru98 weatherApp](https://user-images.githubusercontent.com/82384301/201489502-87339a11-f2ac-49fa-b1e3-fcf67ea1085e.jpg)
 ![Screenshot_2022-11-12-19-32-46-794_com kendru98 weatherApp](https://user-images.githubusercontent.com/82384301/201489505-ff5b782b-b19f-4931-bf3d-f5aa8c160955.jpg)
 ![Screenshot_2022-11-12-19-32-49-763_com kendru98 weatherApp](https://user-images.githubusercontent.com/82384301/201489506-050667c0-5586-4e28-9ef9-be21477345ed.jpg)
-![Screenshot_2022-11-12-19-32-53-576_com kendru98 weatherApp](https://user-images.githubusercontent.com/82384301/201489508-aaaa2dd0-b536-4492-b7d5-4e08230f2dce.jpg)
+
